@@ -8,7 +8,7 @@ Time spent: **1** hour spent in total
 
 Coming soon....
  
-## Wirefram Walkthrough
+## Wireframe Walkthrough
 
 Here's a walkthrough of wireframes for the MVP:
 
