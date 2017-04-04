@@ -1,6 +1,6 @@
 # Codepath Group Project - *Einsteiny*
 
-**Einsteiny** builds on the Khan Academy API & content to offer users a way to get daily reminders to take a break and learn something new.
+**Einsteiny** builds on the Khan Academy API & content (for now, could be extended to several content providers) to offer users a way to get daily reminders to take a break and learn something new.  Khan does not currently offer a way to get daily reminders to learn a little every day - we hope we can encourage people to form this habit through our interface. 
 
 Time spent: **1** hour spent in total
 
@@ -16,7 +16,9 @@ Core:
 * User can mark a lesson "complete"
 * User can see what courses they are in, what they have saved, what they have completed
 * User can see the "tree" of what they have currently completed in a course (on the course detail page)
-
+* Lesson content (video, images, text) is downloaded and available offline for the user to complete it without worrying network will lose their progress
+* User can see their progress in each category of study on the profile page as well as badges for in-app achievements
+* User can edit the default push notification settings from their profile page
 
 Extended
 * Can use Facebook/Twitter/Google for account creation/login
