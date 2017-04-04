@@ -12,7 +12,8 @@ Core:
 * User can view a list of categories for possible subjects to learn
 * User can click on a course to view the details of that course, including lesson plan
 * User can "subscribe" or "save" on a course to add it to their current courses or save for later
-* User gets notifications as per default settings of what their next lesson is
+* User gets notifications as per default settings of what their next lesson is and when they click on it they are taken to that lesson
+* User can mark a lesson "complete"
 * User can see what courses they are in, what they have saved, what they have completed
 * User can see the "tree" of what they have currently completed in a course (on the course detail page)
 
