@@ -1,4 +1,4 @@
-# Codepath Group Project - *Einsteiny*
+# Codepath Group Project - *Einsteiny*  [![Build Status](https://travis-ci.org/Einsteiny/einsteiny.svg?branch=master)](https://travis-ci.org/Einsteiny/einsteiny)
 
 **Einsteiny** builds on the Khan Academy API & content (for now, could be extended to several content providers) to offer users a way to get daily reminders to take a break and learn something new.  Khan does not currently offer a way to get daily reminders to learn a little every day - we hope we can encourage people to form this habit through our interface. 
 
