@@ -3,8 +3,6 @@ package com.einsteiny.einsteiny;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
-import com.parse.ParseTwitterUtils;
 import com.parse.interceptors.ParseLogInterceptor;
 
 /**

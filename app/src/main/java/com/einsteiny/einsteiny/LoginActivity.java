@@ -1,6 +1,5 @@
 package com.einsteiny.einsteiny;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import com.parse.ui.ParseLoginBuilder;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
         private static final int LOGIN_REQUEST = 0;
 
         private TextView titleTextView;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         // User clicked to log in.
                         ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
-                                MainActivity.this);
+                                LoginActivity.this);
                         startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
                     }
                 }
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             if (currentUser != null) {
                 Intent i = new Intent(this, EinsteinyActivity.class);
                 startActivity(i);
-                //showProfileLoggedIn();
             } else {
                 showProfileLoggedOut();
             }
