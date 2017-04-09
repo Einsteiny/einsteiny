@@ -57,4 +57,11 @@ dependencies {
     compile "com.android.support:design:25.2.0"
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.android.support:recyclerview-v7:25.2.0'
+
+    // Module dependency on ParseUI libraries sources
+    compile 'com.parse:parseui-login-android:0.0.1'
+    compile 'com.parse:parseui-widget-android:0.0.1'
+
+    // Twitter Login
+    compile 'com.parse:parsetwitterutils-android:1.10.3'
 }
