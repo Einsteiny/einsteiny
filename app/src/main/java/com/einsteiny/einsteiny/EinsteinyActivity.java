@@ -17,13 +17,13 @@ import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity {
+public class EinsteinyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_einsteiny);
         setBottomNavigationBar();
     }
 
