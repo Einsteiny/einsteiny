@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseTwitterUtils;
 import com.parse.interceptors.ParseLogInterceptor;
 
 /**
@@ -15,9 +16,6 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Use for troubleshooting -- remove this line for production
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
         // any network interceptors must be added with the Configuration Builder given this syntax
@@ -27,9 +25,8 @@ public class ParseApplication extends Application {
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("https://einsteiny.herokuapp.com/parse/").build());
 
-        // New test creation of object below
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        // Use for troubleshooting -- remove this line for production
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
     }
 }
