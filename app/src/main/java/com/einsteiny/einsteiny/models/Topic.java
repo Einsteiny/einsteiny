@@ -8,30 +8,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by lsyang on 4/8/17.
+ * Created by tonya on 4/9/17.
  */
 
 public class Topic implements Serializable {
-
-
+    String description;
+    String title;
+    String slug;
 
     public String getDescription() {
         return description;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getSlug() {
         return slug;
     }
 
-    String description;
-    String title;
-    String slug;
+    public String getTitle() {
+        return title;
+    }
 
-    public Topic(JSONObject jsonObject) throws JSONException{
+    public Topic(JSONObject jsonObject) throws JSONException {
         description = jsonObject.getString("description");
         title = jsonObject.getString("title");
         slug = jsonObject.getString("node_slug");
