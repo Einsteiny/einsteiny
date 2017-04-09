@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         final Fragment classes = new ClassFragment();
         final Fragment profile = new ProfileFragment();
 
+        // set Explore Fragment by default
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContainer, explore).commit();
+
         // handle navigation selection
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(

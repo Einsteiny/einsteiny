@@ -7,13 +7,6 @@
               android:orientation="vertical"
               tools:context="com.einsteiny.einsteiny.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/flContainer">
-
-    </FrameLayout>
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -21,5 +14,13 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom_navigation"
         />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/flContainer"
+        android:layout_above="@id/bottom_navigation">
+
+    </FrameLayout>
 
 </RelativeLayout>
