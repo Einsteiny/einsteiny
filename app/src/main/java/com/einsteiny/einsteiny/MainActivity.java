@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
             currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                showProfileLoggedIn();
+                Intent i = new Intent(this, EinsteinyActivity.class);
+                startActivity(i);
+                //showProfileLoggedIn();
             } else {
                 showProfileLoggedOut();
             }
