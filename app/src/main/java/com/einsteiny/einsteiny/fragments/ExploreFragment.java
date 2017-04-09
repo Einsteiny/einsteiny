@@ -3,14 +3,12 @@ package com.einsteiny.einsteiny.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.einsteiny.einsteiny.ExploreTopicAdapter;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Topic;
 import com.loopj.android.http.AsyncHttpClient;
@@ -32,41 +30,42 @@ public class ExploreFragment extends Fragment {
 
     private static final String TAG = "ExploreFragment";
 
-    ArrayList<Topic> topics;
-    ExploreTopicAdapter topicAdapter;
-    RecyclerView recyclerView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.explore_recyclerview);
-        recyclerView.setAdapter(topicAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        getTopic("humanities");
+        populateTopics();
+//        String[] topicList = new String[] {"humanities"};
+//        for (int i = 0; i < topicList.length; i++) {
+//            getTopic(topicList[i], R.id.topic1);
+//        }
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        topics = new ArrayList<>();
-        topicAdapter = new ExploreTopicAdapter(getContext(), topics);
+    private void populateTopics() {
+        getTopic("humanities", R.id.topic1);
+        getTopic("economics-finance-domain", R.id.topic2);
+        getTopic("computing", R.id.topic3);
+        getTopic("science", R.id.topic4);
+
     }
 
-    public void getTopic(String topic_slug) {
-
+    public void getTopic(final String topic_slug, final int container) {
         String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    topics.addAll(fromJsonArray(response.getJSONArray("children")));
-                    topicAdapter.notifyDataSetChanged();
+                    ArrayList<Topic> topics = fromJsonArray(response.getJSONArray("children"));
+                    String title = response.getString("standalone_title");
+                    TopicListFragment topicListFragment = TopicListFragment.newInstance(title, topics);
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(container, topicListFragment);
+                    ft.commit();
+
                     Log.d(TAG, "onSuccess: " + topics);
                 } catch (JSONException e) {
                     e.printStackTrace();
