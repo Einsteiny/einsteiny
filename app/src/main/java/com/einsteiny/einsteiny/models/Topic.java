@@ -7,14 +7,12 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by tonya on 4/9/17.
- */
 
 public class Topic implements Serializable {
     String description;
     String title;
     String slug;
+
 
     public String getDescription() {
         return description;

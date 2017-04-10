@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.einsteiny.einsteiny.models.Topic;
+import com.einsteiny.einsteiny.models.Course;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by lsyang on 4/8/17.
  */
 
-public class ExploreTopicAdapter extends RecyclerView.Adapter<ExploreTopicAdapter.ViewHolder> {
+public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -30,16 +30,16 @@ public class ExploreTopicAdapter extends RecyclerView.Adapter<ExploreTopicAdapte
         }
     }
 
-    private ArrayList<Topic> _topics;
-    private Context _context;
+    private ArrayList<Course> topics;
+    private Context context;
 
-    public ExploreTopicAdapter(Context context, ArrayList<Topic> topics) {
-        _context = context;
-        _topics = topics;
+    public ExploreCourseAdapter(Context context, ArrayList<Course> topics) {
+        this.context = context;
+        this.topics = topics;
     }
 
     private Context getContext() {
-        return _context;
+        return context;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ExploreTopicAdapter extends RecyclerView.Adapter<ExploreTopicAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Topic topic = _topics.get(position);
+        Course topic = topics.get(position);
 
         TextView tvTitle = holder.tvTitle;
         tvTitle.setText(topic.getTitle());
@@ -65,6 +65,6 @@ public class ExploreTopicAdapter extends RecyclerView.Adapter<ExploreTopicAdapte
 
     @Override
     public int getItemCount() {
-        return _topics.size();
+        return topics.size();
     }
 }
