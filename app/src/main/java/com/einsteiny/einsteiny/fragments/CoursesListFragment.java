@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.einsteiny.einsteiny.ExploreCourseAdapter;
+import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lukas on 4/9/17.
@@ -19,8 +19,12 @@ public class CustomUser implements Serializable {
         user = currentUser;
     }
 
-    public void addUserTopic(Topic topic) {
+    public void addUserCourse(Course course) {
         // todo append topic to existing topics if not already in list
+        List<Course> courses = (ArrayList<Course>) user.get("subscribed_courses");
+        courses.add(course);
+        user.put("subscribed_courses", courses);
+        user.saveInBackground();
     }
 
     // todo - getter and setter for topics list

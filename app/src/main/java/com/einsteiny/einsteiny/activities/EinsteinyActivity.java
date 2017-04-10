@@ -1,4 +1,4 @@
-package com.einsteiny.einsteiny;
+package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
+import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.UserCourseFragment;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;

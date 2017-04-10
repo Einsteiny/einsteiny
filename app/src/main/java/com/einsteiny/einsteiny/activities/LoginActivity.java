@@ -1,7 +1,6 @@
-package com.einsteiny.einsteiny;
+package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.einsteiny.einsteiny.fragments.ProfileFragment;
+import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
