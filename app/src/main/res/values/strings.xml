@@ -13,4 +13,16 @@
     <string name="profile_logout_button_label">Log out</string>
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
     <string name="profile_login_button_label">Log in</string>
+    <string name="settings_title">Settings</string>
+    <string name="network_title">Network</string>
+    <string name="reminder_days">Reminder Days</string>
+    <string-array name="days">
+        <item>M</item>
+        <item>Tu</item>
+        <item>W</item>
+        <item>Th</item>
+        <item>F</item>
+        <item>Sa</item>
+        <item>Su</item>
+    </string-array>
 </resources>

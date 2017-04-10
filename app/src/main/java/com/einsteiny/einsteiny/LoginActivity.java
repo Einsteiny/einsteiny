@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.einsteiny.einsteiny.fragments.ProfileFragment;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -22,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         private Button loginOrLogoutButton;
 
         private ParseUser currentUser;
+        private CustomUser customUser;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,16 @@ public class LoginActivity extends AppCompatActivity {
 
             currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
+                customUser = new CustomUser(currentUser);
                 Intent i = new Intent(this, EinsteinyActivity.class);
+                //i.putExtra("user", customUser);
+                if (!customUser.getDefaults()){
+                    // user is new, go to profile settings to set defaults
+                    i.putExtra("tab", 2);
+                } else {
+                    // user is not new, go to EinsteinyActivity
+                    i.putExtra("tab", 0);
+                }
                 startActivity(i);
             } else {
                 showProfileLoggedOut();
