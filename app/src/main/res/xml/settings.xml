@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/settings_title">
+
+        <SwitchPreference
+            android:key="wifi_download"
+            android:title="@string/wifi_downloads_title"
+            android:summary="@string/wifi_summary"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="push_notifications"
+            android:title="@string/push_title"
+            android:summary="@string/push_summary"
+            android:defaultValue="true" />
+
+        <MultiSelectListPreference
+            android:key="days_select"
+            android:entries="@array/days"
+            android:entryValues="@array/days"
+            android:defaultValue="@array/days"
+            android:summary="@string/show_days"
+            android:title="@string/reminder_days_title"
+            />
+
+        <!--<com.einsteiny.einsteiny.preferences.TimePreference-->
+            <!--android:key="some_time"-->
+            <!--android:title="Set some time"-->
+            <!--android:defaultValue="00:00"/>-->
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

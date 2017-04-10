@@ -13,4 +13,22 @@
     <string name="profile_logout_button_label">Log out</string>
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
     <string name="profile_login_button_label">Log in</string>
+    <string name="settings_title">Settings</string>
+    <string name="reminder_days">Reminder Days</string>
+    <string name="show_days">Tap to see current notification days</string>
+    <string name="reminder_days_title">Reminder Days</string>
+    <string name="wifi_downloads_title">WiFi Downloads</string>
+    <string name="wifi_summary">Save your data</string>
+    <string name="push_summary">Check for once-a-day reminders</string>
+    <string name="push_title">Push Notifications</string>
+    <string name="time_title">Time</string>
+    <string-array name="days">
+        <item>M</item>
+        <item>Tu</item>
+        <item>W</item>
+        <item>Th</item>
+        <item>F</item>
+        <item>Sa</item>
+        <item>Su</item>
+    </string-array>
 </resources>
