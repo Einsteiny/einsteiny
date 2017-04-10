@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.Topic;
+import com.einsteiny.einsteiny.models.Course;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -20,8 +20,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
-
-import static com.einsteiny.einsteiny.models.Topic.fromJsonArray;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -33,7 +31,7 @@ public class ExploreFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         populateTopics();
@@ -53,20 +51,22 @@ public class ExploreFragment extends Fragment {
     }
 
     public void getTopic(final String topic_slug, final int container) {
-        String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
+//        String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
+        //send request to our own einsteiny backend
+        String url = "https://einsteiny.herokuapp.com/" + topic_slug;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    ArrayList<Topic> topics = fromJsonArray(response.getJSONArray("children"));
+                    ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("children"));
                     String title = response.getString("standalone_title");
-                    TopicListFragment topicListFragment = TopicListFragment.newInstance(title, topics);
+                    CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(container, topicListFragment);
                     ft.commit();
 
-                    Log.d(TAG, "onSuccess: " + topics);
+                    Log.d(TAG, "onSuccess: " + courses);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -74,9 +74,11 @@ public class ExploreFragment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-                    JSONObject errorResponse) {
+                                  JSONObject errorResponse) {
                 Log.d(TAG, "onFailure: " + errorResponse);
             }
+
+
         });
     }
 }

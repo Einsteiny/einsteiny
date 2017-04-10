@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.einsteiny.einsteiny.ExploreTopicAdapter;
+import com.einsteiny.einsteiny.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.Topic;
+import com.einsteiny.einsteiny.models.Course;
 
 import java.util.ArrayList;
 
@@ -20,17 +20,17 @@ import java.util.ArrayList;
  * Created by lsyang on 4/9/17.
  */
 
-public class TopicListFragment extends Fragment {
+public class CoursesListFragment extends Fragment {
 
-    ArrayList<Topic> topics;
-    ExploreTopicAdapter topicAdapter;
+    ArrayList<Course> courses;
+    ExploreCourseAdapter topicAdapter;
     RecyclerView recyclerView;
 
-    public static TopicListFragment newInstance(String title, ArrayList<Topic> topics) {
-        TopicListFragment topicListFragment = new TopicListFragment();
+    public static CoursesListFragment newInstance(String title, ArrayList<Course> courses) {
+        CoursesListFragment topicListFragment = new CoursesListFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
-        args.putSerializable("topics", topics);
+        args.putSerializable("courses", courses);
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -38,7 +38,7 @@ public class TopicListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.topic_list_recyclerview);
@@ -54,8 +54,8 @@ public class TopicListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        topics = (ArrayList<Topic>) getArguments().getSerializable("topics");
-        topicAdapter = new ExploreTopicAdapter(getContext(), topics);
+        courses = (ArrayList<Course>) getArguments().getSerializable("courses");
+        topicAdapter = new ExploreCourseAdapter(getContext(), courses);
     }
 
 }
