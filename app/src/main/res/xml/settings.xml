@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/settings_title">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/network_title">
+        android:title="@string/settings_title">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="wifi_download"
-            android:title="Download over WiFi"
+            android:title="@string/wifi_downloads_title"
+            android:summary="@string/wifi_summary"
             android:defaultValue="true"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="push_notifications"
-            android:title="Enable Push Notifications"
+            android:title="@string/push_title"
+            android:summary="@string/push_summary"
             android:defaultValue="true" />
-
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/reminder_days">
 
         <MultiSelectListPreference
             android:key="days_select"
             android:entries="@array/days"
             android:entryValues="@array/days"
             android:defaultValue="@array/days"
-            android:summary="Days to notify"
+            android:summary="@string/show_days"
+            android:title="@string/reminder_days_title"
             />
+
+        <!--<com.einsteiny.einsteiny.preferences.TimePreference-->
+            <!--android:key="some_time"-->
+            <!--android:title="Set some time"-->
+            <!--android:defaultValue="00:00"/>-->
+
 
     </PreferenceCategory>
 
