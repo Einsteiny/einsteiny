@@ -62,6 +62,7 @@ public class ExploreFragment extends Fragment {
                     ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("children"));
                     String title = response.getString("standalone_title");
                     CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
+                    // todo need to catch a null exception here
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(container, topicListFragment);
                     ft.commit();
