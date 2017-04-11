@@ -33,7 +33,7 @@ public class UserCourseFragment extends Fragment {
         //Todo: find better way to access user
         ParseUser currentUser = ParseUser.getCurrentUser();
         CustomUser customUser = new CustomUser(currentUser);
-        ArrayList<Course> courses = customUser.getCourses();
+        ArrayList<Course> courses = customUser.getSubscribedCourses();
         if (courses != null) {
             CoursesListFragment courseListFragment = CoursesListFragment.newInstance("In Progress", courses);
             // todo need to catch a null exception here

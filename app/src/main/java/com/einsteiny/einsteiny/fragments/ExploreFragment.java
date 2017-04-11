@@ -69,7 +69,7 @@ public class ExploreFragment extends Fragment {
     }
 
     public void getTopic(final String topic_slug, final int container) {
-        // Depricated: can use this method to save new courses in Course table
+        // Depricated: use this method to save new courses in Course table
         String url = "https://einsteiny.herokuapp.com/" + topic_slug;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {

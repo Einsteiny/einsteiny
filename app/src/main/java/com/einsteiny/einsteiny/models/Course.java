@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
@@ -44,16 +45,31 @@ public class Course extends ParseObject implements Serializable {
         put("topics", topics);
     }
 
-    public String getPhotoUrl() {
-        return getString("photoUrl");
+    public String getPhotoUrl(){
+        try {
+            return fetchIfNeeded().getString("photoUrl");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public String getTitle() {
-        return getString("title");
+        try {
+            return fetchIfNeeded().getString("title");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public String getDescription() {
-        return getString("description");
+        try {
+            return fetchIfNeeded().getString("description");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public List<Topic> getTopics() {

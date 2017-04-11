@@ -13,19 +13,31 @@ import java.util.List;
  */
 
 public class CustomUser implements Serializable {
+    public static final String COURSES_KEY = "subscribed_courses";
+    public static final String TOPICS_KEY = "completed_topics";
     private ParseUser user;
 
     public CustomUser(ParseUser currentUser) {
         user = currentUser;
     }
 
-    public void addUserCourse(Course course) {
-        List<Course> courses = (ArrayList<Course>) user.get("subscribed_courses");
+    public void addSubscribedCourse(Course course) {
+        List<Course> courses = (ArrayList<Course>) user.get(COURSES_KEY);
         if (courses == null) {
             courses = new ArrayList<>();
         }
         courses.add(course);
-        user.put("subscribed_courses", courses);
+        user.put(COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
+    public void addCompletedTopics(Topic topic) {
+        List<Topic> topics = (ArrayList<Topic>) user.get(TOPICS_KEY);
+        if (topics == null) {
+            topics = new ArrayList<>();
+        }
+        topics.add(topic);
+        user.put(TOPICS_KEY, topics);
         user.saveInBackground();
     }
 
@@ -82,8 +94,12 @@ public class CustomUser implements Serializable {
         return user.getBoolean("wifi_downloads");
     }
 
-    public ArrayList<Course> getCourses() {
-        return (ArrayList<Course>) user.get("subscribed_courses");
+    public ArrayList<Course> getSubscribedCourses() {
+        return (ArrayList<Course>) user.get(COURSES_KEY);
+    }
+
+    public ArrayList<Topic> getCompletedTopics() {
+        return (ArrayList<Topic>) user.get(TOPICS_KEY);
     }
 
 }

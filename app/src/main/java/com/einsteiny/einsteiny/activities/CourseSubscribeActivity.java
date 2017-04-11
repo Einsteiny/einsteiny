@@ -69,6 +69,6 @@ public class CourseSubscribeActivity extends AppCompatActivity {
     public void onSubscribeCourse(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         CustomUser customUser = new CustomUser(currentUser);
-        customUser.addUserCourse(course);
+        customUser.addSubscribedCourse(course);
     }
 }
