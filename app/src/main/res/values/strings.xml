@@ -31,4 +31,6 @@
         <item>Sa</item>
         <item>Su</item>
     </string-array>
+
+    <string name="subscribe">Subscribe</string>
 </resources>
