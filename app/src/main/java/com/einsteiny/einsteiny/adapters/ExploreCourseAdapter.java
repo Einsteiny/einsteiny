@@ -36,7 +36,7 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
                 public void onClick(View v) {
                     Course course = courses.get(getAdapterPosition());
                     Intent intent = new Intent(context, CourseSubscribeActivity.class);
-                    intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, course);
+                    intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, course.getObjectId());
                     context.startActivity(intent);
                 }
             });
@@ -46,9 +46,9 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
     private ArrayList<Course> courses;
     private Context context;
 
-    public ExploreCourseAdapter(Context context, ArrayList<Course> topics) {
+    public ExploreCourseAdapter(Context context, ArrayList<Course> courses) {
         this.context = context;
-        this.courses = topics;
+        this.courses = courses;
     }
 
     private Context getContext() {
@@ -67,13 +67,13 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Course topic = courses.get(position);
+        Course course = courses.get(position);
 
         TextView tvTitle = holder.tvTitle;
-        tvTitle.setText(topic.getTitle());
+        tvTitle.setText(course.getTitle());
 
         TextView tvDescription = holder.tvDescription;
-        tvDescription.setText(topic.getDescription());
+        tvDescription.setText(course.getDescription());
     }
 
     @Override

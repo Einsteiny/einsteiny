@@ -5,9 +5,9 @@
               android:layout_height="match_parent"
               android:id="@+id/fragment_class">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_classes"/>
+        android:id="@+id/user_coureses_in_progress"></FrameLayout>
 
 </LinearLayout>

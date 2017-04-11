@@ -1,5 +1,8 @@
 package com.einsteiny.einsteiny.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,8 +10,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
-public class Topic implements Serializable {
+@ParseClassName("Topic")
+public class Topic extends ParseObject implements Serializable {
+    //Todo: make this look like Course
     String description;
     String title;
     String slug;
@@ -26,7 +30,13 @@ public class Topic implements Serializable {
         return title;
     }
 
+    public Topic() {
+        super();
+        //Needed for Parse
+    }
+
     public Topic(JSONObject jsonObject) throws JSONException {
+        super();
         description = jsonObject.getString("description");
         title = jsonObject.getString("title");
         slug = jsonObject.getString("node_slug");

@@ -20,8 +20,10 @@ public class CustomUser implements Serializable {
     }
 
     public void addUserCourse(Course course) {
-        // todo append topic to existing topics if not already in list
         List<Course> courses = (ArrayList<Course>) user.get("subscribed_courses");
+        if (courses == null) {
+            courses = new ArrayList<>();
+        }
         courses.add(course);
         user.put("subscribed_courses", courses);
         user.saveInBackground();
@@ -78,6 +80,10 @@ public class CustomUser implements Serializable {
 
     public Boolean getDownloadWifi() {
         return user.getBoolean("wifi_downloads");
+    }
+
+    public ArrayList<Course> getCourses() {
+        return (ArrayList<Course>) user.get("subscribed_courses");
     }
 
 }
