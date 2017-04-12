@@ -32,7 +32,7 @@ public class Course implements Serializable {
     }
 
     public Course(JSONObject jsonObject) throws JSONException {
-        title = jsonObject.getString("standalone_title");
+        title = jsonObject.getString("title");
         description = jsonObject.getString("description");
 //        photoUrl = jsonObject.optString("photo_url");
         lessons = Lesson.fromJsonArray(jsonObject.getJSONArray("lessons"));
