@@ -12,12 +12,12 @@ public class Course implements Serializable {
 
     String title;
     String description;
-    String photoUrl;
-    List<Topic> topics;
+    //    String photoUrl;
+    List<Lesson> lessons;
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
+//    public String getPhotoUrl() {
+//        return photoUrl;
+//    }
 
     public String getTitle() {
         return title;
@@ -27,15 +27,15 @@ public class Course implements Serializable {
         return description;
     }
 
-    public List<Topic> getTopics() {
-        return topics;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
     public Course(JSONObject jsonObject) throws JSONException {
         title = jsonObject.getString("standalone_title");
         description = jsonObject.getString("description");
-        photoUrl = jsonObject.optString("photo_url");
-        topics = Topic.fromJsonArray(jsonObject.getJSONArray("children"));
+//        photoUrl = jsonObject.optString("photo_url");
+        lessons = Lesson.fromJsonArray(jsonObject.getJSONArray("lessons"));
     }
 
     public static ArrayList<Course> fromJSONArray(JSONArray array) {

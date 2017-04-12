@@ -59,8 +59,8 @@ public class ExploreFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("children"));
-                    String title = response.getString("standalone_title");
+                    ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("courses"));
+                    String title = response.getString("title");
                     CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
                     // todo need to catch a null exception here
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

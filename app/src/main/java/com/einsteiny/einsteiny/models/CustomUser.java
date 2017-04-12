@@ -20,14 +20,14 @@ public class CustomUser implements Serializable {
     }
 
     public void addUserCourse(Course course) {
-        // todo append topic to existing topics if not already in list
+        // todo append topic to existing lessons if not already in list
         List<Course> courses = (ArrayList<Course>) user.get("subscribed_courses");
         courses.add(course);
         user.put("subscribed_courses", courses);
         user.saveInBackground();
     }
 
-    // todo - getter and setter for topics list
+    // todo - getter and setter for lessons list
     // todo - getter and setter for progress
 
     public void setDefaults(Boolean hasDefaults) {
