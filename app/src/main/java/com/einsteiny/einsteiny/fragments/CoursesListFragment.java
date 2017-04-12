@@ -43,7 +43,7 @@ public class CoursesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.topic_list_recyclerview);
         recyclerView.setAdapter(topicAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         TextView tvTitle = (TextView) view.findViewById(R.id.topic_list_title);
