@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"
             android:layout_margin="@dimen/simple_margin"
-            android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold"
             tools:text="TextView" />
 
