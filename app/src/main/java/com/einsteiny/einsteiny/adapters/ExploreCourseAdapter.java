@@ -6,13 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.models.Course;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -22,14 +27,19 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle;
-        public TextView tvDescription;
+        @BindView(R.id.tvTitle)
+        TextView tvTitle;
+
+        @BindView(R.id.tvSnippet)
+        TextView tvDescription;
+
+        @BindView(R.id.ivImage)
+        ImageView ivImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,13 +77,11 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Course topic = courses.get(position);
+        Course course = courses.get(position);
 
-        TextView tvTitle = holder.tvTitle;
-        tvTitle.setText(topic.getTitle());
-
-        TextView tvDescription = holder.tvDescription;
-        tvDescription.setText(topic.getDescription());
+        holder.tvDescription.setText(course.getDescription());
+        holder.tvTitle.setText(course.getTitle());
+        Picasso.with(context).load(course.getPhotoUrl()).into(holder.ivImage);
     }
 
     @Override

@@ -13,17 +13,36 @@ import java.util.List;
  */
 
 public class CustomUser implements Serializable {
-    private ParseUser user;
+    private static ParseUser user;
+    public static final String COURSES_KEY = "subscribed_courses";
+    public static final String LESSONS_KEY = "completed_lessons";
 
-    public CustomUser(ParseUser currentUser) {
-        user = currentUser;
+
+    public CustomUser() {
+        user = ParseUser.getCurrentUser();
     }
 
-    public void addUserCourse(Course course) {
-        // todo append topic to existing topics if not already in list
-        List<Course> courses = (ArrayList<Course>) user.get("subscribed_courses");
-        courses.add(course);
-        user.put("subscribed_courses", courses);
+
+    public void addSubscribedCourse(Course course) {
+        List<String> courses = (ArrayList<String>) user.get(COURSES_KEY);
+        if (courses == null) {
+            courses = new ArrayList<>();
+        }
+        if (!courses.contains(course.getId())) {
+            courses.add(course.getId());
+        }
+
+        user.put(COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
+    public void addCompletedTopics(Lesson topic) {
+        List<Lesson> topics = (ArrayList<Lesson>) user.get(LESSONS_KEY);
+        if (topics == null) {
+            topics = new ArrayList<>();
+        }
+        topics.add(topic);
+        user.put(LESSONS_KEY, topics);
         user.saveInBackground();
     }
 
@@ -80,4 +99,14 @@ public class CustomUser implements Serializable {
         return user.getBoolean("wifi_downloads");
     }
 
+    public ArrayList<Course> getSubscribedCourses() {
+        return (ArrayList<Course>) user.get(COURSES_KEY);
+    }
+
+    public ArrayList<Lesson> getCompletedTopics() {
+        return (ArrayList<Lesson>) user.get(LESSONS_KEY);
+    }
+
+
 }
+
