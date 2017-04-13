@@ -41,7 +41,10 @@ public class PlayYoutubeActivity extends YouTubeBaseActivity {
                             public void run() {
                                 //Handle UI here
                                 youTubePlayer.setFullscreen(true);
-                                youTubePlayer.loadVideo(lesson.getVideoUrl());
+                                String[] parts = lesson.getVideoUrl().split("/");
+                                String video = parts[parts.length - 1];
+                                String videoId = video.substring(0, video.indexOf('.'));
+                                youTubePlayer.loadVideo(videoId);
                             }
                         });
 
