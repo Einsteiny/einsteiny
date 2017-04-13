@@ -19,9 +19,13 @@ public class Lesson implements Serializable {
         return description;
     }
 
-//    public String getSlug() {
-//        return slug;
-//    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
 
     public String getTitle() {
         return title;

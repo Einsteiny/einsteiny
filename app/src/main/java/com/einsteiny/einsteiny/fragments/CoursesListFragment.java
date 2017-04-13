@@ -51,7 +51,7 @@ public class CoursesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_course_list, container, false);
         return view;
     }
 

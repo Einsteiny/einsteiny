@@ -16,7 +16,10 @@ public class Course implements Serializable {
     List<Lesson> lessons;
 
     public String getPhotoUrl() {
-        return photoUrl;
+        if (photoUrl != null && !photoUrl.isEmpty())
+            return photoUrl;
+
+        return lessons.get(0).getImageUrl();
     }
 
     public String getTitle() {
