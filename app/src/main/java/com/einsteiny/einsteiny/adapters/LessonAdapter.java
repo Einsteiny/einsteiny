@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.squareup.picasso.Picasso;
 
@@ -75,6 +77,17 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Intent i = new Intent(context, PlayYoutubeActivity.class);
+                    Lesson lesson = lessons.get(position);
+                    i.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson);
+                    context.startActivity(i);
+                }
+            });
 
         }
     }

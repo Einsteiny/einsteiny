@@ -52,7 +52,8 @@
             android:value="@string/parse_client_key" />
 
         <activity android:name=".activities.CourseSubscribeActivity" />
-        <activity android:name=".activities.CourseActivity"></activity>
+        <activity android:name=".activities.CourseActivity" />
+        <activity android:name=".activities.PlayYoutubeActivity"></activity>
     </application>
 
 </manifest>
