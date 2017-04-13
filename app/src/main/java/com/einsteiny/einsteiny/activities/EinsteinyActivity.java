@@ -44,12 +44,18 @@ public class EinsteinyActivity extends AppCompatActivity {
         // set passed in tab as default
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (tab) {
-            case 0:
+            case 0: {
                 fragmentTransaction.replace(R.id.flContainer, explore).commit();
-            case 1:
+                break;
+            }
+            case 1: {
                 fragmentTransaction.replace(R.id.flContainer, userCourse).commit();
-            case 2:
+                break;
+            }
+            case 2: {
                 fragmentTransaction.replace(R.id.flContainer, profile).commit();
+                break;
+            }
         }
 
         // handle navigation selection
@@ -58,17 +64,15 @@ public class EinsteinyActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         switch (item.getItemId()) {
                             case R.id.action_explore:
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.flContainer, explore).commit();
                                 return true;
                             case R.id.action_user_course:
-                                fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.flContainer, userCourse).commit();
                                 return true;
                             case R.id.action_profile:
-                                fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.flContainer, profile).commit();
                                 return true;
                         }

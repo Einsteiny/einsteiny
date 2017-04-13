@@ -3,6 +3,7 @@ package com.einsteiny.einsteiny.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,12 +35,13 @@ public class ExploreFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
-        populateTopics();
-//        String[] topicList = new String[] {"humanities"};
-//        for (int i = 0; i < topicList.length; i++) {
-//            getTopic(topicList[i], R.id.topic1);
-//        }
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        populateTopics();
     }
 
     private void populateTopics() {
@@ -50,11 +52,13 @@ public class ExploreFragment extends Fragment {
 
     }
 
+
     public void getTopic(final String topic_slug, final int container) {
 //        String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
         //send request to our own einsteiny backend
         String url = "https://einsteiny.herokuapp.com/" + topic_slug;
         AsyncHttpClient client = new AsyncHttpClient();
+        final FragmentActivity activity = getActivity();
         client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -63,7 +67,7 @@ public class ExploreFragment extends Fragment {
                     String title = response.getString("title");
                     CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
                     // todo need to catch a null exception here
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
                     ft.replace(container, topicListFragment);
                     ft.commit();
 

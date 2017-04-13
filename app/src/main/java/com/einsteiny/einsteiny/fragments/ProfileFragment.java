@@ -4,9 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.CustomUser;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 /**
@@ -25,13 +23,6 @@ public class ProfileFragment extends PreferenceFragmentCompat implements SharedP
         setPreferencesFromResource(R.xml.settings, rootKey);
     }
 
-    public static ProfileFragment newInstance(CustomUser customUser) {
-        ProfileFragment profileFragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("custom_user", customUser);
-        profileFragment.setArguments(args);
-        return profileFragment;
-    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

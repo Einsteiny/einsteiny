@@ -12,12 +12,12 @@ public class Course implements Serializable {
 
     String title;
     String description;
-    //    String photoUrl;
+    String photoUrl;
     List<Lesson> lessons;
 
-//    public String getPhotoUrl() {
-//        return photoUrl;
-//    }
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
 
     public String getTitle() {
         return title;
@@ -34,7 +34,7 @@ public class Course implements Serializable {
     public Course(JSONObject jsonObject) throws JSONException {
         title = jsonObject.getString("title");
         description = jsonObject.getString("description");
-//        photoUrl = jsonObject.optString("photo_url");
+        photoUrl = jsonObject.optString("photo_url");
         lessons = Lesson.fromJsonArray(jsonObject.getJSONArray("lessons"));
     }
 
