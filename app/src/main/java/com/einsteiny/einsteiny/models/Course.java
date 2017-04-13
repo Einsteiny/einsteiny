@@ -1,9 +1,5 @@
 package com.einsteiny.einsteiny.models;
 
-import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,68 +8,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ParseClassName("Course")
-public class Course extends ParseObject implements Serializable {
+public class Course implements Serializable {
 
-    public Course() {
-        super();
-        //Needed for Parse
-    }
+    String title;
+    String description;
+    String photoUrl;
+    List<Topic> topics;
 
-    public Course(JSONObject jsonObject) throws JSONException {
-        super();
-        setTitle(jsonObject.getString("standalone_title"));
-        setDescription(jsonObject.getString("description"));
-        setPhotoUrl(jsonObject.optString("photo_url"));
-        setTopics(Topic.fromJsonArray(jsonObject.getJSONArray("children")));
-        saveInBackground();
-    }
-
-    public void setTitle(String title) {
-        put("title", title);
-    }
-
-    public void setDescription(String description) {
-        put("description", description);
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        put("photoUrl", photoUrl);
-    }
-
-    public void setTopics(List<Topic> topics) {
-        put("topics", topics);
-    }
-
-    public String getPhotoUrl(){
-        try {
-            return fetchIfNeeded().getString("photoUrl");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
     public String getTitle() {
-        try {
-            return fetchIfNeeded().getString("title");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return title;
     }
 
     public String getDescription() {
-        try {
-            return fetchIfNeeded().getString("description");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return description;
     }
 
     public List<Topic> getTopics() {
-        return (List<Topic>) getParseObject("topics");
+        return topics;
+    }
+
+    public Course(JSONObject jsonObject) throws JSONException {
+        title = jsonObject.getString("standalone_title");
+        description = jsonObject.getString("description");
+        photoUrl = jsonObject.optString("photo_url");
+        topics = Topic.fromJsonArray(jsonObject.getJSONArray("children"));
     }
 
     public static ArrayList<Course> fromJSONArray(JSONArray array) {

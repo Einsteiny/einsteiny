@@ -40,7 +40,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tvDescription"
-            android:onClick="onSubscribeCourse"
             android:text="@string/subscribe" />
 
     </RelativeLayout>
