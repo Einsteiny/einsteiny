@@ -1,17 +1,21 @@
 package com.einsteiny.einsteiny.models;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class Lesson implements Serializable {
+    @SerializedName("description")
     String description;
+
+    @SerializedName("title")
     String title;
+
+    @SerializedName("image_url")
     String imageUrl;
+
+    @SerializedName("video_url")
     String videoUrl;
 
 
@@ -31,22 +35,4 @@ public class Lesson implements Serializable {
         return title;
     }
 
-    public Lesson(JSONObject jsonObject) throws JSONException {
-        description = jsonObject.getString("description");
-        title = jsonObject.getString("title");
-        imageUrl = jsonObject.getString("image_url");
-        videoUrl = jsonObject.getString("video_url");
-    }
-
-    public static ArrayList<Lesson> fromJsonArray(JSONArray array) {
-        ArrayList<Lesson> lessons = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                lessons.add(new Lesson(array.getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return lessons;
-    }
 }

@@ -1,6 +1,6 @@
 package com.einsteiny.einsteiny.network;
 
-import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CourseCategory;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -12,16 +12,16 @@ import rx.Observable;
 public interface EinsteinyCloudService {
 
     @GET("humanities")
-    Observable<Course> getArtsCourses();
+    Observable<CourseCategory> getArtsCourses();
 
     @GET("economics-finance-domain")
-    Observable<Course> getEconomicsCourses();
+    Observable<CourseCategory> getEconomicsCourses();
 
     @GET("computing")
-    Observable<Course> getComputingCourses();
+    Observable<CourseCategory> getComputingCourses();
 
     @GET("science")
-    Observable<Course> getScienceCourses();
+    Observable<CourseCategory> getScienceCourses();
 
 
 }
