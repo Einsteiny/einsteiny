@@ -53,23 +53,26 @@ public class ExploreFragment extends Fragment {
     }
 
 
-    public void getTopic(final String topic_slug, final int container) {
+    public void getTopic(final String topic, final int container) {
 //        String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
         //send request to our own einsteiny backend
-        String url = "https://einsteiny.herokuapp.com/" + topic_slug;
+        String url = "https://einsteiny.herokuapp.com/" + topic;
         AsyncHttpClient client = new AsyncHttpClient();
-        final FragmentActivity activity = getActivity();
         client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("courses"));
                     String title = response.getString("title");
+
                     CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
-                    // todo need to catch a null exception here
-                    FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                    ft.replace(container, topicListFragment);
-                    ft.commit();
+                    FragmentActivity activity = getActivity();
+                    if (activity != null) {
+                        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                        ft.replace(container, topicListFragment);
+                        ft.commit();
+                    }
+
 
                     Log.d(TAG, "onSuccess: " + courses);
                 } catch (JSONException e) {
