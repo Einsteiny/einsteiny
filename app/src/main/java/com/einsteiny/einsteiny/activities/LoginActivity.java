@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 
         currentUser = new CustomUser();
-        if (currentUser != null) {
+        if (ParseUser.getCurrentUser() != null) {
             Intent i = new Intent(this, EinsteinyActivity.class);
             //i.putExtra("user", customUser);
             //TODO CURRENT USER GET DEFAULTS

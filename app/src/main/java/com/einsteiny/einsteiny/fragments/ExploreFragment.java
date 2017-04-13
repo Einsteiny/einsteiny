@@ -5,22 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.Course;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.Header;
+import com.einsteiny.einsteiny.models.AllCourses;
+import com.einsteiny.einsteiny.models.CourseCategory;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -28,6 +19,16 @@ import cz.msebera.android.httpclient.Header;
 public class ExploreFragment extends Fragment {
 
     private static final String TAG = "ExploreFragment";
+
+    private static final String ARG_ALL_COURSES = "all_courses";
+
+    public static ExploreFragment newInstance(AllCourses allCourses) {
+        ExploreFragment topicListFragment = new ExploreFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_ALL_COURSES, allCourses);
+        topicListFragment.setArguments(args);
+        return topicListFragment;
+    }
 
     @Nullable
     @Override
@@ -41,52 +42,31 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        populateTopics();
-    }
 
-    private void populateTopics() {
-        getTopic("humanities", R.id.topic1);
-        getTopic("economics-finance-domain", R.id.topic2);
-        getTopic("computing", R.id.topic3);
-        getTopic("science", R.id.topic4);
+        AllCourses allCourses = (AllCourses) getArguments().getSerializable(ARG_ALL_COURSES);
+        if (allCourses != null) {
+            populateTopics(allCourses);
+        }
 
     }
 
+    private void populateTopics(AllCourses allCourses) {
+        getTopic(allCourses.artCourses, R.id.topic1);
+        getTopic(allCourses.economicsCourses, R.id.topic2);
+        getTopic(allCourses.computingCourses, R.id.topic3);
+        getTopic(allCourses.scienceCourses, R.id.topic4);
 
-    public void getTopic(final String topic, final int container) {
-//        String url = "https://www.khanacademy.org/api/v1/topic/" + topic_slug;
-        //send request to our own einsteiny backend
-        String url = "https://einsteiny.herokuapp.com/" + topic;
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    ArrayList<Course> courses = Course.fromJSONArray(response.getJSONArray("courses"));
-                    String title = response.getString("title");
-
-                    CoursesListFragment topicListFragment = CoursesListFragment.newInstance(title, courses);
-                    FragmentActivity activity = getActivity();
-                    if (activity != null) {
-                        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                        ft.replace(container, topicListFragment);
-                        ft.commit();
-                    }
+    }
 
 
-                    Log.d(TAG, "onSuccess: " + courses);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-                                  JSONObject errorResponse) {
-                Log.d(TAG, "onFailure: " + errorResponse);
-            }
-
-
-        });
+    public void getTopic(final CourseCategory category, final int container) {
+        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category.getTitle(), category.getCourses());
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.replace(container, topicListFragment);
+            ft.commit();
+        }
+//
     }
 }

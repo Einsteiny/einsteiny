@@ -1,5 +1,6 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -54,7 +55,10 @@ public class CourseSubscribeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CustomUser user = new CustomUser();
                 user.addSubscribedCourse(course);
-                finish();
+
+                Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
+                i.putExtra(CourseActivity.EXTRA_COURSE, course);
+                startActivity(i);
 
             }
         });
