@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Course implements Serializable {
 
+    String id;
     String title;
     String description;
     String photoUrl;
@@ -20,6 +21,10 @@ public class Course implements Serializable {
             return photoUrl;
 
         return lessons.get(0).getImageUrl();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -35,6 +40,7 @@ public class Course implements Serializable {
     }
 
     public Course(JSONObject jsonObject) throws JSONException {
+        id = jsonObject.getString("id");
         title = jsonObject.getString("title");
         description = jsonObject.getString("description");
         photoUrl = jsonObject.optString("photo_url");
@@ -54,4 +60,22 @@ public class Course implements Serializable {
 
         return courses;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Course course = (Course) o;
+
+        return id != null ? id.equals(course.id) : course.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+
 }

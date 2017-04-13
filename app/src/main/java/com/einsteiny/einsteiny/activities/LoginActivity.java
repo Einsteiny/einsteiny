@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -22,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView nameTextView;
     private Button loginOrLogoutButton;
 
-    private ParseUser currentUser;
+    private CustomUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +59,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        currentUser = ParseUser.getCurrentUser();
+        currentUser = new CustomUser();
         if (currentUser != null) {
             Intent i = new Intent(this, EinsteinyActivity.class);
             //i.putExtra("user", customUser);
             //TODO CURRENT USER GET DEFAULTS
 //            currentUser.get("defaults");
-//            if (!customUser.getDefaults()) {
-//                // user is new, go to profile settings to set defaults
-//                i.putExtra("tab", 2);
-//            } else {
-//                // user is not new, go to EinsteinyActivity
-//                i.putExtra("tab", 0);
-//            }
+            if (currentUser.getDefaults()) {
+                // user is new, go to profile settings to set defaults
+                i.putExtra("tab", 2);
+            } else {
+                // user is not new, go to EinsteinyActivity
+                i.putExtra("tab", 0);
+            }
             startActivity(i);
         } else {
             showProfileLoggedOut();
@@ -80,15 +81,15 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Shows the profile of the given user.
      */
-    private void showProfileLoggedIn() {
-        titleTextView.setText(R.string.profile_title_logged_in);
-        emailTextView.setText(currentUser.getEmail());
-        String fullName = currentUser.getString("name");
-        if (fullName != null) {
-            nameTextView.setText(fullName);
-        }
-        loginOrLogoutButton.setText(R.string.profile_logout_button_label);
-    }
+//    private void showProfileLoggedIn() {
+//        titleTextView.setText(R.string.profile_title_logged_in);
+//        emailTextView.setText(currentUser.getEmail());
+//        String fullName = currentUser.getString("name");
+//        if (fullName != null) {
+//            nameTextView.setText(fullName);
+//        }
+//        loginOrLogoutButton.setText(R.string.profile_logout_button_label);
+//    }
 
     /**
      * Show a message asking the user to log in, toggle login/logout button text.

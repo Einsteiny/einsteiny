@@ -2,12 +2,15 @@ package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,18 +38,26 @@ public class CourseSubscribeActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
+        final Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
 
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
 
-//        String photoUrl = course.getPhotoUrl();
-//        if (photoUrl != null && !photoUrl.isEmpty()) {
-//            int displayWidth = getResources().getDisplayMetrics().widthPixels;
-//            Picasso.with(this).load(photoUrl).resize(displayWidth, 0).into(ivCourse);
-//        }
+        String photoUrl = course.getPhotoUrl();
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            int displayWidth = getResources().getDisplayMetrics().widthPixels;
+            Picasso.with(this).load(photoUrl).resize(displayWidth, 0).into(ivCourse);
+        }
 
+        btnSubscribe.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomUser user = new CustomUser();
+                user.addSubscribedCourse(course);
+                finish();
 
+            }
+        });
 
 
     }
