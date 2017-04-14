@@ -1,14 +1,12 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
@@ -84,7 +82,7 @@ public class EinsteinyActivity extends AppCompatActivity {
 
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = new UserCourseFragment();
+        final Fragment userCourse = UserCourseFragment.newInstance(courses);
         final PreferenceFragmentCompat profile = new ProfileFragment();
 
         // set passed in tab as default
@@ -107,23 +105,20 @@ public class EinsteinyActivity extends AppCompatActivity {
         // handle navigation selection
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        switch (item.getItemId()) {
-                            case R.id.action_explore:
-                                fragmentTransaction.replace(R.id.flContainer, explore).commit();
-                                return true;
-                            case R.id.action_user_course:
-                                fragmentTransaction.replace(R.id.flContainer, userCourse).commit();
-                                return true;
-                            case R.id.action_profile:
-                                fragmentTransaction.replace(R.id.flContainer, profile).commit();
-                                return true;
-                        }
-                        return false;
+                item -> {
+                    FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                    switch (item.getItemId()) {
+                        case R.id.action_explore:
+                            fragmentTransaction1.replace(R.id.flContainer, explore).commit();
+                            return true;
+                        case R.id.action_user_course:
+                            fragmentTransaction1.replace(R.id.flContainer, userCourse).commit();
+                            return true;
+                        case R.id.action_profile:
+                            fragmentTransaction1.replace(R.id.flContainer, profile).commit();
+                            return true;
                     }
+                    return false;
                 });
     }
 

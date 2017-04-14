@@ -1,8 +1,8 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,8 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView nameTextView;
     private Button loginOrLogoutButton;
 
-    private CustomUser currentUser;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUser != null) {
+                if (CustomUser.getUser() != null) {
                     // User clicked to log out.
                     ParseUser.logOut();
-                    currentUser = null;
                     showProfileLoggedOut();
                 } else {
                     // User clicked to log in.
@@ -59,13 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        currentUser = new CustomUser();
-        if (ParseUser.getCurrentUser() != null) {
+        if (CustomUser.getUser() != null) {
             Intent i = new Intent(this, EinsteinyActivity.class);
             //i.putExtra("user", customUser);
             //TODO CURRENT USER GET DEFAULTS
 //            currentUser.get("defaults");
-            if (currentUser.getDefaults()) {
+            if (CustomUser.getDefaults()) {
                 // user is new, go to profile settings to set defaults
                 i.putExtra("tab", 2);
             } else {

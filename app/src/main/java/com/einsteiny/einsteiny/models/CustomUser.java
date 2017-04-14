@@ -13,18 +13,14 @@ import java.util.List;
  */
 
 public class CustomUser implements Serializable {
-    private static ParseUser user;
+
     public static final String COURSES_KEY = "subscribed_courses";
     public static final String LESSONS_KEY = "completed_lessons";
 
 
-    public CustomUser() {
-        user = ParseUser.getCurrentUser();
-    }
-
-
-    public void addSubscribedCourse(Course course) {
-        List<String> courses = (ArrayList<String>) user.get(COURSES_KEY);
+    public static void addSubscribedCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(COURSES_KEY);
         if (courses == null) {
             courses = new ArrayList<>();
         }
@@ -36,75 +32,79 @@ public class CustomUser implements Serializable {
         user.saveInBackground();
     }
 
-    public void addCompletedTopics(Lesson topic) {
-        List<Lesson> topics = (ArrayList<Lesson>) user.get(LESSONS_KEY);
-        if (topics == null) {
-            topics = new ArrayList<>();
-        }
-        topics.add(topic);
-        user.put(LESSONS_KEY, topics);
-        user.saveInBackground();
+    public static List<String> getSubscribedCourses() {
+        ParseUser user = ParseUser.getCurrentUser();
+        return (List<String>) user.get(COURSES_KEY);
     }
+
+
+    public static ParseUser getUser() {
+        return ParseUser.getCurrentUser();
+    }
+
 
     // todo - getter and setter for topics list
     // todo - getter and setter for progress
 
-    public void setDefaults(Boolean hasDefaults) {
+    public static void setDefaults(Boolean hasDefaults) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("has_defaults", hasDefaults);
         user.saveInBackground();
     }
 
-    public Boolean getDefaults() {
+    public static Boolean getDefaults() {
+        ParseUser user = ParseUser.getCurrentUser();
         return user.getBoolean("has_defaults");
     }
 
-    public void setProfilePicUrl(URL url) {
+    public static void setProfilePicUrl(URL url) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("image_url", url);
         user.saveInBackground();
     }
 
-    public void setDownloadWifi(Boolean wifi) {
+    public static void setDownloadWifi(Boolean wifi) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("wifi_downloads", wifi);
         user.saveInBackground();
     }
 
     public void setPushNotification(Boolean pushNotification) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("push_notification", pushNotification);
         user.saveInBackground();
     }
 
     public void setReminderDays(ArrayList<String> arrayList) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("reminder_days", arrayList);
         user.saveInBackground();
     }
 
     public void setReminderTime(Time reminderTime) {
+        ParseUser user = ParseUser.getCurrentUser();
         user.put("reminder_time", reminderTime);
         user.saveInBackground();
     }
 
-    public Time getReminderTime() {
+    public static Time getReminderTime() {
+        ParseUser user = ParseUser.getCurrentUser();
         return (Time) user.get("reminder_time");
     }
 
-    public ArrayList<String> getReminderDays() {
+    public static ArrayList<String> getReminderDays() {
+        ParseUser user = ParseUser.getCurrentUser();
         return (ArrayList<String>) user.get("reminder_days");
     }
 
-    public Boolean getPushNotification() {
+    public static Boolean getPushNotification() {
+        ParseUser user = ParseUser.getCurrentUser();
         return user.getBoolean("push_notification");
     }
 
-    public Boolean getDownloadWifi() {
+    public static Boolean getDownloadWifi() {
+        ParseUser user = ParseUser.getCurrentUser();
         return user.getBoolean("wifi_downloads");
-    }
-
-    public ArrayList<Course> getSubscribedCourses() {
-        return (ArrayList<Course>) user.get(COURSES_KEY);
-    }
-
-    public ArrayList<Lesson> getCompletedTopics() {
-        return (ArrayList<Lesson>) user.get(LESSONS_KEY);
     }
 
 
