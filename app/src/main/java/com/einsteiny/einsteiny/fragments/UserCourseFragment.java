@@ -15,7 +15,6 @@ import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -46,29 +45,27 @@ public class UserCourseFragment extends Fragment {
 
         AllCourses allCourses = (AllCourses) getArguments().getSerializable(ARG_ALL_COURSES);
         if (allCourses != null) {
-            List<Course> courses = allCourses.getAllCourses();
-            List<String> subscribedIds = CustomUser.getSubscribedCourses();
-            ArrayList<Course> subscribedCourses = new ArrayList<>();
-            if (subscribedIds != null && !subscribedIds.isEmpty()) {
-                for (Course course : courses) {
 
-                    if (subscribedIds.contains(course.getId())) {
-                        subscribedCourses.add(course);
-                    }
-                }
+            ArrayList<Course> subscribedCourses = (ArrayList<Course>) allCourses.getCoursesForIds(CustomUser.getSubscribedCourses());
+            ArrayList<Course> completedCourses = (ArrayList<Course>) allCourses.getCoursesForIds(CustomUser.getCompletedCourses());
 
-                FragmentActivity activity = getActivity();
-                CoursesListFragment topicListFragment = CoursesListFragment.newInstance("Active", subscribedCourses);
-                if (activity != null) {
-                    FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.activeCourses, topicListFragment);
-                    ft.commit();
-                }
 
+            FragmentActivity activity = getActivity();
+            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses);
+            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses);
+            if (activity != null) {
+                FragmentTransaction ftActive = activity.getSupportFragmentManager().beginTransaction();
+                ftActive.replace(R.id.activeCourses, activeListFragment);
+                ftActive.commit();
+
+                FragmentTransaction ftCompleted = activity.getSupportFragmentManager().beginTransaction();
+                ftCompleted.replace(R.id.completedCourses, completedListFragment);
+                ftCompleted.commit();
             }
-
 
         }
 
     }
+
 }
+

@@ -4,6 +4,8 @@ import com.einsteiny.einsteiny.models.CourseCategory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -25,6 +27,10 @@ public class EinsteinyServerClient {
     //Initialize okhttp client, retrofit and nytimes service
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        builder.connectTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(2, TimeUnit.MINUTES);
 //        builder.addInterceptor(chain -> {
 //            Request original = chain.request();
 //            HttpUrl originalHttpUrl = original.url();
@@ -42,8 +48,8 @@ public class EinsteinyServerClient {
 //        });
 
         OkHttpClient client = builder.build();
+
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd:HH:mm.ss")
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

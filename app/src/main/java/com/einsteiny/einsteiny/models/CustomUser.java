@@ -14,13 +14,13 @@ import java.util.List;
 
 public class CustomUser implements Serializable {
 
-    public static final String COURSES_KEY = "subscribed_courses";
-    public static final String LESSONS_KEY = "completed_lessons";
+    public static final String SUBSCRIBED_COURSES_KEY = "subscribed_courses";
+    public static final String COMPLETED_COURSES_KEY = "completed_courses";
 
 
     public static void addSubscribedCourse(Course course) {
         ParseUser user = ParseUser.getCurrentUser();
-        List<String> courses = (List<String>) user.get(COURSES_KEY);
+        List<String> courses = (List<String>) user.get(SUBSCRIBED_COURSES_KEY);
         if (courses == null) {
             courses = new ArrayList<>();
         }
@@ -28,23 +28,38 @@ public class CustomUser implements Serializable {
             courses.add(course.getId());
         }
 
-        user.put(COURSES_KEY, courses);
+        user.put(SUBSCRIBED_COURSES_KEY, courses);
         user.saveInBackground();
     }
 
     public static List<String> getSubscribedCourses() {
         ParseUser user = ParseUser.getCurrentUser();
-        return (List<String>) user.get(COURSES_KEY);
+        return (List<String>) user.get(SUBSCRIBED_COURSES_KEY);
+    }
+
+    public static void addCompletedCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(COMPLETED_COURSES_KEY);
+        if (courses == null) {
+            courses = new ArrayList<>();
+        }
+        if (!courses.contains(course.getId())) {
+            courses.add(course.getId());
+        }
+
+        user.put(COMPLETED_COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
+    public static List<String> getCompletedCourses() {
+        ParseUser user = ParseUser.getCurrentUser();
+        return (List<String>) user.get(COMPLETED_COURSES_KEY);
     }
 
 
     public static ParseUser getUser() {
         return ParseUser.getCurrentUser();
     }
-
-
-    // todo - getter and setter for topics list
-    // todo - getter and setter for progress
 
     public static void setDefaults(Boolean hasDefaults) {
         ParseUser user = ParseUser.getCurrentUser();

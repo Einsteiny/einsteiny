@@ -31,6 +31,20 @@ public class AllCourses implements Serializable {
         all.addAll(scienceCourses.getCourses());
 
         return all;
+    }
 
+    public List<Course> getCoursesForIds(List<String> ids) {
+
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+        if (ids != null && !ids.isEmpty()) {
+            List<Course> courses = getAllCourses();
+            for (Course course : courses) {
+
+                if (ids.contains(course.getId())) {
+                    filteredCourses.add(course);
+                }
+            }
+        }
+        return filteredCourses;
     }
 }
