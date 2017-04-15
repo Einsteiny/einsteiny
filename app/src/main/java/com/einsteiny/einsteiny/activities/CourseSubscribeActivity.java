@@ -3,6 +3,7 @@ package com.einsteiny.einsteiny.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,18 @@ public class CourseSubscribeActivity extends AppCompatActivity {
             int displayWidth = getResources().getDisplayMetrics().widthPixels;
             Picasso.with(this).load(photoUrl).resize(displayWidth, 0).into(ivCourse);
         }
+
+        supportPostponeEnterTransition();
+        ivCourse.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        ivCourse.getViewTreeObserver().removeOnPreDrawListener(this);
+                        supportStartPostponedEnterTransition();
+                        return true;
+                    }
+                }
+        );
 
         btnSubscribe.setOnClickListener(v -> {
             CustomUser.addSubscribedCourse(course);
