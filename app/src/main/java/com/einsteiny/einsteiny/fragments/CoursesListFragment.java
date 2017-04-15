@@ -1,8 +1,11 @@
 package com.einsteiny.einsteiny.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
 
@@ -63,12 +67,27 @@ public class CoursesListFragment extends Fragment {
 
         courses = (ArrayList<Course>) getArguments().getSerializable(ARG_COURSES);
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
+        topicAdapter.setOnItemClickListener(new ExploreCourseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Course course = courses.get(position);
+                Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
+                intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, course);
+                Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
+                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), p1, p2);
+                getContext().startActivity(intent, options.toBundle());
+            }
+        });
 
         rvTopics.setAdapter(topicAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvTopics.setLayoutManager(layoutManager);
 
         tvTitle.setText(getArguments().getString(ARG_TITLE));
+
+
     }
 
 

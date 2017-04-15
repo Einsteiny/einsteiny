@@ -12,6 +12,7 @@
 
         <ImageView
             android:id="@+id/ivImage"
+            android:transitionName="courseImage"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -24,6 +25,7 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            android:transitionName="courseTitle"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"

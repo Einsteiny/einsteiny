@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Einsteiny</string>
     <string name="text_profile">Profile</string>
-    <string name="text_your_classes">Your Classes</string>
+    <string name="text_your_classes">Your Courses</string>
     <string name="text_explore">Explore</string>
 
     <!-- Please put your application's app ID and keys here -->
