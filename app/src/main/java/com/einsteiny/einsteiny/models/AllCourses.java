@@ -1,6 +1,8 @@
 package com.einsteiny.einsteiny.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tonya on 4/13/17.
@@ -19,5 +21,30 @@ public class AllCourses implements Serializable {
         this.computingCourses = computingCourses;
         this.economicsCourses = economicsCourses;
         this.scienceCourses = scienceCourses;
+    }
+
+    public List<Course> getAllCourses() {
+        List<Course> all = new ArrayList<>();
+        all.addAll(artCourses.getCourses());
+        all.addAll(economicsCourses.getCourses());
+        all.addAll(computingCourses.getCourses());
+        all.addAll(scienceCourses.getCourses());
+
+        return all;
+    }
+
+    public List<Course> getCoursesForIds(List<String> ids) {
+
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+        if (ids != null && !ids.isEmpty()) {
+            List<Course> courses = getAllCourses();
+            for (Course course : courses) {
+
+                if (ids.contains(course.getId())) {
+                    filteredCourses.add(course);
+                }
+            }
+        }
+        return filteredCourses;
     }
 }
