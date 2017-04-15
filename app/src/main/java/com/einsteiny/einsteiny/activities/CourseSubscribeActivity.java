@@ -60,6 +60,7 @@ public class CourseSubscribeActivity extends AppCompatActivity {
 
                         @Override
                         public void onError() {
+                            scheduleStartPostponedTransition(ivCourse);
                             Log.d("Debug", "onError: error loading course image");
                         }
                     });
