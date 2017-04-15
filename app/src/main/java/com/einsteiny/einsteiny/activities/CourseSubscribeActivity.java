@@ -64,6 +64,8 @@ public class CourseSubscribeActivity extends AppCompatActivity {
                             Log.d("Debug", "onError: error loading course image");
                         }
                     });
+        } else {
+            scheduleStartPostponedTransition(ivCourse);
         }
 
         btnSubscribe.setOnClickListener(v -> {
