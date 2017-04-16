@@ -1,5 +1,6 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.einsteiny.einsteiny.fragments.UserCourseFragment;
 import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
+import com.parse.ParseUser;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import io.fabric.sdk.android.Fabric;
@@ -26,7 +28,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class EinsteinyActivity extends AppCompatActivity {
+public class EinsteinyActivity extends AppCompatActivity implements ProfileFragment.OnLogoutClickListener {
+    @Override
+    public void profileLogout() {
+        ParseUser.logOut();
+        Intent i = new Intent(EinsteinyActivity.this, LoginActivity.class);
+        startActivity(i);
+    }
 
     private int tab;
 
@@ -83,7 +91,7 @@ public class EinsteinyActivity extends AppCompatActivity {
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
         final Fragment userCourse = UserCourseFragment.newInstance(courses);
-        final PreferenceFragmentCompat profile = new ProfileFragment();
+        final Fragment profile = new ProfileFragment();
 
         // set passed in tab as default
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
