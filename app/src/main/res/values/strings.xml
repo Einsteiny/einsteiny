@@ -33,4 +33,5 @@
     </string-array>
 
     <string name="subscribe">Subscribe</string>
+    <string name="profile_settings_button_label">Settings</string>
 </resources>
