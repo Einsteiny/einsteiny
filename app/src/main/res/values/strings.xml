@@ -7,12 +7,13 @@
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">einsteiny-client</string>
     <string name="parse_client_key">P8GP7VqmmLJrj7G90Gd149baRZsBo67Q</string>
+    <string name="facebook_app_id">315361398883382</string>
 
     <string name="profile_logo_content_description">Logo</string>
-    <string name="profile_title_logged_in">Your are logged in as</string>
+    <string name="profile_title_logged_in">You are logged in as</string>
     <string name="profile_logout_button_label">Log out</string>
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
-    <string name="profile_login_button_label">Log in</string>
+    <string name="profile_login_button_label">Log in with email</string>
     <string name="settings_title">Settings</string>
     <string name="reminder_days">Reminder Days</string>
     <string name="show_days">Tap to see current notification days</string>
