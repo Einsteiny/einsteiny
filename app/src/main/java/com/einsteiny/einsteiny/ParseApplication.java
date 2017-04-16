@@ -3,6 +3,7 @@ package com.einsteiny.einsteiny;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.interceptors.ParseLogInterceptor;
 
 /**
@@ -22,6 +23,8 @@ public class ParseApplication extends Application {
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("https://einsteiny.herokuapp.com/parse/").build());
+
+        ParseFacebookUtils.initialize(this);
 
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
