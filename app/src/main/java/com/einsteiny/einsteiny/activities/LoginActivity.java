@@ -3,17 +3,20 @@ package com.einsteiny.einsteiny.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.CustomUser;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
-import io.fabric.sdk.android.Fabric;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int LOGIN_REQUEST = 0;
@@ -22,23 +25,59 @@ public class LoginActivity extends AppCompatActivity {
     private TextView emailTextView;
     private TextView nameTextView;
     private Button loginOrLogoutButton;
+    private Button fbButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_login);
         titleTextView = (TextView) findViewById(R.id.profile_title);
         emailTextView = (TextView) findViewById(R.id.profile_email);
         nameTextView = (TextView) findViewById(R.id.profile_name);
         loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
-        titleTextView.setText(R.string.profile_title_logged_in);
+        fbButton = (Button) findViewById(R.id.btnFacebook);
+
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ParseUser.getCurrentUser() != null) {
+                    // User Clicked Log out Facebook
+                    ParseUser.logOut();
+                    showProfileLoggedOut();
+                } else {
+                    ArrayList<String> permissions = new ArrayList();
+                    permissions.add("email");
+                    permissions.add("public_profile");
+                    ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions,
+                            new LogInCallback() {
+                                @Override
+                                public void done(ParseUser user, ParseException err) {
+                                    if (err != null) {
+                                        Log.d("Einsteiny", "Uh oh. Error occurred" + err.toString());
+                                        showProfileLoggedOut();
+                                    } else if (user == null) {
+                                        Log.d("Einsteiny", "Uh oh. The user cancelled the Facebook login.");
+                                        showProfileLoggedOut();
+                                    } else if (user.isNew()) {
+                                        Log.d("Einsteiny", "User signed up and logged in through Facebook!");
+                                        showProfileLoggedIn();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT)
+                                                .show();
+                                        Log.d("Einsteiny", "User logged in through Facebook!");
+                                        showProfileLoggedIn();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
 
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CustomUser.getUser() != null) {
+                if (ParseUser.getCurrentUser() != null) {
                     // User clicked to log out.
                     ParseUser.logOut();
                     showProfileLoggedOut();
@@ -53,49 +92,54 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+        // Login successful -- go to Einsteiny
+        Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+        startActivity(i);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-
-        if (CustomUser.getUser() != null) {
-            Intent i = new Intent(this, EinsteinyActivity.class);
-            //i.putExtra("user", customUser);
-            //TODO CURRENT USER GET DEFAULTS
-//            currentUser.get("defaults");
-            if (CustomUser.getDefaults()) {
-                // user is new, go to profile settings to set defaults
-                i.putExtra("tab", 2);
-            } else {
-                // user is not new, go to EinsteinyActivity
-                i.putExtra("tab", 0);
-            }
+        if (ParseUser.getCurrentUser() != null) {
+            Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
             startActivity(i);
-        } else {
-            showProfileLoggedOut();
         }
     }
 
     /**
      * Shows the profile of the given user.
      */
-//    private void showProfileLoggedIn() {
-//        titleTextView.setText(R.string.profile_title_logged_in);
-//        emailTextView.setText(currentUser.getEmail());
-//        String fullName = currentUser.getString("name");
-//        if (fullName != null) {
-//            nameTextView.setText(fullName);
-//        }
-//        loginOrLogoutButton.setText(R.string.profile_logout_button_label);
-//    }
+    private void showProfileLoggedIn() {
+        titleTextView.setText(R.string.profile_title_logged_in);
+        if (ParseUser.getCurrentUser().getEmail() != null){
+            emailTextView.setText(ParseUser.getCurrentUser().getEmail());
+        }
+        if (ParseUser.getCurrentUser().has("name")) {
+            String fullName = ParseUser.getCurrentUser().getString("name");
+            if (fullName != null) {
+                nameTextView.setText(fullName);
+            }
+        } else {
+            // get the info from Facebook
+        }
+        fbButton.setText(R.string.com_facebook_loginview_log_out_action);
+        loginOrLogoutButton.setText(R.string.profile_logout_button_label);
+    }
 
     /**
      * Show a message asking the user to log in, toggle login/logout button text.
      */
     private void showProfileLoggedOut() {
-        titleTextView.setText(R.string.profile_title_logged_out);
+        titleTextView.setText("");
         emailTextView.setText("");
         nameTextView.setText("");
+        fbButton.setText(R.string.com_parse_ui_facebook_login_button_label);
         loginOrLogoutButton.setText(R.string.profile_login_button_label);
     }
+
 }
 
 
