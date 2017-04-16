@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -87,10 +88,25 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Course course = courses.get(position);
-
-        holder.tvDescription.setText(course.getDescription());
         holder.tvTitle.setText(course.getTitle());
-        Picasso.with(context).load(course.getPhotoUrl()).into(holder.ivImage);
+
+        String photoUrl = course.getPhotoUrl();
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().into(holder.ivImage,
+                    new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.tvDescription.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            holder.tvDescription.setText(course.getDescription());
+                        }
+                    });
+        } else {
+            holder.tvDescription.setText(course.getDescription());
+        }
     }
 
     @Override
