@@ -129,30 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         fbButton.setText(R.string.com_parse_ui_facebook_login_button_label);
         loginOrLogoutButton.setText(R.string.profile_login_button_label);
     }
-
-
-//    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
-//        }
-//    };
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(EinsteinyBroadcastReceiver.intentAction));
-//    }
-
+    
 }
 
 
