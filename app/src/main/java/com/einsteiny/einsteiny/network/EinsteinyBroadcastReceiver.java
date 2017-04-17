@@ -42,25 +42,17 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                     if (key.equals("course")) {
                         String videoUrl = value;
 
-//                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(
-//                                R.drawable.ic_classes).setContentTitle("Notification: " + courseId).setContentText("Pushed!");
-//                        NotificationManager mNotificationManager = (NotificationManager) context
-//                                .getSystemService(Context.NOTIFICATION_SERVICE);
-//                        mNotificationManager.notify(45, mBuilder.build());
-
                         Intent intentActivity = new Intent(context, PlayYoutubeActivity.class);
                         intentActivity.putExtra(PlayYoutubeActivity.EXTRA_LESSON, videoUrl);
-                        intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
                         int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
-                        int flags = PendingIntent.FLAG_UPDATE_CURRENT; // cancel old intent and create new one
-                        PendingIntent pIntent = PendingIntent.getActivity(context.getApplicationContext(), requestID, intentActivity, flags);
+                        PendingIntent pIntent = PendingIntent.getActivity(context.getApplicationContext(), requestID, intentActivity, 0);
 // Now we can attach the pendingIntent to a new notification using setContentIntent
                         Notification noti = new NotificationCompat.Builder(context.getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_explore)
-                                .setContentTitle("My notification")
-                                .setContentText("Hello World!")
+                                .setContentTitle("Hello clever!")
+                                .setContentText("Time to watch new video...")
                                 .setContentIntent(pIntent)
                                 .setAutoCancel(true) // Hides the notification after its been selected
                                 .build();
@@ -68,7 +60,7 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
-                        mNotificationManager.notify(0, noti);
+                        mNotificationManager.notify(requestID, noti);
                     }
                 }
             } catch (JSONException ex) {
