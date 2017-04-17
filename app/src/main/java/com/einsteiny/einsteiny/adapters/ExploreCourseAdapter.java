@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdapter.ViewHolder> {
 
     private OnItemClickListener listener;
+
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
@@ -49,14 +50,11 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(itemView, position);
-                        }
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(itemView, position);
                     }
                 }
             });

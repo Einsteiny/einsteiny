@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.einsteiny.einsteiny.R;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
@@ -38,58 +35,49 @@ public class LoginActivity extends AppCompatActivity {
         loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
         fbButton = (Button) findViewById(R.id.btnFacebook);
 
-        fbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ParseUser.getCurrentUser() != null) {
-                    // User Clicked Log out Facebook
-                    ParseUser.logOut();
-                    showProfileLoggedOut();
-                } else {
-                    ArrayList<String> permissions = new ArrayList();
-                    permissions.add("email");
-                    permissions.add("public_profile");
-                    ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions,
-                            new LogInCallback() {
-                                @Override
-                                public void done(ParseUser user, ParseException err) {
-                                    if (err != null) {
-                                        Log.d("Einsteiny", "Uh oh. Error occurred" + err.toString());
-                                        showProfileLoggedOut();
-                                    } else if (user == null) {
-                                        Log.d("Einsteiny", "Uh oh. The user cancelled the Facebook login.");
-                                        showProfileLoggedOut();
-                                    } else if (user.isNew()) {
-                                        Log.d("Einsteiny", "User signed up and logged in through Facebook!");
-                                        showProfileLoggedIn();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT)
-                                                .show();
-                                        Log.d("Einsteiny", "User logged in through Facebook!");
-                                        showProfileLoggedIn();
-                                    }
-                                }
-                            });
-                }
+        fbButton.setOnClickListener(v -> {
+            if (ParseUser.getCurrentUser() != null) {
+                // User Clicked Log out Facebook
+                ParseUser.logOut();
+                showProfileLoggedOut();
+            } else {
+                ArrayList<String> permissions = new ArrayList();
+                permissions.add("email");
+                permissions.add("public_profile");
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions,
+                        (user, err) -> {
+                            if (err != null) {
+                                Log.d("Einsteiny", "Uh oh. Error occurred" + err.toString());
+                                showProfileLoggedOut();
+                            } else if (user == null) {
+                                Log.d("Einsteiny", "Uh oh. The user cancelled the Facebook login.");
+                                showProfileLoggedOut();
+                            } else if (user.isNew()) {
+                                Log.d("Einsteiny", "User signed up and logged in through Facebook!");
+                                showProfileLoggedIn();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT)
+                                        .show();
+                                Log.d("Einsteiny", "User logged in through Facebook!");
+                                showProfileLoggedIn();
+                            }
+                        });
             }
         });
 
 
-        loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ParseUser.getCurrentUser() != null) {
-                    // User clicked to log out.
-                    ParseUser.logOut();
-                    showProfileLoggedOut();
-                } else {
-                    // User clicked to log in.
-                    ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
-                            LoginActivity.this);
-                    startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
-                }
-
+        loginOrLogoutButton.setOnClickListener(v -> {
+            if (ParseUser.getCurrentUser() != null) {
+                // User clicked to log out.
+                ParseUser.logOut();
+                showProfileLoggedOut();
+            } else {
+                // User clicked to log in.
+                ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
+                        LoginActivity.this);
+                startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
             }
+
         });
     }
 
