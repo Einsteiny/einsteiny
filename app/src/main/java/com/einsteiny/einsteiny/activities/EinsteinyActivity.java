@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
@@ -45,6 +47,17 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
     private Subscription subscription;
 
     private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
+
+    private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        registerReceiver(receiver, intentFilter);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,6 +202,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+
+        unregisterReceiver(receiver);
     }
 
     @Override

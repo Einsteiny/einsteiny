@@ -27,9 +27,6 @@ public class PlayYoutubeActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_play_youtube);
         ButterKnife.bind(this);
 
-//        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
-//        registerReceiver(new EinsteinyBroadcastReceiver(), intentFilter);
-
         String videoUrl = getIntent().getStringExtra(EXTRA_LESSON);
 
         youTubePlayerView.initialize(YT_API_KEY,
