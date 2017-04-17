@@ -14,10 +14,13 @@ import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
@@ -26,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
 
@@ -118,8 +122,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 
-        if (ParseUser.getCurrentUser().isNew()) {
-
+        if (getCurrentUser() != null) {
+            // Login successful -- go to EinsteinyActivity
+            Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+            startActivity(i);
+        } else {
             GraphRequest request = GraphRequest.newMeRequest(
                     AccessToken.getCurrentAccessToken(),
                     new GraphRequest.GraphJSONObjectCallback() {
@@ -134,20 +141,21 @@ public class LoginActivity extends AppCompatActivity {
                                 email = response.getJSONObject().getString("email");
                                 profilePic = response.getJSONObject().getJSONObject("cover").getString("source");
 
-                                ParseUser user = ParseUser.getCurrentUser();
+                                // TODO Check if email already in ParseUser db
+                                ParseUser user = new ParseUser();
                                 user.put("fbID", fbId);
                                 user.put("name", fbName);
                                 user.put("email", email);
                                 user.put("profilePic", profilePic);
                                 user.saveInBackground();
 
+                                // Login successful -- go to EinsteinyActivity
+                                Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+                                startActivity(i);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
-                            // Login successful -- go to EinsteinyActivity
-                            Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
-                            startActivity(i);
                         }
                     });
             Bundle parameters = new Bundle();

@@ -45,7 +45,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rlUserPreferences"
+        android:id="@+id/rlNotificationPreference"
         android:layout_below="@+id/rlUserHeader">
         
         <Space
@@ -71,7 +71,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:checked="true"/>
+            android:checked="true"
+            android:id="@+id/tglNotifications"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlPushTimePreference"
+            android:layout_below="@+id/rlNotificationPreference">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Push Time"
+            android:textSize="20sp"
+            android:id="@+id/lblPushTime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblPushTimeCurrentSetting"
+            android:text="10am"
+            android:layout_below="@id/lblPushTime"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btnPushTime"
+            android:onClick="setPushTime"
+            android:text="Set"/>
 
 
     </RelativeLayout>
