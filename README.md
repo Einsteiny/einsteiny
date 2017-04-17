@@ -27,7 +27,7 @@ Extended
 
 Walkthrough of Sprint 2:
 
-<img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/einsteiny_sprint2.gif' title='Wireframes Walkthrough' width='' alt='Wireframes Walkthrough' />
+<img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/einsteiny.gif' title='Wireframes Walkthrough' width='' alt='Wireframes Walkthrough' />
 
 
 Here's a walkthrough of wireframes for the MVP:
