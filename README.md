@@ -15,7 +15,7 @@ Core:
 * [x] Spinner for progress/network load to give proper user feedback
 
 Extended
-* [x] Can use Facebook/Twitter/Google for account creation/login
+* [x] Can use Facebook for account creation/login
 * [ ] User can see their progress in each category of study on the profile page as well as badges for in-app achievements
 * [ ] User can set the time for push notifications
 * [ ] User can mark a lesson "complete"
