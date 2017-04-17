@@ -1,16 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvProfileTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnProfileLogout"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:id="@+id/rlUserHeader">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/tvProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Name"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/tvSubscribed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 Active Courses" />
+
+
+        <Button
+            android:id="@+id/btnProfileLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="170dp"
+            android:text="@string/profile_logout_button_label" />
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profile_logout_button_label" />
-</LinearLayout>
+        android:id="@+id/rlUserPreferences"
+        android:layout_below="@+id/rlUserHeader">
+        
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textSize="20sp"
+            android:id="@+id/lblNotifications"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblNotificationsCurrentSetting"
+            android:text="on"
+            android:layout_below="@id/lblNotifications"
+            />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:checked="true"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
