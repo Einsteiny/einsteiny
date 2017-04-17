@@ -45,27 +45,6 @@ public class Course implements Serializable {
         return lessons;
     }
 
-//    public Course(JSONObject jsonObject) throws JSONException {
-//        id = jsonObject.getString("id");
-//        title = jsonObject.getString("title");
-//        description = jsonObject.getString("description");
-//        photoUrl = jsonObject.optString("photo_url");
-//        lessons = Lesson.fromJsonArray(jsonObject.getJSONArray("lessons"));
-//    }
-
-//    public static ArrayList<Course> fromJSONArray(JSONArray array) {
-//        ArrayList<Course> courses = new ArrayList<>();
-//
-//        for (int i = 0; i < array.length(); i++) {
-//            try {
-//                courses.add(new Course(array.getJSONObject(i)));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return courses;
-//    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,15 +1,20 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.CustomUser;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -35,19 +40,16 @@ public class LoginActivity extends AppCompatActivity {
         loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
         titleTextView.setText(R.string.profile_title_logged_in);
 
-        loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (CustomUser.getUser() != null) {
-                    // User clicked to log out.
-                    ParseUser.logOut();
-                    showProfileLoggedOut();
-                } else {
-                    // User clicked to log in.
-                    ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
-                            LoginActivity.this);
-                    startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
-                }
+        loginOrLogoutButton.setOnClickListener(v -> {
+            if (CustomUser.getUser() != null) {
+                // User clicked to log out.
+                ParseUser.logOut();
+                showProfileLoggedOut();
+            } else {
+                // User clicked to log in.
+                ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
+                        LoginActivity.this);
+                startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
             }
         });
     }
@@ -95,6 +97,28 @@ public class LoginActivity extends AppCompatActivity {
         emailTextView.setText("");
         nameTextView.setText("");
         loginOrLogoutButton.setText(R.string.profile_login_button_label);
+    }
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(EinsteinyBroadcastReceiver.intentAction));
     }
 }
 

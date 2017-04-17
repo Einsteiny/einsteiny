@@ -78,15 +78,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Intent i = new Intent(context, PlayYoutubeActivity.class);
-                    Lesson lesson = lessons.get(position);
-                    i.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson);
-                    context.startActivity(i);
-                }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                Intent i = new Intent(context, PlayYoutubeActivity.class);
+                Lesson lesson = lessons.get(position);
+                i.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson.getVideoUrl());
+                context.startActivity(i);
             });
 
         }

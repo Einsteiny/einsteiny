@@ -10,7 +10,15 @@ import android.widget.TextView;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
+import com.einsteiny.einsteiny.models.Lesson;
+import com.parse.ParseCloud;
+import com.parse.ParseInstallation;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,10 +62,32 @@ public class CourseSubscribeActivity extends AppCompatActivity {
 
             Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
             i.putExtra(CourseActivity.EXTRA_COURSE, course);
+
+            for (Lesson lesson : course.getLessons()) {
+                sendParseNotification(lesson.getVideoUrl());
+            }
+
+
             startActivity(i);
 
         });
 
 
+    }
+
+    private void sendParseNotification(String videoUrl) {
+        JSONObject payload = new JSONObject();
+
+        try {
+            payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
+            payload.put("course", videoUrl);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("customData", payload.toString());
+
+        ParseCloud.callFunctionInBackground("subscribe", data);
     }
 }
