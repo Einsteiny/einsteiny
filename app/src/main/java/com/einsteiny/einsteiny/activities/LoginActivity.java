@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,40 +118,43 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject jsonObject, GraphResponse response) {
-                        Log.d(LOG_TAG,"onCompleted jsonObject: "+jsonObject);
-                        Log.d(LOG_TAG,"onCompleted response: "+response);
-                        // Save Facebook user info to ParseUser
-                        try {
-                            fbId = (String) response.getJSONObject().get("id");
-                            fbName = response.getJSONObject().getString("name");
-                            email = response.getJSONObject().getString("email");
-                            profilePic = response.getJSONObject().getJSONObject("cover").getString("source");
+        if (ParseUser.getCurrentUser().isNew()) {
 
-                            ParseUser user = ParseUser.getCurrentUser();
-                            user.put("fbID", fbId);
-                            user.put("name", fbName);
-                            user.put("email", email);
-                            user.put("profilePic", profilePic);
-                            user.saveInBackground();
+            GraphRequest request = GraphRequest.newMeRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject jsonObject, GraphResponse response) {
+                            Log.d(LOG_TAG, "onCompleted jsonObject: " + jsonObject);
+                            Log.d(LOG_TAG, "onCompleted response: " + response);
+                            // Save Facebook user info to ParseUser
+                            try {
+                                fbId = (String) response.getJSONObject().get("id");
+                                fbName = response.getJSONObject().getString("name");
+                                email = response.getJSONObject().getString("email");
+                                profilePic = response.getJSONObject().getJSONObject("cover").getString("source");
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                ParseUser user = ParseUser.getCurrentUser();
+                                user.put("fbID", fbId);
+                                user.put("name", fbName);
+                                user.put("email", email);
+                                user.put("profilePic", profilePic);
+                                user.saveInBackground();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Login successful -- go to EinsteinyActivity
+                            Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+                            startActivity(i);
                         }
-
-                        // Login successful -- go to EinsteinyActivity
-                        Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
-                        startActivity(i);
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,link,cover,email");
-        request.setParameters(parameters);
-        request.executeAsync();
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,link,cover,email");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
 
     }
 
