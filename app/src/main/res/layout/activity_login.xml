@@ -48,7 +48,7 @@
             style="@style/ParseLoginUI.TextView" />
 
         <Button
-            android:background="@color/com_facebook_blue"
+            android:background="@drawable/facebook_login_background"
             style="@style/ParseLoginUI.Button.ThirdPartyLogin"
             android:text="@string/com_parse_ui_facebook_login_button_label"
             android:id="@+id/btnFacebook"
@@ -60,7 +60,8 @@
         <Button
             android:id="@+id/login_or_logout_button"
             style="@style/ParseLoginUI.Button"
-            android:background="@color/com_parse_ui_twitter_login_button"
+            android:background="@drawable/email_login_background"
+            android:drawableLeft="@drawable/ic_mail_outline_white_24px"
             android:layout_marginTop="@dimen/com_parse_ui_large_vertical_spacing"
             android:text="@string/profile_login_button_label"
             android:layout_width="250dp"
