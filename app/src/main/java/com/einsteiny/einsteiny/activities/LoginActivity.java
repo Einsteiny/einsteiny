@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -75,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             LoginActivity.this);
                     startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
                 }
+
             }
         });
     }
@@ -115,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void showProfileLoggedIn() {
         titleTextView.setText(R.string.profile_title_logged_in);
-        if (ParseUser.getCurrentUser().getEmail() != null){
+        if (ParseUser.getCurrentUser().getEmail() != null) {
             emailTextView.setText(ParseUser.getCurrentUser().getEmail());
         }
         if (ParseUser.getCurrentUser().has("name")) {
@@ -140,6 +141,29 @@ public class LoginActivity extends AppCompatActivity {
         fbButton.setText(R.string.com_parse_ui_facebook_login_button_label);
         loginOrLogoutButton.setText(R.string.profile_login_button_label);
     }
+
+
+//    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
+//        }
+//    };
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(EinsteinyBroadcastReceiver.intentAction));
+//    }
 
 }
 

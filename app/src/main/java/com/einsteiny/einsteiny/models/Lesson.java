@@ -28,7 +28,10 @@ public class Lesson implements Serializable {
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        String[] parts = videoUrl.split("/");
+        String video = parts[parts.length - 1];
+        String videoId = video.substring(0, video.indexOf('.'));
+        return videoId;
     }
 
     public String getTitle() {

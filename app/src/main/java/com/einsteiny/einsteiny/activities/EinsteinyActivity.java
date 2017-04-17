@@ -18,7 +18,6 @@ import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
@@ -26,8 +25,6 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
 public class EinsteinyActivity extends AppCompatActivity implements ProfileFragment.OnLogoutClickListener {
@@ -86,7 +83,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = new UserCourseFragment();
+        final Fragment userCourse = UserCourseFragment.newInstance(courses);
         final Fragment profile = new ProfileFragment();
 
         // set passed in tab as default
