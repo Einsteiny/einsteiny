@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -12,13 +13,24 @@ import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.einsteiny.einsteiny.fragments.UserCourseFragment;
 import com.einsteiny.einsteiny.models.AllCourses;
+import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
+import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
+import com.raizlabs.android.dbflow.config.DatabaseDefinition;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
+import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
@@ -33,6 +45,19 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
     private int tab;
 
     private Subscription subscription;
+
+    private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
+
+    private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        registerReceiver(receiver, intentFilter);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +95,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                     @Override
                     public void onNext(AllCourses dataAndEvents) {
                         if (dataAndEvents != null) {
-                            // After completing http call
-                            // will close this activity and lauch main activity
+                            saveDB(dataAndEvents);
                             setBottomNavigationBar(tab, dataAndEvents);
                             pb.setVisibility(ProgressBar.INVISIBLE);
 
@@ -79,6 +103,41 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
                     }
                 });
+    }
+
+    private void saveDB(AllCourses allData) {
+        List<Course> courses = allData.getAllCourses();
+        //saving courses
+        FastStoreModelTransaction<Course> fsmt = FastStoreModelTransaction
+                .saveBuilder(FlowManager.getModelAdapter(Course.class))
+                .addAll(courses)
+                .build();
+
+        Transaction transaction = database.beginTransactionAsync(fsmt)
+                .success(transactionSuccess -> {
+                    // This runs on UI thread
+
+                }).error((transactionError, error) -> Log.e("ServiceError", error.getMessage())).build();
+        transaction.execute();
+
+        //saving lessons
+        List<Lesson> lessons = new ArrayList<>();
+        for (Course course : courses) {
+            lessons.addAll(course.getLessons());
+        }
+
+        FastStoreModelTransaction<Lesson> fsmtLessons = FastStoreModelTransaction
+                .saveBuilder(FlowManager.getModelAdapter(Lesson.class))
+                .addAll(lessons)
+                .build();
+
+        Transaction transactionLessons = database.beginTransactionAsync(fsmtLessons)
+                .success(transactionSuccess -> {
+                    // This runs on UI thread
+
+                }).error((transactionError, error) -> Log.e("ServiceError", error.getMessage())).build();
+        transactionLessons.execute();
+
 
     }
 
@@ -143,6 +202,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+
+        unregisterReceiver(receiver);
     }
 
     @Override

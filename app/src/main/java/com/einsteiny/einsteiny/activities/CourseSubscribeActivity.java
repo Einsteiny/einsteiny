@@ -13,13 +13,10 @@ import android.widget.TextView;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
-
 import com.einsteiny.einsteiny.models.Lesson;
 import com.parse.ParseCloud;
 import com.parse.ParseInstallation;
-
 import com.squareup.picasso.Callback;
-
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -80,15 +77,15 @@ public class CourseSubscribeActivity extends AppCompatActivity {
         }
 
         btnSubscribe.setOnClickListener(v -> {
+            CustomUser.unsubscribeCourse(course);
             CustomUser.addSubscribedCourse(course);
 
             Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
             i.putExtra(CourseActivity.EXTRA_COURSE, course);
 
             for (Lesson lesson : course.getLessons()) {
-                sendParseNotification(lesson.getVideoUrl());
+                sendParseNotification(course.getId());
             }
-
 
             startActivity(i);
 
@@ -107,12 +104,12 @@ public class CourseSubscribeActivity extends AppCompatActivity {
                 });
     }
 
-    private void sendParseNotification(String videoUrl) {
+    private void sendParseNotification(String courseId) {
         JSONObject payload = new JSONObject();
 
         try {
             payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
-            payload.put("course", videoUrl);
+            payload.put("course", courseId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
