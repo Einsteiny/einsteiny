@@ -1,20 +1,39 @@
 package com.einsteiny.einsteiny.models;
 
+import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.Serializable;
 
+@Table(database = CourseDatabase.class)
+public class Lesson extends BaseModel implements Serializable {
 
-public class Lesson implements Serializable {
+    @Column
+    @PrimaryKey
+    @SerializedName("id")
+    String id;
+
+    @Column
+    @SerializedName("courseId")
+    String courseId;
+
+    @Column
     @SerializedName("description")
     String description;
 
+    @Column
     @SerializedName("title")
     String title;
 
+    @Column
     @SerializedName("image_url")
     String imageUrl;
 
+    @Column
     @SerializedName("video_url")
     String videoUrl;
 
@@ -32,6 +51,10 @@ public class Lesson implements Serializable {
         String video = parts[parts.length - 1];
         String videoId = video.substring(0, video.indexOf('.'));
         return videoId;
+    }
+
+    public String getCourseId() {
+        return courseId;
     }
 
     public String getTitle() {

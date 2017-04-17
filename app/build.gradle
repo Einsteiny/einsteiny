@@ -49,6 +49,8 @@ android {
 
 }
 
+def dbflow_version = "4.0.0-beta5"
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -90,4 +92,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 }

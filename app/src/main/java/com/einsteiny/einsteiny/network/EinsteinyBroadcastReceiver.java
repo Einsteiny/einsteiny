@@ -11,6 +11,9 @@ import android.util.Log;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
+import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.Course_Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +43,13 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                     Log.d(TAG, "..." + key + " => " + value);
                     // Extract custom push data
                     if (key.equals("course")) {
-                        String videoUrl = value;
+                        String courseId = value;
+
+                        Course course = SQLite.select().
+                                from(Course.class).where(Course_Table.id.is(courseId)).querySingle();
 
                         Intent intentActivity = new Intent(context, PlayYoutubeActivity.class);
-                        intentActivity.putExtra(PlayYoutubeActivity.EXTRA_LESSON, videoUrl);
+                        intentActivity.putExtra(PlayYoutubeActivity.EXTRA_LESSON, "");
 
 
                         int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
