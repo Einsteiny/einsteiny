@@ -1,9 +1,11 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,17 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.fragments.ProfileFragment;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.parse.FindCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -32,10 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
-import static com.parse.ParseUser.registerAuthenticationCallback;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int LOGIN_REQUEST = 0;
@@ -51,6 +47,28 @@ public class LoginActivity extends AppCompatActivity {
     private TextView nameTextView;
     private Button loginOrLogoutButton;
     private Button fbButton;
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(EinsteinyBroadcastReceiver.intentAction));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,28 +247,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-//    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
-//        }
-//    };
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(EinsteinyBroadcastReceiver.intentAction));
-//    }
-
+    
 }
 
 
