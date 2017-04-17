@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
@@ -38,6 +39,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_einsteiny);
+        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
         tab = getIntent().getIntExtra("tab", 0);
 
         Observable<CourseCategory> artCoursesObs = EinsteinyServerClient.getInstance().getArtsCourses();
@@ -70,6 +73,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                             // After completing http call
                             // will close this activity and lauch main activity
                             setBottomNavigationBar(tab, dataAndEvents);
+                            pb.setVisibility(ProgressBar.INVISIBLE);
 
                         }
 

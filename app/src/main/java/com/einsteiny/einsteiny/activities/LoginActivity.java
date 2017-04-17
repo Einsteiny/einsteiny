@@ -1,9 +1,12 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,20 +16,26 @@ import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.parse.ui.ParseLoginBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
+import static com.parse.ParseUser.registerAuthenticationCallback;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int LOGIN_REQUEST = 0;
@@ -78,13 +87,66 @@ public class LoginActivity extends AppCompatActivity {
                                         showProfileLoggedOut();
                                     } else if (user.isNew()) {
                                         Log.d(LOG_TAG, "User signed up and logged in through Facebook!");
-                                        // TODO register new user
-                                        showProfileLoggedIn();
+                                        // register new user
+                                        user.signUpInBackground(new SignUpCallback() {
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    // Login successful -- go to EinsteinyActivity
+                                                    showProfileLoggedIn();
+                                                } else {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+
                                     } else {
                                         Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT)
                                                 .show();
                                         Log.d(LOG_TAG, "User logged in through Facebook!");
-                                        showProfileLoggedIn();
+                                        GraphRequest request = GraphRequest.newMeRequest(
+                                                AccessToken.getCurrentAccessToken(),
+                                                new GraphRequest.GraphJSONObjectCallback() {
+                                                    @Override
+                                                    public void onCompleted(JSONObject jsonObject, GraphResponse response) {
+                                                        Log.d(LOG_TAG, "onCompleted jsonObject: " + jsonObject);
+                                                        Log.d(LOG_TAG, "onCompleted response: " + response);
+                                                        // Save Facebook user info to ParseUser
+                                                        try {
+                                                            fbId = (String) response.getJSONObject().get("id");
+                                                            fbName = response.getJSONObject().getString("name");
+                                                            email = response.getJSONObject().getString("email");
+                                                            profilePic = response.getJSONObject().getJSONObject("cover").getString("source");
+
+                                                            // TODO Check if email already in ParseUser db
+                                                            user.put("fbID", fbId);
+                                                            user.put("name", fbName);
+                                                            user.put("email", email);
+                                                            user.put("profilePic", profilePic);
+                                                            user.saveInBackground(new SaveCallback() {
+                                                                public void done(ParseException e) {
+                                                                    if (e == null) {
+                                                                        // Login successful -- go to EinsteinyActivity
+                                                                        Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+                                                                        startActivity(i);
+                                                                    } else {
+                                                                        // TODO -- handle when email already exists
+                                                                        Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+                                                                        startActivity(i);
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            });
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+                                        Bundle parameters = new Bundle();
+                                        parameters.putString("fields", "id,name,link,cover,email");
+                                        request.setParameters(parameters);
+                                        request.executeAsync();
+                                        //showProfileLoggedIn();
                                     }
                                 }
                             });
@@ -117,40 +179,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject jsonObject, GraphResponse response) {
-                        Log.d(LOG_TAG,"onCompleted jsonObject: "+jsonObject);
-                        Log.d(LOG_TAG,"onCompleted response: "+response);
-                        // Save Facebook user info to ParseUser
-                        try {
-                            fbId = (String) response.getJSONObject().get("id");
-                            fbName = response.getJSONObject().getString("name");
-                            email = response.getJSONObject().getString("email");
-                            profilePic = response.getJSONObject().getJSONObject("cover").getString("source");
-
-                            ParseUser user = ParseUser.getCurrentUser();
-                            user.put("fbID", fbId);
-                            user.put("name", fbName);
-                            user.put("email", email);
-                            user.put("profilePic", profilePic);
-                            user.saveInBackground();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        // Login successful -- go to EinsteinyActivity
-                        Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
-                        startActivity(i);
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,link,cover,email");
-        request.setParameters(parameters);
-        request.executeAsync();
+        if (getCurrentUser() != null) {
+            // Login successful -- go to EinsteinyActivity
+            Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
+            startActivity(i);
+        }
 
     }
 
