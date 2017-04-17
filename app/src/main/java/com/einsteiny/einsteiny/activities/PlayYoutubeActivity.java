@@ -1,10 +1,11 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -28,7 +29,10 @@ public class PlayYoutubeActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_play_youtube);
         ButterKnife.bind(this);
 
-        Lesson lesson = (Lesson) getIntent().getSerializableExtra(EXTRA_LESSON);
+        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        registerReceiver(new EinsteinyBroadcastReceiver(), intentFilter);
+
+        String videoUrl = getIntent().getStringExtra(EXTRA_LESSON);
 
         youTubePlayerView.initialize(YT_API_KEY,
                 new YouTubePlayer.OnInitializedListener() {
@@ -41,17 +45,9 @@ public class PlayYoutubeActivity extends YouTubeBaseActivity {
                             public void run() {
                                 //Handle UI here
                                 youTubePlayer.setFullscreen(true);
-                                String[] parts = lesson.getVideoUrl().split("/");
-                                String video = parts[parts.length - 1];
-                                String videoId = video.substring(0, video.indexOf('.'));
-                                youTubePlayer.loadVideo(videoId);
+                                youTubePlayer.loadVideo(videoUrl);
                             }
                         });
-
-
-                        String url = String.format(" https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed",
-                                getIntent().getIntExtra("movieId", 0));
-
 
                     }
 

@@ -87,7 +87,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = new UserCourseFragment();
+        final Fragment userCourse = UserCourseFragment.newInstance(courses);
         final Fragment profile = new ProfileFragment();
 
         // set passed in tab as default
