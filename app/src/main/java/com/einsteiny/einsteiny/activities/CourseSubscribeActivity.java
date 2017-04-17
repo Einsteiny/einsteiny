@@ -87,7 +87,6 @@ public class CourseSubscribeActivity extends AppCompatActivity {
                 sendParseNotification(course.getId());
             }
 
-
             startActivity(i);
 
         });
