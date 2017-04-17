@@ -77,6 +77,7 @@ public class CourseSubscribeActivity extends AppCompatActivity {
         }
 
         btnSubscribe.setOnClickListener(v -> {
+            CustomUser.unsubscribeCourse(course);
             CustomUser.addSubscribedCourse(course);
 
             Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);

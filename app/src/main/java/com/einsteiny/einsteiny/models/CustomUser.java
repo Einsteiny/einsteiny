@@ -34,6 +34,21 @@ public class CustomUser implements Serializable {
         user.saveInBackground();
     }
 
+    public static void unsubscribeCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(SUBSCRIBED_COURSES_KEY);
+        if (courses == null) {
+            courses = new ArrayList<>();
+        } else {
+            courses.remove(course.getId());
+        }
+
+        resetProgressForCourse(course.getId());
+
+        user.put(SUBSCRIBED_COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
     public static void addProgressForCourse(String courseId) {
         ParseUser user = ParseUser.getCurrentUser();
         HashMap<String, Integer> progress = (HashMap<String, Integer>) user.get(PROGRESS_FOR_COURSE);
@@ -50,6 +65,22 @@ public class CustomUser implements Serializable {
 
         user.put(PROGRESS_FOR_COURSE, progress);
         user.saveInBackground();
+    }
+
+    public static void resetProgressForCourse(String courseId) {
+        ParseUser user = ParseUser.getCurrentUser();
+
+        HashMap<String, Integer> progress = (HashMap<String, Integer>) user.get(PROGRESS_FOR_COURSE);
+        if (progress == null) {
+            progress = new HashMap<>();
+        }
+
+        progress.remove(courseId);
+        progress.put(courseId, 0);
+
+        user.put(PROGRESS_FOR_COURSE, progress);
+        user.saveInBackground();
+
     }
 
     public static int getProgressForCourse(String courseId) {
