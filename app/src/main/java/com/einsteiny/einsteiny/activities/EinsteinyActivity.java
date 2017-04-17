@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
@@ -18,7 +19,6 @@ import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
@@ -26,8 +26,6 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
 public class EinsteinyActivity extends AppCompatActivity implements ProfileFragment.OnLogoutClickListener {
@@ -41,6 +39,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_einsteiny);
+        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
         tab = getIntent().getIntExtra("tab", 0);
 
         Observable<CourseCategory> artCoursesObs = EinsteinyServerClient.getInstance().getArtsCourses();
@@ -73,6 +73,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                             // After completing http call
                             // will close this activity and lauch main activity
                             setBottomNavigationBar(tab, dataAndEvents);
+                            pb.setVisibility(ProgressBar.INVISIBLE);
 
                         }
 
