@@ -40,13 +40,10 @@ public class PlayYoutubeActivity extends YouTubeBaseActivity {
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                         final YouTubePlayer youTubePlayer, boolean b) {
 
-                        PlayYoutubeActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Handle UI here
-                                youTubePlayer.setFullscreen(true);
-                                youTubePlayer.loadVideo(videoUrl);
-                            }
+                        PlayYoutubeActivity.this.runOnUiThread(() -> {
+                            //Handle UI here
+                            youTubePlayer.setFullscreen(true);
+                            youTubePlayer.loadVideo(videoUrl);
                         });
 
                     }

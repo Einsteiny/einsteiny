@@ -51,8 +51,8 @@ public class UserCourseFragment extends Fragment {
 
 
             FragmentActivity activity = getActivity();
-            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses);
-            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses);
+            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
+            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
             if (activity != null) {
                 FragmentTransaction ftActive = activity.getSupportFragmentManager().beginTransaction();
                 ftActive.replace(R.id.activeCourses, activeListFragment);

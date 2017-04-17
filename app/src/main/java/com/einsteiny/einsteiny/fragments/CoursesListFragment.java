@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.activities.CourseActivity;
 import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
@@ -29,10 +30,17 @@ import butterknife.ButterKnife;
 
 public class CoursesListFragment extends Fragment {
 
+    public enum Type {
+        ALREADY_SUBSCRIBED,
+        NEW
+    }
+
     public static final String ARG_TITLE = "title";
     public static final String ARG_COURSES = "courses";
+    public static final String ARG_TYPE = "type";
 
     private ArrayList<Course> courses;
+    private Type type;
     private ExploreCourseAdapter topicAdapter;
 
     @BindView(R.id.rvTopics)
@@ -41,11 +49,12 @@ public class CoursesListFragment extends Fragment {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
-    public static CoursesListFragment newInstance(String title, ArrayList<Course> courses) {
+    public static CoursesListFragment newInstance(String title, ArrayList<Course> courses, Type type) {
         CoursesListFragment topicListFragment = new CoursesListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putSerializable(ARG_COURSES, courses);
+        args.putSerializable(ARG_TYPE, type);
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -66,11 +75,16 @@ public class CoursesListFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         courses = (ArrayList<Course>) getArguments().getSerializable(ARG_COURSES);
+        type = (Type) getArguments().getSerializable(ARG_TYPE);
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
-        topicAdapter.setOnItemClickListener(new ExploreCourseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Course course = courses.get(position);
+        topicAdapter.setOnItemClickListener((itemView, position) -> {
+            Course course = courses.get(position);
+            if (type == Type.ALREADY_SUBSCRIBED) {
+                Intent intent = new Intent(getContext(), CourseActivity.class);
+                intent.putExtra(CourseActivity.EXTRA_COURSE, course);
+                getContext().startActivity(intent);
+
+            } else {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
                 intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, course);
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
@@ -78,7 +92,9 @@ public class CoursesListFragment extends Fragment {
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), p1, p2);
                 getContext().startActivity(intent, options.toBundle());
+
             }
+
         });
 
         rvTopics.setAdapter(topicAdapter);
