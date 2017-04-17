@@ -10,17 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.LoginActivity;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
+import com.squareup.picasso.Picasso;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static com.einsteiny.einsteiny.R.id.ivProfileImage;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -28,7 +41,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class ProfileFragment extends Fragment {
 
-    private TextView tvTitle;
+    private TextView tvProfileName;
     private Button btnLogout;
 
     private OnLogoutClickListener listener;
@@ -50,8 +63,10 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTitle = (TextView) view.findViewById(R.id.tvProfileTitle);
+        tvProfileName = (TextView) view.findViewById(R.id.tvProfileName);
         btnLogout = (Button) view.findViewById(R.id.btnProfileLogout);
+
+        tvProfileName.setText(ParseUser.getCurrentUser().get("name").toString());
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +78,14 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
+        // Get the user's image URL from ParseUser (or Facebook?)
+        // insert to image view here
+        // TODO need to get image from different FB endpoint, currently using cover image
+        String imageUri = ParseUser.getCurrentUser().getString("profilePic");
+        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        Picasso.with(this.getContext()).load(imageUri).placeholder(R.drawable.com_facebook_profile_picture_blank_portrait).into(ivProfileImage);
+
     }
 
 
