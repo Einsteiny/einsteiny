@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
@@ -22,12 +24,13 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CourseSubscribeActivity extends AppCompatActivity {
+public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener {
 
     @BindView(R.id.ivCourse)
     ImageView ivCourse;
@@ -43,6 +46,8 @@ public class CourseSubscribeActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "course";
 
+    private Course course;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +55,7 @@ public class CourseSubscribeActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        final Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
+        course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
 
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
@@ -77,17 +82,11 @@ public class CourseSubscribeActivity extends AppCompatActivity {
         }
 
         btnSubscribe.setOnClickListener(v -> {
-            CustomUser.unsubscribeCourse(course);
-            CustomUser.addSubscribedCourse(course);
 
-            Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
-            i.putExtra(CourseActivity.EXTRA_COURSE, course);
+            FragmentManager fm = getSupportFragmentManager();
+            SelectTimeDialog dialog = SelectTimeDialog.newInstance();
+            dialog.show(fm, "fragment_filter_dialog");
 
-            for (Lesson lesson : course.getLessons()) {
-                sendParseNotification(course.getId());
-            }
-
-            startActivity(i);
 
         });
     }
@@ -104,12 +103,13 @@ public class CourseSubscribeActivity extends AppCompatActivity {
                 });
     }
 
-    private void sendParseNotification(String courseId) {
+    private void sendParseNotification(String courseId, long time) {
         JSONObject payload = new JSONObject();
 
         try {
             payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
             payload.put("course", courseId);
+            payload.put("time", time);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -118,5 +118,22 @@ public class CourseSubscribeActivity extends AppCompatActivity {
         data.put("customData", payload.toString());
 
         ParseCloud.callFunctionInBackground("subscribe", data);
+    }
+
+    @Override
+    public void confirmSubscription(Calendar cal) {
+        CustomUser.unsubscribeCourse(course);
+        CustomUser.addSubscribedCourse(course);
+
+        Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
+        i.putExtra(CourseActivity.EXTRA_COURSE, course);
+
+        for (Lesson lesson : course.getLessons()) {
+            sendParseNotification(course.getId(), cal.getTimeInMillis());
+            cal.add(Calendar.DATE, 1);
+        }
+
+        startActivity(i);
+
     }
 }
