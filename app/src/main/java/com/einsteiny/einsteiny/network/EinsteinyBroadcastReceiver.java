@@ -71,7 +71,7 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                             Notification noti = new NotificationCompat.Builder(context.getApplicationContext())
                                     .setSmallIcon(R.drawable.ic_explore)
                                     .setContentTitle("Hello clever!")
-                                    .setContentText("Time to watch new video for course " + course.getTitle())
+                                    .setContentText(String.format("Time to watch Lesson %s of course %s", progress + 1, course.getTitle()))
                                     .setContentIntent(pIntent)
                                     .setAutoCancel(true) // Hides the notification after its been selected
                                     .build();
