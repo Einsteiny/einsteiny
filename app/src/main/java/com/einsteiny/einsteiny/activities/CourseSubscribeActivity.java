@@ -44,6 +44,13 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     @BindView(R.id.btnSubscribe)
     Button btnSubscribe;
 
+    @BindView(R.id.btnSkip)
+    Button btnSkip;
+
+    @BindView(R.id.tvDisclaimerInfo)
+    TextView disclaimerInfo;
+
+
     public static final String EXTRA_COURSE = "course";
 
     private Course course;
@@ -81,8 +88,18 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
             scheduleStartPostponedTransition(ivCourse);
         }
 
-        btnSubscribe.setOnClickListener(v -> {
+        //check if user already sunbscibed for the course
+        if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+            disclaimerInfo.setText("You are already subscribed for this course");
+            btnSubscribe.setText("Subscribe again");
+            btnSkip.setText("Skip");
 
+            btnSkip.setOnClickListener(v -> {
+                finish();
+            });
+        }
+
+        btnSubscribe.setOnClickListener(v -> {
             FragmentManager fm = getSupportFragmentManager();
             SelectTimeDialog dialog = SelectTimeDialog.newInstance();
             dialog.show(fm, "fragment_filter_dialog");
