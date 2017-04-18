@@ -10,9 +10,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.einsteiny.einsteiny.activities.CourseActivity">
 
+    <TextView
+        android:id="@+id/tvCourseInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tvContents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvCourseInfo"
+        android:layout_marginLeft="35dp"
+        android:text="Contents"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvLessons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvContents" />
 
 </RelativeLayout>

@@ -16,23 +16,46 @@
 
         <ImageView
             android:id="@+id/ivCourse"
-            android:transitionName="courseImage"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:transitionName="courseImage" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:transitionName="courseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivCourse"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:transitionName="courseTitle" />
 
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvDisclaimerInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDescription"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="25dp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/tvDescription"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_toLeftOf="@+id/btnSubscribe"
+            android:background="@android:color/transparent"
+            android:text=""
+            android:textColor="@color/colorPrimary" />
+
 
         <Button
             android:id="@+id/btnSubscribe"
@@ -42,7 +65,9 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/tvDescription"
             android:layout_marginTop="40dp"
-            android:text="@string/subscribe" />
+            android:background="@android:color/transparent"
+            android:text="@string/subscribe"
+            android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
 

@@ -6,4 +6,20 @@
     <dimen name="simple_margin">5dp</dimen>
     <dimen name="title_margin">10dp</dimen>
     <dimen name="explore_item_height">240dp</dimen>
+
+    <!-- Margin -->
+    <dimen name="small_margin">10dp</dimen>
+    <dimen name="large_margin">20dp</dimen>
+    <dimen name="line_left_margin">45dp</dimen>
+
+    <!-- Image Sizes -->
+    <dimen name="media_height">250dp</dimen>
+    <dimen name="profile_size">40dp</dimen>
+    <dimen name="icon_size">20dp</dimen>
+    <dimen name="date_background_size">50dp</dimen>
+
+    <!-- Font Size -->
+    <dimen name="small_font_size">14sp</dimen>
+    <dimen name="medium_font_size">16sp</dimen>
+    <dimen name="large_font_size">18sp</dimen>
 </resources>

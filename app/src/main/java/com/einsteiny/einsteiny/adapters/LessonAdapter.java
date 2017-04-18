@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,10 +28,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
     private List<Lesson> lessons;
     private Context context;
+    private long startTime;
+    private int progress;
 
-    public LessonAdapter(Context context, List<Lesson> Lessons) {
+    private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+
+    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress) {
         this.context = context;
         this.lessons = Lessons;
+        this.startTime = date;
+        this.progress = progress;
     }
 
 
@@ -47,14 +56,34 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
         viewHolder.tvTitle.setText(lesson.getTitle());
         viewHolder.tvSnippet.setText(lesson.getDescription());
+        viewHolder.tvDescription.setText("Lesson " + (position + 1));
+
+        Calendar cal = Calendar.getInstance().getInstance();
+        cal.setTimeInMillis(startTime);
+        cal.add(Calendar.DATE, position);
+        viewHolder.tvDate.setText(sdf.format(cal.getTime()));
+
 
         String thumbnail = lesson.getImageUrl();
         if (!TextUtils.isEmpty(thumbnail)) {
             //Measure parent width
             int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
 
-            Picasso.with(context).load(thumbnail).resize(displayWidth / 2, 0).into(viewHolder.ivImage);
+            Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
         }
+
+        if (position >= progress) {
+            viewHolder.cardView.setAlpha(0.5f);
+            viewHolder.statusInfo.setText("Scheduled");
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_scheduled));
+            viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_timer));
+        } else {
+            viewHolder.cardView.setAlpha(1.0f);
+            viewHolder.statusInfo.setText("Done");
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_done));
+            viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_done));
+        }
+
 
     }
 
@@ -73,6 +102,21 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         @BindView(R.id.tvSnippet)
         TextView tvSnippet;
 
+        @BindView(R.id.tvDate)
+        TextView tvDate;
+        @BindView(R.id.tvDescription)
+        TextView tvDescription;
+
+        @BindView(R.id.cardView)
+        CardView cardView;
+
+        @BindView(R.id.tvStatusInfo)
+        TextView statusInfo;
+
+        @BindView(R.id.ivStatusInfo)
+        ImageView ivStatusInfo;
+
+
         public LessonViewHolder(View itemView) {
             super(itemView);
 
@@ -80,6 +124,9 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
+                if (position >= progress) {
+                    return;
+                }
                 Intent i = new Intent(context, PlayYoutubeActivity.class);
                 Lesson lesson = lessons.get(position);
                 i.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson.getVideoUrl());
