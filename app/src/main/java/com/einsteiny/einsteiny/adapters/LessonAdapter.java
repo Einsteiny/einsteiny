@@ -57,7 +57,6 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         viewHolder.tvTitle.setText(lesson.getTitle());
         viewHolder.tvSnippet.setText(lesson.getDescription());
         viewHolder.tvDescription.setText("Lesson " + (position + 1));
-        // viewHolder.tvDate.
 
         Calendar cal = Calendar.getInstance().getInstance();
         cal.setTimeInMillis(startTime);
@@ -74,10 +73,8 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         }
 
         if (position >= progress) {
-            viewHolder.cardView.setClickable(false);
             viewHolder.cardView.setAlpha(0.5f);
         } else {
-            viewHolder.cardView.setClickable(true);
             viewHolder.cardView.setAlpha(1.0f);
         }
 
@@ -114,6 +111,9 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
+                if (position >= progress) {
+                    return;
+                }
                 Intent i = new Intent(context, PlayYoutubeActivity.class);
                 Lesson lesson = lessons.get(position);
                 i.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson.getVideoUrl());
