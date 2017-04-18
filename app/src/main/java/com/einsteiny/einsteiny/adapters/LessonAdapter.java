@@ -74,9 +74,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
         if (position >= progress) {
             viewHolder.cardView.setAlpha(0.5f);
+            viewHolder.statusInfo.setText("Scheduled");
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_scheduled));
+            viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_timer));
         } else {
             viewHolder.cardView.setAlpha(1.0f);
+            viewHolder.statusInfo.setText("Done");
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_done));
+            viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_done));
         }
+
 
     }
 
@@ -102,6 +109,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
         @BindView(R.id.cardView)
         CardView cardView;
+
+        @BindView(R.id.tvStatusInfo)
+        TextView statusInfo;
+
+        @BindView(R.id.ivStatusInfo)
+        ImageView ivStatusInfo;
 
 
         public LessonViewHolder(View itemView) {
