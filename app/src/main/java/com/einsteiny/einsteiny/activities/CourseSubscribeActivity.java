@@ -130,6 +130,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         i.putExtra(CourseActivity.EXTRA_TIME, cal.getTimeInMillis());
 
         //save course with start time
+        course.setStartTime(cal.getTimeInMillis());
         course.save();
 
 
