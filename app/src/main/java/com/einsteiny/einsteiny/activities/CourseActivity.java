@@ -9,6 +9,7 @@ import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.adapters.LessonAdapter;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.Course_Table;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import butterknife.BindView;
@@ -40,10 +41,12 @@ public class CourseActivity extends AppCompatActivity {
                     from(Course.class).where(Course_Table.id.is(course.getId())).querySingle().getStartTime();
         }
 
+        int progress = CustomUser.getProgressForCourse(course.getId());
+
         LinearLayoutManager lm =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvLessons.setLayoutManager(lm);
-        adapter = new LessonAdapter(this, course.getLessons(), date);
+        adapter = new LessonAdapter(this, course.getLessons(), date, progress);
         rvLessons.setAdapter(adapter);
     }
 }

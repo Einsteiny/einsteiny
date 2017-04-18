@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,13 +29,15 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     private List<Lesson> lessons;
     private Context context;
     private long startTime;
+    private int progress;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 
-    public LessonAdapter(Context context, List<Lesson> Lessons, long date) {
+    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress) {
         this.context = context;
         this.lessons = Lessons;
         this.startTime = date;
+        this.progress = progress;
     }
 
 
@@ -70,6 +73,14 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
         }
 
+        if (position >= progress) {
+            viewHolder.cardView.setClickable(false);
+            viewHolder.cardView.setAlpha(0.5f);
+        } else {
+            viewHolder.cardView.setClickable(true);
+            viewHolder.cardView.setAlpha(1.0f);
+        }
+
     }
 
 
@@ -91,6 +102,9 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         TextView tvDate;
         @BindView(R.id.tvDescription)
         TextView tvDescription;
+
+        @BindView(R.id.cardView)
+        CardView cardView;
 
 
         public LessonViewHolder(View itemView) {

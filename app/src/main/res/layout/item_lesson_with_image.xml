@@ -8,7 +8,7 @@
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/cardView"
+        android:layout_toStartOf="@+id/cardView"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/line_left_margin"
@@ -39,6 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDate"
+        android:alpha="0.5"
+
         android:layout_margin="2dp"
         res:cardCornerRadius="3dp">
 
