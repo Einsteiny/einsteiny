@@ -16,4 +16,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="DateText">
+        <item name="android:layout_height">@dimen/date_background_size</item>
+        <item name="android:layout_width">@dimen/date_background_size</item>
+        <item name="android:background">@drawable/circle</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">2</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">@dimen/small_font_size</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+
 </resources>

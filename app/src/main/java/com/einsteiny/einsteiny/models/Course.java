@@ -32,6 +32,9 @@ public class Course extends BaseModel implements Serializable {
     @SerializedName("photo_url")
     String photoUrl;
 
+    @Column
+    long startTime;
+
     @SerializedName("lessons")
     List<Lesson> lessons;
 
@@ -70,6 +73,9 @@ public class Course extends BaseModel implements Serializable {
         return lessons;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
 
     @Override
     public boolean equals(Object o) {

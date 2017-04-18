@@ -15,6 +15,8 @@ import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,10 +27,14 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
     private List<Lesson> lessons;
     private Context context;
+    private long startTime;
 
-    public LessonAdapter(Context context, List<Lesson> Lessons) {
+    private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+
+    public LessonAdapter(Context context, List<Lesson> Lessons, long date) {
         this.context = context;
         this.lessons = Lessons;
+        this.startTime = date;
     }
 
 
@@ -47,13 +53,21 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
         viewHolder.tvTitle.setText(lesson.getTitle());
         viewHolder.tvSnippet.setText(lesson.getDescription());
+        viewHolder.tvDescription.setText("Lesson " + (position + 1));
+        // viewHolder.tvDate.
+
+        Calendar cal = Calendar.getInstance().getInstance();
+        cal.setTimeInMillis(startTime);
+        cal.add(Calendar.DATE, position);
+        viewHolder.tvDate.setText(sdf.format(cal.getTime()));
+
 
         String thumbnail = lesson.getImageUrl();
         if (!TextUtils.isEmpty(thumbnail)) {
             //Measure parent width
             int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
 
-            Picasso.with(context).load(thumbnail).resize(displayWidth / 2, 0).into(viewHolder.ivImage);
+            Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
         }
 
     }
@@ -72,6 +86,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         TextView tvTitle;
         @BindView(R.id.tvSnippet)
         TextView tvSnippet;
+
+        @BindView(R.id.tvDate)
+        TextView tvDate;
+        @BindView(R.id.tvDescription)
+        TextView tvDescription;
+
 
         public LessonViewHolder(View itemView) {
             super(itemView);

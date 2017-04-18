@@ -82,6 +82,7 @@ public class CoursesListFragment extends Fragment {
             if (type == Type.ALREADY_SUBSCRIBED) {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, course);
+                intent.putExtra(CourseActivity.EXTRA_TIME, course.getStartTime());
                 getContext().startActivity(intent);
 
             } else {
