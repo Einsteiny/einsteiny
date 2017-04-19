@@ -88,7 +88,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         } else {
             TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
         }
-
+        
 
         //check if user already sunbscibed for the course
         btnSubscribe.setOnClickListener(v -> {
