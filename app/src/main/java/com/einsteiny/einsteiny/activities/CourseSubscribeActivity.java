@@ -89,7 +89,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         }
 
         //check if user already sunbscibed for the course
-        if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+        if (CustomUser.getSubscribedCourses()!= null && CustomUser.getSubscribedCourses().contains(course.getId())) {
             disclaimerInfo.setText("You are already subscribed for this course");
             btnSubscribe.setText("Subscribe again");
             btnSkip.setText("Skip");
