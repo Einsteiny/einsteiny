@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +18,7 @@ import com.einsteiny.einsteiny.fragments.SubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.utils.TransitionUtils;
 import com.parse.ParseCloud;
 import com.parse.ParseInstallation;
 import com.squareup.picasso.Callback;
@@ -77,17 +76,17 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
                     new Callback() {
                         @Override
                         public void onSuccess() {
-                            scheduleStartPostponedTransition(ivCourse);
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
                         }
 
                         @Override
                         public void onError() {
-                            scheduleStartPostponedTransition(ivCourse);
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
                             Log.d("Debug", "onError: error loading course image");
                         }
                     });
         } else {
-            scheduleStartPostponedTransition(ivCourse);
+            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
         }
 
 
@@ -108,18 +107,6 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         });
 
         setupToolbar("Course Details");
-    }
-
-    private void scheduleStartPostponedTransition(final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        supportStartPostponedEnterTransition();
-                        return true;
-                    }
-                });
     }
 
     private void sendParseNotification(String courseId, long time) {

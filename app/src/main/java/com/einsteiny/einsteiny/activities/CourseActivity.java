@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -14,12 +16,16 @@ import com.einsteiny.einsteiny.adapters.LessonAdapter;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.Course_Table;
 import com.einsteiny.einsteiny.models.CustomUser;
+import com.einsteiny.einsteiny.utils.TransitionUtils;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -38,6 +44,9 @@ public class CourseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.ivCourse)
+    ImageView ivCourse;
+
 
     private LessonAdapter adapter;
 
@@ -47,6 +56,8 @@ public class CourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course);
 
         ButterKnife.bind(this);
+
+        supportPostponeEnterTransition();
 
         Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
         long date = getIntent().getLongExtra(EXTRA_TIME, 0);
@@ -61,6 +72,27 @@ public class CourseActivity extends AppCompatActivity {
         String courseInfo = String.format("Course %s on %s. Lessons are scheduled daily at %s.",
                 progress > 0 ? "started" : "will start", sdf.format(date), tdf.format(date));
         tvCourseInfo.setText(courseInfo);
+
+        String photoUrl = course.getPhotoUrl();
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            int displayWidth = getResources().getDisplayMetrics().widthPixels;
+            Picasso.with(this).load(photoUrl).resize(displayWidth, 0).into(ivCourse,
+                    new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseActivity.this);
+                        }
+
+                        @Override
+                        public void onError() {
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseActivity.this);
+                            Log.d("Debug", "onError: error loading course image");
+                        }
+                    });
+        } else {
+            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseActivity.this);
+        }
+
 
         LinearLayoutManager lm =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -90,4 +122,6 @@ public class CourseActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

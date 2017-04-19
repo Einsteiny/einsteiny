@@ -83,7 +83,11 @@ public class CoursesListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, course);
                 intent.putExtra(CourseActivity.EXTRA_TIME, course.getStartTime());
-                getContext().startActivity(intent);
+                Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
+                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(getActivity(), p1, p2);
+                getContext().startActivity(intent, options.toBundle());
 
             } else {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
