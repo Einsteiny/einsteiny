@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +11,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
+import com.einsteiny.einsteiny.fragments.SubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
@@ -33,7 +34,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener {
+public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener,
+        SubscribeDialogAlertFragment.SubscribeCourseListener {
 
     @BindView(R.id.ivCourse)
     ImageView ivCourse;
@@ -44,17 +46,11 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
-    @BindView(R.id.btnSubscribe)
-    Button btnSubscribe;
-
-    @BindView(R.id.btnSkip)
-    Button btnSkip;
-
-    @BindView(R.id.tvDisclaimerInfo)
-    TextView disclaimerInfo;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.btnSubscribe)
+    FloatingActionButton btnSubscribe;
 
 
     public static final String EXTRA_COURSE = "course";
@@ -94,22 +90,20 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
             scheduleStartPostponedTransition(ivCourse);
         }
 
+
         //check if user already sunbscibed for the course
-        if (CustomUser.getSubscribedCourses().contains(course.getId())) {
-            disclaimerInfo.setText("You are already subscribed for this course");
-            btnSubscribe.setText("Subscribe again");
-            btnSkip.setText("Skip");
-
-            btnSkip.setOnClickListener(v -> {
-                finish();
-            });
-        }
-
         btnSubscribe.setOnClickListener(v -> {
-            FragmentManager fm = getSupportFragmentManager();
-            SelectTimeDialog dialog = SelectTimeDialog.newInstance();
-            dialog.show(fm, "fragment_filter_dialog");
+            if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+                FragmentManager fm = getSupportFragmentManager();
+                SubscribeDialogAlertFragment dialog = SubscribeDialogAlertFragment.newInstance(course);
+                dialog.show(fm, "resubscribe_dialog");
 
+            } else {
+                FragmentManager fm = getSupportFragmentManager();
+                SelectTimeDialog dialog = SelectTimeDialog.newInstance();
+                dialog.show(fm, "subscribe_dialog");
+
+            }
 
         });
 
@@ -186,5 +180,17 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void skipSubscription() {
+        finishAfterTransition();
+    }
+
+    @Override
+    public void subscribeCourse(Course course) {
+        FragmentManager fm = getSupportFragmentManager();
+        SelectTimeDialog dialog = SelectTimeDialog.newInstance();
+        dialog.show(fm, "fragment_filter_dialog");
     }
 }

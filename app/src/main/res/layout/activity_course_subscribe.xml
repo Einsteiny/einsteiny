@@ -77,40 +77,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitle" />
 
-            <TextView
-                android:id="@+id/tvDisclaimerInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvDescription"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="25dp"
-                android:textStyle="italic" />
-
-            <Button
-                android:id="@+id/btnSkip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/tvDescription"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_toLeftOf="@+id/btnSubscribe"
-                android:background="@android:color/transparent"
-                android:text=""
-                android:textColor="@color/colorPrimary" />
-
-
-            <Button
-                android:id="@+id/btnSubscribe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/tvDescription"
-                android:layout_marginTop="40dp"
-                android:background="@android:color/transparent"
-                android:text="@string/subscribe"
-                android:textColor="@color/colorPrimary" />
 
         </RelativeLayout>
 
@@ -118,11 +84,12 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnSubscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_timer"
+        android:src="@drawable/ic_subscribe"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
