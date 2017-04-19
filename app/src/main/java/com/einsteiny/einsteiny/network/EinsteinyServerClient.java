@@ -28,9 +28,9 @@ public class EinsteinyServerClient {
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-        builder.connectTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES);
+        builder.connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS);
 //        builder.addInterceptor(chain -> {
 //            Request original = chain.request();
 //            HttpUrl originalHttpUrl = original.url();

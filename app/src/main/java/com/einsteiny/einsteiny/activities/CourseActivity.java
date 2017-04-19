@@ -1,9 +1,12 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -31,6 +34,10 @@ public class CourseActivity extends AppCompatActivity {
 
     @BindView(R.id.tvCourseInfo)
     TextView tvCourseInfo;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     private LessonAdapter adapter;
 
@@ -60,5 +67,27 @@ public class CourseActivity extends AppCompatActivity {
         rvLessons.setLayoutManager(lm);
         adapter = new LessonAdapter(this, course.getLessons(), date, progress);
         rvLessons.setAdapter(adapter);
+
+        setupToolbar(course.getTitle());
+    }
+
+    private void setupToolbar(String title) {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // This is the up button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

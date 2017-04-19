@@ -3,8 +3,11 @@ package com.einsteiny.einsteiny.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -49,6 +52,9 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
     @BindView(R.id.tvDisclaimerInfo)
     TextView disclaimerInfo;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
 
     public static final String EXTRA_COURSE = "course";
@@ -106,6 +112,8 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
 
         });
+
+        setupToolbar("Course Details");
     }
 
     private void scheduleStartPostponedTransition(final View sharedElement) {
@@ -157,6 +165,26 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         }
 
         startActivity(i);
+    }
 
+    private void setupToolbar(String title) {
+        setSupportActionBar(toolbar);
+        //getSupportActionBar().setLogo(R.drawable.ic_twitter);
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // This is the up button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
