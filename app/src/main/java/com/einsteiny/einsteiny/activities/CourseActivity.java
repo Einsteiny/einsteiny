@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,9 @@ public class CourseActivity extends AppCompatActivity {
 
     @BindView(R.id.ivCourse)
     ImageView ivCourse;
+
+    @BindView(R.id.btnUnsubscribe)
+    FloatingActionButton btnUnsubscribe;
 
 
     private LessonAdapter adapter;
@@ -101,6 +105,12 @@ public class CourseActivity extends AppCompatActivity {
         rvLessons.setAdapter(adapter);
 
         setupToolbar(course.getTitle());
+
+        //unsubscribing from course
+        btnUnsubscribe.setOnClickListener(v -> {
+            CustomUser.unsubscribeCourse(course);
+            finishAfterTransition();
+        });
     }
 
     private void setupToolbar(String title) {

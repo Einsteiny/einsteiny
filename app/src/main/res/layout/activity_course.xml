@@ -59,14 +59,15 @@
             android:id="@+id/tvCourseInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/tvContents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvCourseInfo"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="30dp"
             android:text="Contents"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_subscribe"
+        android:src="@drawable/ic_unsubscribe"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
