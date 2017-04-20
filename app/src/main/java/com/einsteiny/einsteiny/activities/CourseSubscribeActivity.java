@@ -2,20 +2,23 @@ package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
+import com.einsteiny.einsteiny.fragments.ResubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.utils.TransitionUtils;
 import com.parse.ParseCloud;
 import com.parse.ParseInstallation;
 import com.squareup.picasso.Callback;
@@ -30,7 +33,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener {
+public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener,
+        ResubscribeDialogAlertFragment.SubscribeCourseListener {
 
     @BindView(R.id.ivCourse)
     ImageView ivCourse;
@@ -41,14 +45,11 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.btnSubscribe)
-    Button btnSubscribe;
-
-    @BindView(R.id.btnSkip)
-    Button btnSkip;
-
-    @BindView(R.id.tvDisclaimerInfo)
-    TextView disclaimerInfo;
+    FloatingActionButton btnSubscribe;
 
 
     public static final String EXTRA_COURSE = "course";
@@ -75,49 +76,37 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
                     new Callback() {
                         @Override
                         public void onSuccess() {
-                            scheduleStartPostponedTransition(ivCourse);
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
                         }
 
                         @Override
                         public void onError() {
-                            scheduleStartPostponedTransition(ivCourse);
+                            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
                             Log.d("Debug", "onError: error loading course image");
                         }
                     });
         } else {
-            scheduleStartPostponedTransition(ivCourse);
+            TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
         }
+
 
         //check if user already sunbscibed for the course
-        if (CustomUser.getSubscribedCourses()!= null && CustomUser.getSubscribedCourses().contains(course.getId())) {
-            disclaimerInfo.setText("You are already subscribed for this course");
-            btnSubscribe.setText("Subscribe again");
-            btnSkip.setText("Skip");
-
-            btnSkip.setOnClickListener(v -> {
-                finish();
-            });
-        }
-
         btnSubscribe.setOnClickListener(v -> {
-            FragmentManager fm = getSupportFragmentManager();
-            SelectTimeDialog dialog = SelectTimeDialog.newInstance();
-            dialog.show(fm, "fragment_filter_dialog");
+            if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+                FragmentManager fm = getSupportFragmentManager();
+                ResubscribeDialogAlertFragment dialog = ResubscribeDialogAlertFragment.newInstance(course);
+                dialog.show(fm, "resubscribe_dialog");
 
+            } else {
+                FragmentManager fm = getSupportFragmentManager();
+                SelectTimeDialog dialog = SelectTimeDialog.newInstance();
+                dialog.show(fm, "subscribe_dialog");
+
+            }
 
         });
-    }
 
-    private void scheduleStartPostponedTransition(final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        supportStartPostponedEnterTransition();
-                        return true;
-                    }
-                });
+        setupToolbar("Course Details");
     }
 
     private void sendParseNotification(String courseId, long time) {
@@ -157,6 +146,38 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         }
 
         startActivity(i);
+    }
 
+    private void setupToolbar(String title) {
+        setSupportActionBar(toolbar);
+        //getSupportActionBar().setLogo(R.drawable.ic_twitter);
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // This is the up button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void skipSubscription() {
+        finishAfterTransition();
+    }
+
+    @Override
+    public void subscribeCourse(Course course) {
+        FragmentManager fm = getSupportFragmentManager();
+        SelectTimeDialog dialog = SelectTimeDialog.newInstance();
+        dialog.show(fm, "fragment_filter_dialog");
     }
 }
