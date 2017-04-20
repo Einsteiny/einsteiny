@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -55,6 +56,12 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     @BindView(R.id.btnSubscribe)
     FloatingActionButton fab;
 
+    @BindView(R.id.tvDuration)
+    TextView tvDuration;
+
+    @BindView(R.id.rating)
+    RatingBar rating;
+
     private Transition.TransitionListener mEnterTransitionListener;
 
 
@@ -75,6 +82,11 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
+
+        tvDuration.setText("Duration: " + getResources().getQuantityString(R.plurals.days,
+                course.getLessons().size(), course.getLessons().size()));
+        rating.setRating(course.getComplexity());
+
         supportPostponeEnterTransition();
 
         String photoUrl = course.getPhotoUrl();

@@ -29,7 +29,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,9 +111,6 @@ public class CourseActivity extends AppCompatActivity implements UnsubscribeDial
         LinearLayoutManager lm =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvLessons.setLayoutManager(lm);
-
-        List<String> completedCourses = CustomUser.getCompletedCourses();
-
         adapter = new LessonAdapter(this, course.getLessons(), date, progress, CustomUser.isCompletedCourse(course.getId()));
         rvLessons.setAdapter(adapter);
 
