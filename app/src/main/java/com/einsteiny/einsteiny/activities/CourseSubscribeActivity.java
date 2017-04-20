@@ -1,20 +1,24 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
 import com.einsteiny.einsteiny.fragments.ResubscribeDialogAlertFragment;
+import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
@@ -49,7 +53,9 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     Toolbar toolbar;
 
     @BindView(R.id.btnSubscribe)
-    FloatingActionButton btnSubscribe;
+    FloatingActionButton fab;
+
+    private Transition.TransitionListener mEnterTransitionListener;
 
 
     public static final String EXTRA_COURSE = "course";
@@ -64,6 +70,8 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         ButterKnife.bind(this);
 
         course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
+
+        fab.setVisibility(View.INVISIBLE);
 
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
@@ -91,7 +99,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
 
         //check if user already sunbscibed for the course
-        btnSubscribe.setOnClickListener(v -> {
+        fab.setOnClickListener(v -> {
             if (CustomUser.getSubscribedCourses().contains(course.getId())) {
                 FragmentManager fm = getSupportFragmentManager();
                 ResubscribeDialogAlertFragment dialog = ResubscribeDialogAlertFragment.newInstance(course);
@@ -107,6 +115,34 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         });
 
         setupToolbar("Course Details");
+
+        mEnterTransitionListener = new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                enterReveal();
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        };
+        getWindow().getEnterTransition().addListener(mEnterTransitionListener);
     }
 
     private void sendParseNotification(String courseId, long time) {
@@ -157,19 +193,6 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // This is the up button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void skipSubscription() {
         finishAfterTransition();
     }
@@ -179,5 +202,91 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         FragmentManager fm = getSupportFragmentManager();
         SelectTimeDialog dialog = SelectTimeDialog.newInstance();
         dialog.show(fm, "fragment_filter_dialog");
+    }
+
+    //Floating action button circular animation
+    private void enterReveal() {
+        // previously invisible view
+        final View myView = fab;
+
+        // get the center for the clipping circle
+        int cx = myView.getMeasuredWidth() / 2;
+        int cy = myView.getMeasuredHeight() / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
+        Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+        myView.setVisibility(View.VISIBLE);
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                getWindow().getEnterTransition().removeListener(mEnterTransitionListener);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        anim.start();
+    }
+
+    void exitReveal() {
+        // previously visible view
+        final View myView = fab;
+
+        // get the center for the clipping circle
+        int cx = myView.getMeasuredWidth() / 2;
+        int cy = myView.getMeasuredHeight() / 2;
+
+        // get the initial radius for the clipping circle
+        int initialRadius = myView.getWidth() / 2;
+
+        // create the animation (the final radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                myView.setVisibility(View.INVISIBLE);
+
+                // Finish the activity after the exit transition completes.
+                supportFinishAfterTransition();
+            }
+        });
+
+        // start the animation
+        anim.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitReveal();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // This is the up button
+            case android.R.id.home:
+                exitReveal();
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
