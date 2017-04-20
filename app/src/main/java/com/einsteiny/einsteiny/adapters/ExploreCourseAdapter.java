@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -39,11 +40,14 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         @BindView(R.id.tvTitle)
         TextView tvTitle;
 
-        @BindView(R.id.tvSnippet)
-        TextView tvDescription;
+//        @BindView(R.id.tvSnippet)
+//        TextView tvDescription;
 
         @BindView(R.id.ivImage)
         ImageView ivImage;
+
+        @BindView(R.id.rating)
+        RatingBar rating;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -88,22 +92,24 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         Course course = courses.get(position);
         holder.tvTitle.setText(course.getTitle());
 
+        holder.rating.setRating(course.getComplexity());
+
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
-            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().into(holder.ivImage,
+            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.ic_done).into(holder.ivImage,
                     new Callback() {
                         @Override
                         public void onSuccess() {
-                            holder.tvDescription.setVisibility(View.GONE);
+                            //holder.tvDescription.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onError() {
-                            holder.tvDescription.setText(course.getDescription());
+                            // holder.tvDescription.setText(course.getDescription());
                         }
                     });
         } else {
-            holder.tvDescription.setText(course.getDescription());
+            //holder.tvDescription.setText(course.getDescription());
         }
     }
 
