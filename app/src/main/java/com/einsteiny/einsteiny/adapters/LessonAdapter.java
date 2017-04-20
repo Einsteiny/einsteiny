@@ -30,14 +30,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     private Context context;
     private long startTime;
     private int progress;
+    private boolean completed;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 
-    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress) {
+    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress, boolean completed) {
         this.context = context;
         this.lessons = Lessons;
         this.startTime = date;
         this.progress = progress;
+        this.completed = completed;
     }
 
 
@@ -72,7 +74,8 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             Picasso.with(context).load(thumbnail).into(viewHolder.ivImage);
         }
 
-        if (position >= progress) {
+
+        if (!completed && position >= progress) {
             viewHolder.cardView.setAlpha(0.5f);
             viewHolder.statusInfo.setText("Scheduled");
             viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_scheduled));
@@ -124,7 +127,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                if (position >= progress) {
+                if (!completed && position >= progress) {
                     return;
                 }
                 Intent i = new Intent(context, PlayYoutubeActivity.class);
