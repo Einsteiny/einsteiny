@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,9 +99,10 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         }
 
 
-        //check if user already sunbscibed for the course
+        //check if user already subscribed for the course
         fab.setOnClickListener(v -> {
-            if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+            List<String> subscribedCourse = CustomUser.getSubscribedCourses();
+            if (subscribedCourse != null && subscribedCourse.contains(course.getId())) {
                 FragmentManager fm = getSupportFragmentManager();
                 ResubscribeDialogAlertFragment dialog = ResubscribeDialogAlertFragment.newInstance(course);
                 dialog.show(fm, "resubscribe_dialog");
