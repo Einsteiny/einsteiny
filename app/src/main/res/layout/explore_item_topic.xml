@@ -4,6 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/explore_item_height"
     android:layout_margin="@dimen/simple_margin"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     res:cardCornerRadius="3dp">
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +14,6 @@
 
         <ImageView
             android:id="@+id/ivImage"
-            android:transitionName="courseImage"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -21,16 +22,17 @@
             android:layout_margin="@dimen/simple_margin"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:transitionName="courseImage"
             tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:transitionName="courseTitle"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"
             android:layout_margin="@dimen/simple_margin"
             android:textStyle="bold"
+            android:transitionName="courseTitle"
             tools:text="TextView" />
 
         <TextView
@@ -39,8 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
             android:layout_margin="@dimen/simple_margin"
-            android:maxLines="11"
             android:ellipsize="end"
+            android:maxLines="11"
             tools:text="TextView" />
 
     </RelativeLayout>

@@ -103,21 +103,15 @@
 
         <activity
             android:name=".activities.CourseSubscribeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.EinsteinyActivity" />
-
-        </activity>
+            android:parentActivityName=".activities.EinsteinyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
         <activity
             android:name=".activities.CourseActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.EinsteinyActivity" />
-        </activity>
+            android:parentActivityName=".activities.EinsteinyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <activity
             android:name=".activities.PlayYoutubeActivity"
