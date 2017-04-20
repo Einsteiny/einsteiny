@@ -9,15 +9,15 @@ import android.support.v7.app.AlertDialog;
 import com.einsteiny.einsteiny.models.Course;
 
 
-public class SubscribeDialogAlertFragment extends DialogFragment {
+public class ResubscribeDialogAlertFragment extends DialogFragment {
 
     private final static String EXTRA_COURSE = "course";
 
-    public SubscribeDialogAlertFragment() {
+    public ResubscribeDialogAlertFragment() {
     }
 
-    public static SubscribeDialogAlertFragment newInstance(Course course) {
-        SubscribeDialogAlertFragment dialog = new SubscribeDialogAlertFragment();
+    public static ResubscribeDialogAlertFragment newInstance(Course course) {
+        ResubscribeDialogAlertFragment dialog = new ResubscribeDialogAlertFragment();
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_COURSE, course);
         dialog.setArguments(args);

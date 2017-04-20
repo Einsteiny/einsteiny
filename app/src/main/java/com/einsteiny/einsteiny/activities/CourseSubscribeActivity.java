@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
-import com.einsteiny.einsteiny.fragments.SubscribeDialogAlertFragment;
+import com.einsteiny.einsteiny.fragments.ResubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
@@ -34,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CourseSubscribeActivity extends AppCompatActivity implements SelectTimeDialog.ConfirmSubscriptionListener,
-        SubscribeDialogAlertFragment.SubscribeCourseListener {
+        ResubscribeDialogAlertFragment.SubscribeCourseListener {
 
     @BindView(R.id.ivCourse)
     ImageView ivCourse;
@@ -88,13 +88,13 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         } else {
             TransitionUtils.scheduleStartPostponedTransition(ivCourse, CourseSubscribeActivity.this);
         }
-        
+
 
         //check if user already sunbscibed for the course
         btnSubscribe.setOnClickListener(v -> {
             if (CustomUser.getSubscribedCourses().contains(course.getId())) {
                 FragmentManager fm = getSupportFragmentManager();
-                SubscribeDialogAlertFragment dialog = SubscribeDialogAlertFragment.newInstance(course);
+                ResubscribeDialogAlertFragment dialog = ResubscribeDialogAlertFragment.newInstance(course);
                 dialog.show(fm, "resubscribe_dialog");
 
             } else {

@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.adapters.LessonAdapter;
+import com.einsteiny.einsteiny.fragments.UnsubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.Course_Table;
 import com.einsteiny.einsteiny.models.CustomUser;
@@ -28,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class CourseActivity extends AppCompatActivity {
+public class CourseActivity extends AppCompatActivity implements UnsubscribeDialogAlertFragment.UnsubscribeCourseListener {
 
     public static final String EXTRA_COURSE = "course";
     public static final String EXTRA_TIME = "time";
@@ -108,8 +110,10 @@ public class CourseActivity extends AppCompatActivity {
 
         //unsubscribing from course
         btnUnsubscribe.setOnClickListener(v -> {
-            CustomUser.unsubscribeCourse(course);
-            finishAfterTransition();
+            FragmentManager fm = getSupportFragmentManager();
+            UnsubscribeDialogAlertFragment dialog = UnsubscribeDialogAlertFragment.newInstance(course);
+            dialog.show(fm, "unsubscribe_dialog");
+
         });
     }
 
@@ -134,4 +138,10 @@ public class CourseActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void unsubscribeCourse(Course course) {
+        CustomUser.unsubscribeCourse(course);
+        finishAfterTransition();
+
+    }
 }
