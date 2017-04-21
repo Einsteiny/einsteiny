@@ -22,10 +22,8 @@ import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.adapters.LessonAdapter;
 import com.einsteiny.einsteiny.fragments.UnsubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.models.Course;
-import com.einsteiny.einsteiny.models.Course_Table;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.utils.TransitionUtils;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +36,6 @@ import butterknife.ButterKnife;
 public class CourseActivity extends AppCompatActivity implements UnsubscribeDialogAlertFragment.UnsubscribeCourseListener {
 
     public static final String EXTRA_COURSE = "course";
-    public static final String EXTRA_TIME = "time";
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
     private SimpleDateFormat tdf = new SimpleDateFormat("hh:mm");
 
@@ -75,12 +72,7 @@ public class CourseActivity extends AppCompatActivity implements UnsubscribeDial
         fab.setVisibility(View.INVISIBLE);
 
         Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
-        long date = getIntent().getLongExtra(EXTRA_TIME, 0);
-
-        if (date == 0) {
-            date = SQLite.select().
-                    from(Course.class).where(Course_Table.id.is(course.getId())).querySingle().getStartTime();
-        }
+        long date = CustomUser.getDateForCourse(course.getId());
 
         int progress = CustomUser.getProgressForCourse(course.getId());
 

@@ -182,11 +182,9 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
         i.putExtra(CourseActivity.EXTRA_COURSE, course);
-        i.putExtra(CourseActivity.EXTRA_TIME, cal.getTimeInMillis());
 
         //save course with start time
-        course.setStartTime(cal.getTimeInMillis());
-        course.save();
+        CustomUser.addDatesForCourse(course.getId(), cal.getTimeInMillis());
 
 
         for (Lesson lesson : course.getLessons()) {

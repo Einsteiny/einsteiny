@@ -36,9 +36,6 @@ public class Course extends BaseModel implements Serializable {
     @SerializedName("photo_url")
     String photoUrl;
 
-    @Column
-    long startTime;
-
     @SerializedName("lessons")
     List<Lesson> lessons;
 
@@ -75,14 +72,6 @@ public class Course extends BaseModel implements Serializable {
 
     public List<Lesson> getLessons() {
         return lessons;
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
     }
 
     public float getComplexity() {
