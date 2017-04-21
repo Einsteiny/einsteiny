@@ -25,6 +25,10 @@ public class Course extends BaseModel implements Serializable {
     String title;
 
     @Column
+    @SerializedName("complexity")
+    float complexity;
+
+    @Column
     @SerializedName("description")
     String description;
 
@@ -79,6 +83,10 @@ public class Course extends BaseModel implements Serializable {
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;
+    }
+
+    public float getComplexity() {
+        return complexity;
     }
 
     @Override

@@ -43,6 +43,7 @@ public class CustomUser implements Serializable {
             courses.remove(course.getId());
         }
 
+
         resetProgressForCourse(course.getId());
 
         user.put(SUBSCRIBED_COURSES_KEY, courses);
@@ -114,6 +115,16 @@ public class CustomUser implements Serializable {
 
         user.put(COMPLETED_COURSES_KEY, courses);
         user.saveInBackground();
+    }
+
+    public static boolean isCompletedCourse(String courseId) {
+        List<String> completedCourses = getCompletedCourses();
+        return (completedCourses != null && completedCourses.contains(courseId));
+    }
+
+    public static boolean isSubscribedCourse(String courseId) {
+        List<String> subscribedCourses = getSubscribedCourses();
+        return (subscribedCourses != null && subscribedCourses.contains(courseId));
     }
 
     public static List<String> getCompletedCourses() {

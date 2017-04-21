@@ -10,6 +10,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.activities.CourseActivity;
 import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.Course_Table;
@@ -48,8 +49,10 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                     if (key.equals("course")) {
                         String courseId = value;
 
+                        List<String> subscribedCourses = CustomUser.getSubscribedCourses();
                         //This course is not in the list of subscribed courses
-                        if (!CustomUser.getSubscribedCourses().contains(courseId)) return;
+                        if (subscribedCourses == null || !subscribedCourses.contains(courseId))
+                            return;
 
                         int progress = CustomUser.getProgressForCourse(courseId);
                         Course course = SQLite.select().
@@ -64,15 +67,24 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                             Intent intentActivity = new Intent(context, PlayYoutubeActivity.class);
                             intentActivity.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson.getVideoUrl());
 
+                            Intent intentCourseActivity = new Intent(context, CourseActivity.class);
+                            intentCourseActivity.putExtra(CourseActivity.EXTRA_COURSE, course);
 
-                            int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
+                            //unique requestID to differentiate between various notification with same NotifId
+                            int requestID = (int) System.currentTimeMillis();
                             PendingIntent pIntent = PendingIntent.getActivity(context.getApplicationContext(), requestID, intentActivity, 0);
+
+                            //unique requestID to differentiate between various notification with same NotifId
+                            int requestCourseID = (int) System.currentTimeMillis();
+                            PendingIntent pCourseIntent = PendingIntent.getActivity(context.getApplicationContext(), requestCourseID, intentCourseActivity, 0);
 
                             Notification noti = new NotificationCompat.Builder(context.getApplicationContext())
                                     .setSmallIcon(R.drawable.ic_explore)
                                     .setContentTitle("Hello clever!")
                                     .setContentText(String.format("Time to watch Lesson %s of course %s", progress + 1, course.getTitle()))
                                     .setContentIntent(pIntent)
+                                    .addAction(R.drawable.ic_timer, "PLAY VIDEO", pIntent)
+                                    .addAction(R.drawable.ic_timer, "GO TO COURSE", pCourseIntent)
                                     .setAutoCancel(true) // Hides the notification after its been selected
                                     .build();
 

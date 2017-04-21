@@ -37,4 +37,10 @@
     <string name="unsubscribe">Unsubscribe</string>
 
     <string name="gcm_sender_id">id:195129503955</string>
+
+    <plurals name="days">
+
+        <item quantity="one">1 Day </item>
+        <item quantity="other">%d  Days</item>
+    </plurals>
 </resources>

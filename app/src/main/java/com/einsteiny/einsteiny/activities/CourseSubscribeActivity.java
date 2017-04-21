@@ -8,12 +8,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -55,6 +57,12 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     @BindView(R.id.btnSubscribe)
     FloatingActionButton fab;
 
+    @BindView(R.id.tvDuration)
+    TextView tvDuration;
+
+    @BindView(R.id.rating)
+    RatingBar rating;
+
     private Transition.TransitionListener mEnterTransitionListener;
 
 
@@ -75,6 +83,11 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
+
+        tvDuration.setText(Html.fromHtml(String.format("Duration: <b>%s</b>", getResources().getQuantityString(R.plurals.days,
+                course.getLessons().size(), course.getLessons().size()))));
+        rating.setRating(course.getComplexity());
+
         supportPostponeEnterTransition();
 
         String photoUrl = course.getPhotoUrl();
@@ -98,9 +111,9 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         }
 
 
-        //check if user already sunbscibed for the course
+        //check if user already subscribed for the course
         fab.setOnClickListener(v -> {
-            if (CustomUser.getSubscribedCourses().contains(course.getId())) {
+            if (CustomUser.isSubscribedCourse(course.getId())) {
                 FragmentManager fm = getSupportFragmentManager();
                 ResubscribeDialogAlertFragment dialog = ResubscribeDialogAlertFragment.newInstance(course);
                 dialog.show(fm, "resubscribe_dialog");
