@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
@@ -83,8 +84,8 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         tvDescription.setText(course.getDescription());
         tvTitle.setText(course.getTitle());
 
-        tvDuration.setText("Duration: " + getResources().getQuantityString(R.plurals.days,
-                course.getLessons().size(), course.getLessons().size()));
+        tvDuration.setText(Html.fromHtml(String.format("Duration: <b>%s</b>", getResources().getQuantityString(R.plurals.days,
+                course.getLessons().size(), course.getLessons().size()))));
         rating.setRating(course.getComplexity());
 
         supportPostponeEnterTransition();

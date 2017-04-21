@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
@@ -83,9 +84,9 @@ public class CourseActivity extends AppCompatActivity implements UnsubscribeDial
 
         int progress = CustomUser.getProgressForCourse(course.getId());
 
-        String courseInfo = String.format("Course %s on %s. Lessons are scheduled daily at %s.",
+        String courseInfo = String.format("Course %s on <b>%s</b>. Lessons are scheduled daily at <b>%s</b>.",
                 progress > 0 ? "started" : "will start", sdf.format(date), tdf.format(date));
-        tvCourseInfo.setText(courseInfo);
+        tvCourseInfo.setText(Html.fromHtml(courseInfo));
 
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
