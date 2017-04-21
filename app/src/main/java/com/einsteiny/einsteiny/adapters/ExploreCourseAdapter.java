@@ -43,6 +43,9 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 //        @BindView(R.id.tvSnippet)
 //        TextView tvDescription;
 
+        @BindView(R.id.tvDuration)
+        TextView tvDuration;
+
         @BindView(R.id.ivImage)
         ImageView ivImage;
 
@@ -91,6 +94,9 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         Course course = courses.get(position);
         holder.tvTitle.setText(course.getTitle());
+
+        holder.tvDuration.setText(context.getResources().getQuantityString(R.plurals.days,
+                course.getLessons().size(), course.getLessons().size()));
 
         holder.rating.setRating(course.getComplexity());
 
