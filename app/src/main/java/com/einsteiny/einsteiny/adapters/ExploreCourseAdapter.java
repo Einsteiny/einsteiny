@@ -102,7 +102,7 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
-            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.ic_done).into(holder.ivImage,
+            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.einstein_placeholder).into(holder.ivImage,
                     new Callback() {
                         @Override
                         public void onSuccess() {
