@@ -27,6 +27,8 @@ import com.einsteiny.einsteiny.utils.TransitionUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
@@ -71,7 +73,7 @@ public class CourseActivity extends AppCompatActivity implements UnsubscribeDial
 
         fab.setVisibility(View.INVISIBLE);
 
-        Course course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
+        Course course = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_COURSE));
         long date = CustomUser.getDateForCourse(course.getId());
 
         int progress = CustomUser.getProgressForCourse(course.getId());

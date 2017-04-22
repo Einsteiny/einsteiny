@@ -23,5 +23,8 @@ public interface EinsteinyCloudService {
     @GET("science")
     Observable<CourseCategory> getScienceCourses();
 
+    @GET("all-courses")
+    Observable<CourseCategory> getAllCourses();
+
 
 }

@@ -2,22 +2,18 @@ package com.einsteiny.einsteiny.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by tonya on 4/13/17.
- */
 
-public class CourseCategory implements Serializable {
+public class CourseCategory {
 
     @SerializedName("title")
     String title;
 
     @SerializedName("courses")
-    ArrayList<Course> courses;
+    List<Course> courses;
 
-    public ArrayList<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 

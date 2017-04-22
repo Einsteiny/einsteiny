@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.AllCourses;
-import com.einsteiny.einsteiny.models.CourseCategory;
+import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.utils.CoursesUtils;
+
+import org.parceler.Parcels;
+
+import java.util.List;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -22,10 +26,11 @@ public class ExploreFragment extends Fragment {
 
     private static final String ARG_ALL_COURSES = "all_courses";
 
-    public static ExploreFragment newInstance(AllCourses allCourses) {
+    public static ExploreFragment newInstance(List<Course> allCourses) {
         ExploreFragment topicListFragment = new ExploreFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_ALL_COURSES, allCourses);
+
+        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -43,24 +48,24 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AllCourses allCourses = (AllCourses) getArguments().getSerializable(ARG_ALL_COURSES);
+        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
         if (allCourses != null) {
             populateTopics(allCourses);
         }
 
     }
 
-    private void populateTopics(AllCourses allCourses) {
-        getTopic(allCourses.artCourses, R.id.topic1);
-        getTopic(allCourses.economicsCourses, R.id.topic2);
-        getTopic(allCourses.computingCourses, R.id.topic3);
-        getTopic(allCourses.scienceCourses, R.id.topic4);
+    private void populateTopics(List<Course> allCourses) {
+        getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
+        getTopic("Economics & finance", CoursesUtils.getCoursesForCategory(allCourses, "Economics & finance"), R.id.topic2);
+        getTopic("Computing", CoursesUtils.getCoursesForCategory(allCourses, "Computing"), R.id.topic3);
+        getTopic("Science", CoursesUtils.getCoursesForCategory(allCourses, "Science"), R.id.topic4);
 
     }
 
 
-    public void getTopic(final CourseCategory category, final int container) {
-        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category.getTitle(), category.getCourses(), CoursesListFragment.Type.NEW);
+    public void getTopic(String category, final List<Course> courses, final int container) {
+        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category, courses, CoursesListFragment.Type.NEW);
         FragmentActivity activity = getActivity();
         if (activity != null) {
             FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();

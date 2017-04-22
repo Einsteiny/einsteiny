@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
+import com.einsteiny.einsteiny.utils.CoursesUtils;
 
-import java.util.ArrayList;
+import org.parceler.Parcels;
+
+import java.util.List;
 
 /**
  * Created by lsyang on 4/8/17.
@@ -24,10 +26,10 @@ public class UserCourseFragment extends Fragment {
     private static final String ARG_ALL_COURSES = "all_courses";
 
 
-    public static UserCourseFragment newInstance(AllCourses allCourses) {
+    public static UserCourseFragment newInstance(List<Course> allCourses) {
         UserCourseFragment topicListFragment = new UserCourseFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_ALL_COURSES, allCourses);
+        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -43,11 +45,11 @@ public class UserCourseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AllCourses allCourses = (AllCourses) getArguments().getSerializable(ARG_ALL_COURSES);
+        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
         if (allCourses != null) {
 
-            ArrayList<Course> subscribedCourses = (ArrayList<Course>) allCourses.getCoursesForIds(CustomUser.getSubscribedCourses());
-            ArrayList<Course> completedCourses = (ArrayList<Course>) allCourses.getCoursesForIds(CustomUser.getCompletedCourses());
+            List<Course> subscribedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
+            List<Course> completedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getCompletedCourses());
 
 
             FragmentActivity activity = getActivity();
