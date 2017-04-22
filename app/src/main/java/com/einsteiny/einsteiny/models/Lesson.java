@@ -7,10 +7,11 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
 @Table(database = CourseDatabase.class)
-public class Lesson extends BaseModel implements Serializable {
+@Parcel(analyze = {Lesson.class})
+public class Lesson extends BaseModel {
 
     @Column
     @PrimaryKey

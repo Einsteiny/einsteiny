@@ -2,6 +2,7 @@ package com.einsteiny.einsteiny.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,10 @@ import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +45,7 @@ public class CoursesListFragment extends Fragment {
     public static final String ARG_COURSES = "courses";
     public static final String ARG_TYPE = "type";
 
-    private ArrayList<Course> courses;
+    private List<Course> courses;
     private Type type;
     private ExploreCourseAdapter topicAdapter;
 
@@ -51,11 +55,11 @@ public class CoursesListFragment extends Fragment {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
-    public static CoursesListFragment newInstance(String title, ArrayList<Course> courses, Type type) {
+    public static CoursesListFragment newInstance(String title, List<Course> courses, Type type) {
         CoursesListFragment topicListFragment = new CoursesListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
-        args.putSerializable(ARG_COURSES, courses);
+        args.putParcelable(ARG_COURSES, Parcels.wrap(courses));
         args.putSerializable(ARG_TYPE, type);
         topicListFragment.setArguments(args);
         return topicListFragment;
@@ -76,15 +80,14 @@ public class CoursesListFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        courses = (ArrayList<Course>) getArguments().getSerializable(ARG_COURSES);
+        courses = Parcels.unwrap(getArguments().getParcelable(ARG_COURSES));
         type = (Type) getArguments().getSerializable(ARG_TYPE);
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {
             Course course = courses.get(position);
             if (type == Type.ALREADY_SUBSCRIBED) {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
-                intent.putExtra(CourseActivity.EXTRA_COURSE, course);
-                intent.putExtra(CourseActivity.EXTRA_TIME, course.getStartTime());
+                intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
                 Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
@@ -93,7 +96,7 @@ public class CoursesListFragment extends Fragment {
 
             } else {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
-                intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, course);
+                intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
                 Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
                 ActivityOptionsCompat options = ActivityOptionsCompat.

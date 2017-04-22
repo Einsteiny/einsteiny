@@ -8,6 +8,8 @@ import android.support.v7.app.AlertDialog;
 
 import com.einsteiny.einsteiny.models.Course;
 
+import org.parceler.Parcels;
+
 
 public class UnsubscribeDialogAlertFragment extends DialogFragment {
 
@@ -19,7 +21,7 @@ public class UnsubscribeDialogAlertFragment extends DialogFragment {
     public static UnsubscribeDialogAlertFragment newInstance(Course course) {
         UnsubscribeDialogAlertFragment dialog = new UnsubscribeDialogAlertFragment();
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_COURSE, course);
+        args.putParcelable(EXTRA_COURSE, Parcels.wrap(course));
         dialog.setArguments(args);
 
         return dialog;
@@ -33,7 +35,7 @@ public class UnsubscribeDialogAlertFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Course course = (Course) getArguments().getSerializable(EXTRA_COURSE);
+        Course course = Parcels.unwrap(getArguments().getParcelable(EXTRA_COURSE));
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle(course.getTitle());
         alertDialogBuilder.setMessage("Are you sure you want to unsubscribe from this course ?");

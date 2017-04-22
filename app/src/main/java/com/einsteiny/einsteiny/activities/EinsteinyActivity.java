@@ -17,7 +17,6 @@ import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.einsteiny.einsteiny.fragments.UserCourseFragment;
-import com.einsteiny.einsteiny.models.AllCourses;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.models.Lesson;
@@ -26,6 +25,7 @@ import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
@@ -41,8 +41,6 @@ import rx.schedulers.Schedulers;
 
 
 public class EinsteinyActivity extends AppCompatActivity implements ProfileFragment.OnLogoutClickListener {
-
-    private int tab;
 
     private Subscription subscription;
 
@@ -66,47 +64,51 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         setContentView(R.layout.activity_einsteiny);
         ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
-        tab = getIntent().getIntExtra("tab", 0);
 
-        Observable<CourseCategory> artCoursesObs = EinsteinyServerClient.getInstance().getArtsCourses();
-        Observable<CourseCategory> econCoursesObs = EinsteinyServerClient.getInstance().getEconomicsCourses();
-        Observable<CourseCategory> compCoursesObs = EinsteinyServerClient.getInstance().getComputingCourses();
-        Observable<CourseCategory> scienceCoursesObs = EinsteinyServerClient.getInstance().getScienceCourses();
+        List<Course> courses = null;
 
-        Observable<AllCourses> allCombined = Observable.zip(artCoursesObs, econCoursesObs, compCoursesObs,
-                scienceCoursesObs, (art, econ, computing, science) -> new AllCourses(art, econ, computing, science));
+        if (database != null) {
+            courses = SQLite.select().
+                    from(Course.class).queryList();
+            setBottomNavigationBar(courses);
+            pb.setVisibility(ProgressBar.INVISIBLE);
+        }
 
+        if (courses == null || courses.isEmpty()) {
+            Observable<CourseCategory> allCoursesObs = EinsteinyServerClient.getInstance().getAllCourses();
+            subscription = allCoursesObs.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<CourseCategory>() {
+                        @Override
+                        public void onCompleted() {
 
-        subscription = allCombined.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AllCourses>() {
-                    @Override
-                    public void onCompleted() {
+                        }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.d("DEBUG", "inside on failure");
-
-                    }
-
-                    @Override
-                    public void onNext(AllCourses dataAndEvents) {
-                        if (dataAndEvents != null) {
-                            saveDB(dataAndEvents);
-                            setBottomNavigationBar(tab, dataAndEvents);
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            Log.d("DEBUG", "inside on failure");
                             pb.setVisibility(ProgressBar.INVISIBLE);
 
                         }
 
-                    }
-                });
+                        @Override
+                        public void onNext(CourseCategory allCourses) {
+                            if (allCourses != null) {
+                                saveDB(allCourses.getCourses());
+                                setBottomNavigationBar(allCourses.getCourses());
+                                pb.setVisibility(ProgressBar.INVISIBLE);
+
+                            }
+
+                        }
+                    });
+        }
+
+
     }
 
-    private void saveDB(AllCourses allData) {
-        List<Course> courses = allData.getAllCourses();
+    private void saveDB(List<Course> courses) {
         //saving courses
         FastStoreModelTransaction<Course> fsmt = FastStoreModelTransaction
                 .saveBuilder(FlowManager.getModelAdapter(Course.class))
@@ -141,7 +143,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     }
 
-    private void setBottomNavigationBar(int tab, AllCourses courses) {
+    private void setBottomNavigationBar(List<Course> courses) {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define fragments
@@ -151,20 +153,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
         // set passed in tab as default
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        switch (tab) {
-            case 0: {
-                fragmentTransaction.replace(R.id.flContainer, explore).commit();
-                break;
-            }
-            case 1: {
-                fragmentTransaction.replace(R.id.flContainer, userCourse).commit();
-                break;
-            }
-            case 2: {
-                fragmentTransaction.replace(R.id.flContainer, profile).commit();
-                break;
-            }
-        }
+        fragmentTransaction.replace(R.id.flContainer, explore).commit();
 
         // handle navigation selection
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);

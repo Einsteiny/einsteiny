@@ -14,7 +14,7 @@ import com.einsteiny.einsteiny.models.Course;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,10 +68,10 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         }
     }
 
-    private ArrayList<Course> courses;
+    private List<Course> courses;
     private Context context;
 
-    public ExploreCourseAdapter(Context context, ArrayList<Course> topics) {
+    public ExploreCourseAdapter(Context context, List<Course> topics) {
         this.context = context;
         this.courses = topics;
     }

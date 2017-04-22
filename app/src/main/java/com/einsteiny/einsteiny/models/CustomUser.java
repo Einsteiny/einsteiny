@@ -18,6 +18,7 @@ public class CustomUser implements Serializable {
     public static final String SUBSCRIBED_COURSES_KEY = "subscribed_courses";
     public static final String COMPLETED_COURSES_KEY = "completed_courses";
     public static final String PROGRESS_FOR_COURSE = "progress_for_course";
+    public static final String SUBSCRIBED_COURSES_DATES_KEY = "subscribed_courses_dates";
 
 
     public static void addSubscribedCourse(Course course) {
@@ -66,6 +67,27 @@ public class CustomUser implements Serializable {
 
         user.put(PROGRESS_FOR_COURSE, progress);
         user.saveInBackground();
+    }
+
+    public static void addDatesForCourse(String courseId, long date) {
+        ParseUser user = ParseUser.getCurrentUser();
+        HashMap<String, Long> dates = (HashMap<String, Long>) user.get(SUBSCRIBED_COURSES_DATES_KEY);
+        if (dates == null) {
+            dates = new HashMap<>();
+        }
+
+        dates.put(courseId, date);
+        user.put(SUBSCRIBED_COURSES_DATES_KEY, dates);
+        user.saveInBackground();
+    }
+
+    public static long getDateForCourse(String courseId) {
+        ParseUser user = ParseUser.getCurrentUser();
+        HashMap<String, Long> dates = (HashMap<String, Long>) user.get(SUBSCRIBED_COURSES_DATES_KEY);
+        if (dates == null || dates.get(courseId) == null) {
+            return 0;
+        }
+        return dates.get(courseId);
     }
 
     public static void resetProgressForCourse(String courseId) {

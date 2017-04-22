@@ -20,6 +20,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.Iterator;
 import java.util.List;
@@ -68,7 +69,7 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                             intentActivity.putExtra(PlayYoutubeActivity.EXTRA_LESSON, lesson.getVideoUrl());
 
                             Intent intentCourseActivity = new Intent(context, CourseActivity.class);
-                            intentCourseActivity.putExtra(CourseActivity.EXTRA_COURSE, course);
+                            intentCourseActivity.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
 
                             //unique requestID to differentiate between various notification with same NotifId
                             int requestID = (int) System.currentTimeMillis();

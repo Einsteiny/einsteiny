@@ -32,6 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         ButterKnife.bind(this);
 
-        course = (Course) getIntent().getSerializableExtra(EXTRA_COURSE);
+        course = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_COURSE));
 
         fab.setVisibility(View.INVISIBLE);
 
@@ -181,12 +182,10 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
         CustomUser.addSubscribedCourse(course);
 
         Intent i = new Intent(CourseSubscribeActivity.this, CourseActivity.class);
-        i.putExtra(CourseActivity.EXTRA_COURSE, course);
-        i.putExtra(CourseActivity.EXTRA_TIME, cal.getTimeInMillis());
+        i.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
 
         //save course with start time
-        course.setStartTime(cal.getTimeInMillis());
-        course.save();
+        CustomUser.addDatesForCourse(course.getId(), cal.getTimeInMillis());
 
 
         for (Lesson lesson : course.getLessons()) {

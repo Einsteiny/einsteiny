@@ -9,11 +9,13 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
+
 import java.util.List;
 
 @Table(database = CourseDatabase.class)
-public class Course extends BaseModel implements Serializable {
+@Parcel(analyze = {Course.class})
+public class Course extends BaseModel {
 
     @Column
     @PrimaryKey
@@ -33,11 +35,13 @@ public class Course extends BaseModel implements Serializable {
     String description;
 
     @Column
+    @SerializedName("category")
+    String category;
+
+    @Column
     @SerializedName("photo_url")
     String photoUrl;
 
-    @Column
-    long startTime;
 
     @SerializedName("lessons")
     List<Lesson> lessons;
@@ -77,16 +81,12 @@ public class Course extends BaseModel implements Serializable {
         return lessons;
     }
 
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
     public float getComplexity() {
         return complexity;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     @Override
