@@ -119,33 +119,39 @@ public class CourseActivity extends AppCompatActivity implements UnsubscribeDial
 
         });
 
-        mEnterTransitionListener = new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
+        if (!CustomUser.isCompletedCourse(course.getId())) {
+            mEnterTransitionListener = new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
 
-            }
+                }
 
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                enterReveal();
-            }
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    enterReveal();
+                }
 
-            @Override
-            public void onTransitionCancel(Transition transition) {
+                @Override
+                public void onTransitionCancel(Transition transition) {
 
-            }
+                }
 
-            @Override
-            public void onTransitionPause(Transition transition) {
+                @Override
+                public void onTransitionPause(Transition transition) {
 
-            }
+                }
 
-            @Override
-            public void onTransitionResume(Transition transition) {
+                @Override
+                public void onTransitionResume(Transition transition) {
 
-            }
-        };
-        getWindow().getEnterTransition().addListener(mEnterTransitionListener);
+                }
+            };
+            getWindow().getEnterTransition().addListener(mEnterTransitionListener);
+        }
+
+        if (CustomUser.isCompletedCourse(course.getId())) {
+            fab.setVisibility(View.GONE);
+        }
     }
 
 
