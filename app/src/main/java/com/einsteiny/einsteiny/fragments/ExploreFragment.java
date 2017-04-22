@@ -68,7 +68,7 @@ public class ExploreFragment extends Fragment {
         CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category, courses, CoursesListFragment.Type.NEW);
         FragmentActivity activity = getActivity();
         if (activity != null) {
-            FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.replace(container, topicListFragment);
             ft.commit();
         }
