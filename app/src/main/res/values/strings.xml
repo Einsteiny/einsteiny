@@ -13,7 +13,7 @@
     <string name="profile_title_logged_in">You are logged in as</string>
     <string name="profile_logout_button_label">Log out</string>
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
-    <string name="profile_login_button_label">Log in with email</string>
+    <string name="login_button_label">Log in / Register</string>
     <string name="settings_title">Settings</string>
     <string name="reminder_days">Reminder Days</string>
     <string name="show_days">Tap to see current notification days</string>
@@ -37,6 +37,10 @@
     <string name="unsubscribe">Unsubscribe</string>
 
     <string name="gcm_sender_id">id:195129503955</string>
+    <string name="connected_with_facebook_true">connected</string>
+    <string name="connected_with_facebook_label">Facebook Connected</string>
+    <string name="facebook_connected_button_disconnect">Disconnect</string>
+    <string name="facebook_connected_button_connect">Connect</string>
 
     <plurals name="days">
 
