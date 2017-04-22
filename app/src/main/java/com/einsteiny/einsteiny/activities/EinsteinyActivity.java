@@ -25,6 +25,7 @@ import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
@@ -64,42 +65,47 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
 
-//        Observable<CourseCategory> artCoursesObs = EinsteinyServerClient.getInstance().getArtsCourses();
-//        Observable<CourseCategory> econCoursesObs = EinsteinyServerClient.getInstance().getEconomicsCourses();
-//        Observable<CourseCategory> compCoursesObs = EinsteinyServerClient.getInstance().getComputingCourses();
-//        Observable<CourseCategory> scienceCoursesObs = EinsteinyServerClient.getInstance().getScienceCourses();
-        Observable<CourseCategory> allCoursesObs = EinsteinyServerClient.getInstance().getAllCourses();
+        List<Course> courses = null;
 
-//        Observable<AllCourses> allCombined = Observable.zip(artCoursesObs, econCoursesObs, compCoursesObs,
-//                scienceCoursesObs, (art, econ, computing, science) -> new AllCourses(art, econ, computing, science));
+        if (database != null) {
+            courses = SQLite.select().
+                    from(Course.class).queryList();
+            setBottomNavigationBar(courses);
+            pb.setVisibility(ProgressBar.INVISIBLE);
+        }
 
+        if (courses == null || courses.isEmpty()) {
+            Observable<CourseCategory> allCoursesObs = EinsteinyServerClient.getInstance().getAllCourses();
+            subscription = allCoursesObs.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<CourseCategory>() {
+                        @Override
+                        public void onCompleted() {
 
-        subscription = allCoursesObs.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CourseCategory>() {
-                    @Override
-                    public void onCompleted() {
+                        }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.d("DEBUG", "inside on failure");
-
-                    }
-
-                    @Override
-                    public void onNext(CourseCategory allCourses) {
-                        if (allCourses != null) {
-                            saveDB(allCourses.getCourses());
-                            setBottomNavigationBar(allCourses.getCourses());
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            Log.d("DEBUG", "inside on failure");
                             pb.setVisibility(ProgressBar.INVISIBLE);
 
                         }
 
-                    }
-                });
+                        @Override
+                        public void onNext(CourseCategory allCourses) {
+                            if (allCourses != null) {
+                                saveDB(allCourses.getCourses());
+                                setBottomNavigationBar(allCourses.getCourses());
+                                pb.setVisibility(ProgressBar.INVISIBLE);
+
+                            }
+
+                        }
+                    });
+        }
+
+
     }
 
     private void saveDB(List<Course> courses) {
@@ -144,6 +150,10 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         final Fragment explore = ExploreFragment.newInstance(courses);
         final Fragment userCourse = UserCourseFragment.newInstance(courses);
         final Fragment profile = new ProfileFragment();
+
+        // set passed in tab as default
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContainer, explore).commit();
 
         // handle navigation selection
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
