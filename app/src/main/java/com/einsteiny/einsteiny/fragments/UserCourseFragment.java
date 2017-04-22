@@ -56,11 +56,11 @@ public class UserCourseFragment extends Fragment {
             CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
             CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
             if (activity != null) {
-                FragmentTransaction ftActive = activity.getSupportFragmentManager().beginTransaction();
+                FragmentTransaction ftActive = getChildFragmentManager().beginTransaction();
                 ftActive.replace(R.id.activeCourses, activeListFragment);
                 ftActive.commit();
 
-                FragmentTransaction ftCompleted = activity.getSupportFragmentManager().beginTransaction();
+                FragmentTransaction ftCompleted = getChildFragmentManager().beginTransaction();
                 ftCompleted.replace(R.id.completedCourses, completedListFragment);
                 ftCompleted.commit();
             }
