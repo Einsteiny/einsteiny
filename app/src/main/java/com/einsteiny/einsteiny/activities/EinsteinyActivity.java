@@ -48,6 +48,9 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
 
+    private Fragment fromFragment;
+    private Fragment toFragment;
+
 
     @Override
     protected void onResume() {
@@ -144,7 +147,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
     }
 
     private void setBottomNavigationBar(List<Course> courses) {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
@@ -152,23 +155,35 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         final Fragment profile = new ProfileFragment();
 
         // set passed in tab as default
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flContainer, explore).commit();
+        fromFragment = explore;
 
         // handle navigation selection
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 item -> {
-                    FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                    FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     switch (item.getItemId()) {
                         case R.id.action_explore:
+                            fragmentTransaction1.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
                             fragmentTransaction1.replace(R.id.flContainer, explore).commit();
+                            fromFragment = explore;
                             return true;
                         case R.id.action_user_course:
+                            if (fromFragment == explore){
+                                // slide fragment in from the right
+                                fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                            } else if (fromFragment == profile) {
+                                // slide in from the right
+                                fragmentTransaction1.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                            }
                             fragmentTransaction1.replace(R.id.flContainer, userCourse).commit();
+                            fromFragment = userCourse;
                             return true;
                         case R.id.action_profile:
+                            fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                             fragmentTransaction1.replace(R.id.flContainer, profile).commit();
+                            fromFragment = profile;
                             return true;
                     }
                     return false;
