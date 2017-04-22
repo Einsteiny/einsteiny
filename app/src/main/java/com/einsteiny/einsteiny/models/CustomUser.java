@@ -159,67 +159,6 @@ public class CustomUser implements Serializable {
         return ParseUser.getCurrentUser();
     }
 
-    public static void setDefaults(Boolean hasDefaults) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("has_defaults", hasDefaults);
-        user.saveInBackground();
-    }
-
-    public static Boolean getDefaults() {
-        ParseUser user = ParseUser.getCurrentUser();
-        return user.getBoolean("has_defaults");
-    }
-
-    public static void setProfilePicUrl(URL url) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("image_url", url);
-        user.saveInBackground();
-    }
-
-    public static void setDownloadWifi(Boolean wifi) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("wifi_downloads", wifi);
-        user.saveInBackground();
-    }
-
-    public void setPushNotification(Boolean pushNotification) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("push_notification", pushNotification);
-        user.saveInBackground();
-    }
-
-    public void setReminderDays(ArrayList<String> arrayList) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("reminder_days", arrayList);
-        user.saveInBackground();
-    }
-
-    public void setReminderTime(Time reminderTime) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.put("reminder_time", reminderTime);
-        user.saveInBackground();
-    }
-
-    public static Time getReminderTime() {
-        ParseUser user = ParseUser.getCurrentUser();
-        return (Time) user.get("reminder_time");
-    }
-
-    public static ArrayList<String> getReminderDays() {
-        ParseUser user = ParseUser.getCurrentUser();
-        return (ArrayList<String>) user.get("reminder_days");
-    }
-
-    public static Boolean getPushNotification() {
-        ParseUser user = ParseUser.getCurrentUser();
-        return user.getBoolean("push_notification");
-    }
-
-    public static Boolean getDownloadWifi() {
-        ParseUser user = ParseUser.getCurrentUser();
-        return user.getBoolean("wifi_downloads");
-    }
-
 
 }
 

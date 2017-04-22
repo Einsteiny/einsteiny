@@ -1,50 +1,52 @@
 package com.einsteiny.einsteiny.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.LoginActivity;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.widget.ProfilePictureView;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.ui.ParseLoginBuilder;
-import com.squareup.picasso.Picasso;
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
+import com.parse.SaveCallback;
 
-import org.w3c.dom.Text;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-import static com.einsteiny.einsteiny.R.id.ivProfileImage;
 
 /**
  * Created by lsyang on 4/8/17.
  */
 
 public class ProfileFragment extends Fragment {
+    private static final String LOG_TAG = "Einsteiny";
 
     private TextView tvProfileName;
     private Button btnLogout;
+    private ToggleButton tglNotifications;
+    private ToggleButton tglFacebook;
+    private TextView lblConnectedWithFacebookSetting;
 
     private OnLogoutClickListener listener;
+
 
     public interface OnLogoutClickListener {
         public void profileLogout();
@@ -65,8 +67,18 @@ public class ProfileFragment extends Fragment {
 
         tvProfileName = (TextView) view.findViewById(R.id.tvProfileName);
         btnLogout = (Button) view.findViewById(R.id.btnProfileLogout);
+        tglFacebook = (ToggleButton) view.findViewById(R.id.tglConnectFacebook);
+        lblConnectedWithFacebookSetting = (TextView) view.findViewById(R.id.lblConnectedWithFacebookSetting);
 
         tvProfileName.setText(ParseUser.getCurrentUser().get("name").toString());
+
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+            tglFacebook.setChecked(true);
+        } else {
+            tglFacebook.setChecked(false);
+            lblConnectedWithFacebookSetting.setText("Log in with Facebook to connect");
+            tglFacebook.setEnabled(false);
+        }
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,15 +91,53 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // Get the user's image URL from ParseUser (or Facebook?)
+        tglFacebook.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    lblConnectedWithFacebookSetting.setText("Log out and log in with Facebook to connect");
+                } else {
+                    // The toggle is disabled
+                    if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                        ParseFacebookUtils.unlinkInBackground(ParseUser.getCurrentUser(), new SaveCallback() {
+                            @Override
+                            public void done(ParseException ex) {
+                                if (ex == null) {
+                                    Log.d("MyApp", "The user is no longer associated with their Facebook account.");
+                                    Toast.makeText(getContext(), "Disconnecting Facebook", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                        tglFacebook.setChecked(false);
+                    }
+                }
+
+            }
+        });
+
+        // Get the user's image URL from ParseUser (profilePic from Facebook if account linked)
         // insert to image view here
-        // TODO need to get image from different FB endpoint, currently using cover image
-        String imageUri = ParseUser.getCurrentUser().getString("profilePic");
-        ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
-        Picasso.with(this.getContext()).load(imageUri).placeholder(R.drawable.com_facebook_profile_picture_blank_portrait).into(ivProfileImage);
-
+        // TODO have the user set fbID
+        if (ParseUser.getCurrentUser() != null && ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+            // TODO check for FB or profile_pic
+            GraphRequest request = GraphRequest.newMeRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject jsonObject, GraphResponse response) {
+                            try {
+                                ProfilePictureView profilePictureView;
+                                profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
+                                profilePictureView.setProfileId(response.getJSONObject().get("id").toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            request.executeAsync();
+        }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -99,4 +149,7 @@ public class ProfileFragment extends Fragment {
                     + " must implement ProfileFragment.OnLogoutClickListener");
         }
     }
+
 }
+
+

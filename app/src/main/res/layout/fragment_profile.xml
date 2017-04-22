@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,13 +7,24 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:id="@+id/rlUserHeader">
+        android:id="@+id/rlUserHeader"
+        android:layout_marginTop="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:id="@+id/ivProfileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true" />
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/friendProfilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="87dp" >
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true" />
+        </com.facebook.login.widget.ProfilePictureView>
 
         <TextView
             android:id="@+id/tvProfileName"
@@ -25,22 +34,6 @@
             android:text="Name"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:id="@+id/tvSubscribed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5 Active Courses" />
-
-
-        <Button
-            android:id="@+id/btnProfileLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="170dp"
-            android:text="@string/profile_logout_button_label" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -59,14 +52,6 @@
             android:textSize="20sp"
             android:id="@+id/lblNotifications"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lblNotificationsCurrentSetting"
-            android:text="on"
-            android:layout_below="@id/lblNotifications"
-            />
-
         <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,37 +59,54 @@
             android:checked="true"
             android:id="@+id/tglNotifications"/>
         </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlConnectedWithFacebook"
+        android:layout_below="@+id/rlNotificationPreference">
 
-        <RelativeLayout
+        <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rlPushTimePreference"
-            android:layout_below="@+id/rlNotificationPreference">
+            android:layout_height="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Push Time"
+            android:text="@string/connected_with_facebook_label"
             android:textSize="20sp"
-            android:id="@+id/lblPushTime"/>
+            android:id="@+id/lblConnectedWithFacebook"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lblPushTimeCurrentSetting"
-            android:text="10am"
-            android:layout_below="@id/lblPushTime"
+            android:id="@+id/lblConnectedWithFacebookSetting"
+            android:text=""
+            android:layout_below="@id/lblConnectedWithFacebook"
             />
 
-        <Button
+        <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:id="@+id/btnPushTime"
-            android:onClick="setPushTime"
-            android:text="Set"/>
+            android:checked="true"
+            android:text="@string/facebook_connected_button_disconnect"
+            android:id="@+id/tglConnectFacebook"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlLogout"
+        android:layout_below="@+id/rlNotificationPreference">
 
-
+        <Button
+            android:id="@+id/btnProfileLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="170dp"
+            android:text="@string/profile_logout_button_label"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="57dp" />
     </RelativeLayout>
 
 
