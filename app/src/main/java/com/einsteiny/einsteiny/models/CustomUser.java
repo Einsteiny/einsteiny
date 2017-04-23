@@ -3,8 +3,6 @@ package com.einsteiny.einsteiny.models;
 import com.parse.ParseUser;
 
 import java.io.Serializable;
-import java.net.URL;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +17,16 @@ public class CustomUser implements Serializable {
     public static final String COMPLETED_COURSES_KEY = "completed_courses";
     public static final String PROGRESS_FOR_COURSE = "progress_for_course";
     public static final String SUBSCRIBED_COURSES_DATES_KEY = "subscribed_courses_dates";
+
+    private static Course newlyFinishedCourse = null;
+
+    public static Course getNewlyFinishedCourse() {
+        return newlyFinishedCourse;
+    }
+
+    public static void setNewlyFinishedCourse(Course newlyFinishedCourse) {
+        CustomUser.newlyFinishedCourse = newlyFinishedCourse;
+    }
 
 
     public static void addSubscribedCourse(Course course) {
@@ -133,6 +141,7 @@ public class CustomUser implements Serializable {
         }
         if (!courses.contains(course.getId())) {
             courses.add(course.getId());
+            newlyFinishedCourse = course;
         }
 
         user.put(COMPLETED_COURSES_KEY, courses);

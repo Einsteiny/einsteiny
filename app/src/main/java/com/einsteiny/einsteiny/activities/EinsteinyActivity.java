@@ -5,11 +5,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
@@ -19,10 +20,12 @@ import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.einsteiny.einsteiny.fragments.UserCourseFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.parse.ParseUser;
+import com.plattysoft.leonids.ParticleSystem;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -170,6 +173,18 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                             fromFragment = explore;
                             return true;
                         case R.id.action_user_course:
+                            if (CustomUser.getNewlyFinishedCourse() != null) {
+                                Course course = CustomUser.getNewlyFinishedCourse();
+                                Toast.makeText(this, "Congratz on finishing " + course.getTitle(), Toast.LENGTH_SHORT).show();
+                                CustomUser.setNewlyFinishedCourse(null);
+                                ParticleSystem ps = new ParticleSystem(this, 100, R.drawable.ic_yellow_star, 800);
+                                ps.setScaleRange(0.7f, 1.3f);
+                                ps.setSpeedRange(0.1f, 0.25f);
+                                ps.setRotationSpeedRange(90, 180);
+                                ps.setFadeOut(200, new AccelerateInterpolator());
+                                ps.oneShot(bottomNavigationView, 70);
+                            }
+
                             if (fromFragment == explore){
                                 // slide fragment in from the right
                                 fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -218,5 +233,4 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             startActivity(i);
         }
     }
-
 }
