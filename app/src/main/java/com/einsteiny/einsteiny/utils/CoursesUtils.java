@@ -56,12 +56,6 @@ public class CoursesUtils {
             courses.add(allCourses.get(i));
         }
 
-//        for (Course course: allCourses) {
-//            if (course.getComplexity() > POPULARITY_THRESHOLD) {
-//                courses.add(course);
-//            }
-//        }
-
         return courses;
     }
 

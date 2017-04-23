@@ -8,7 +8,4 @@
 
     <color name="lesson_done">@android:color/holo_green_dark</color>
     <color name="lesson_scheduled">@android:color/holo_orange_dark</color>
-
-    <color name="gray">#a8a8a8</color>
-    <color name="black">#020202</color>
 </resources>
