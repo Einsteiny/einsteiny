@@ -2,7 +2,6 @@ package com.einsteiny.einsteiny.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import com.einsteiny.einsteiny.models.Course;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -115,8 +113,6 @@ public class CoursesListFragment extends Fragment {
         rvTopics.setLayoutManager(layoutManager);
 
         tvTitle.setText(getArguments().getString(ARG_TITLE));
-
-
     }
 
 

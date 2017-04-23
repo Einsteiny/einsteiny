@@ -70,8 +70,6 @@ public class ExploreFragment extends Fragment {
         PopularCourses = CoursesUtils.getPopularCourses(allCourses);
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(0);
-        mPagerAdapter.notifyDataSetChanged();
 
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
