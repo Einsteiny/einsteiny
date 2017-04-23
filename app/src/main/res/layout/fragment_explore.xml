@@ -12,17 +12,11 @@
         android:layout_height="200dp">
     </android.support.v4.view.ViewPager>
 
-    <com.pixelcan.inkpageindicator.InkPageIndicator
+    <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:layout_marginBottom="20dp"
-        app:dotDiameter="8dp"
-        app:dotGap="8dp"
-        app:animationDuration="320"
-        app:pageIndicatorColor="@color/gray"
-        app:currentPageIndicatorColor="@color/black"/>
+        android:layout_height="48dp"
+        android:layout_marginTop="-40dp"/>
 
     <FrameLayout
         android:id="@+id/topic1"

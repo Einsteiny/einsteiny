@@ -1,12 +1,11 @@
 package com.einsteiny.einsteiny.fragments;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -21,6 +20,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by lsyang on 4/8/17.
  */
@@ -29,7 +30,7 @@ public class ExploreFragment extends Fragment {
     private static final String ARG_ALL_COURSES = "all_courses";
 
     private ViewPager mPager;
-    private FragmentStatePagerAdapter mPagerAdapter;
+    private FragmentPagerAdapter mPagerAdapter;
     private List<Course> PopularCourses;
 
     public static ExploreFragment newInstance(List<Course> allCourses) {
@@ -69,8 +70,11 @@ public class ExploreFragment extends Fragment {
         PopularCourses = CoursesUtils.getPopularCourses(allCourses);
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-//        InkPageIndicator inkPageIndicator = (InkPageIndicator) view.findViewById(R.id.indicator);
-//        inkPageIndicator.setViewPager(mPager);
+        mPager.setCurrentItem(0);
+        mPagerAdapter.notifyDataSetChanged();
+
+        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
     }
 
 
@@ -93,7 +97,7 @@ public class ExploreFragment extends Fragment {
         }
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -106,12 +110,6 @@ public class ExploreFragment extends Fragment {
         @Override
         public int getCount() {
             return PopularCourses.size();
-        }
-
-        @Override
-        public Parcelable saveState() {
-            // Do Nothing
-            return null;
         }
     }
 }
