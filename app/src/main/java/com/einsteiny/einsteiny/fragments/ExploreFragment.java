@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +20,18 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by lsyang on 4/8/17.
  */
 public class ExploreFragment extends Fragment {
 
-    private static final String TAG = "ExploreFragment";
-
     private static final String ARG_ALL_COURSES = "all_courses";
+
+    private ViewPager mPager;
+    private FragmentPagerAdapter mPagerAdapter;
+    private List<Course> PopularCourses;
 
     public static ExploreFragment newInstance(List<Course> allCourses) {
         ExploreFragment topicListFragment = new ExploreFragment();
@@ -45,6 +52,13 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -52,8 +66,17 @@ public class ExploreFragment extends Fragment {
         if (allCourses != null) {
             populateTopics(allCourses);
         }
+        // Instantiate a ViewPager and a PagerAdapter.
+        PopularCourses = CoursesUtils.getPopularCourses(allCourses);
+        mPager = (ViewPager) view.findViewById(R.id.pager);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(0);
+        mPagerAdapter.notifyDataSetChanged();
 
+        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
     }
+
 
     private void populateTopics(List<Course> allCourses) {
         getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
@@ -72,6 +95,21 @@ public class ExploreFragment extends Fragment {
             ft.replace(container, topicListFragment);
             ft.commit();
         }
-//
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ScreenSlidePageFragment.newInstance(PopularCourses.get(position));
+        }
+
+        @Override
+        public int getCount() {
+            return PopularCourses.size();
+        }
     }
 }
