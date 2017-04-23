@@ -87,7 +87,7 @@ public class CoursesListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
-                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
+                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseTitle");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), p1, p2);
                 getContext().startActivity(intent, options.toBundle());
@@ -96,7 +96,7 @@ public class CoursesListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
                 intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
-                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseText");
+                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseTitle");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(getActivity(), p1, p2);
                 getContext().startActivity(intent, options.toBundle());

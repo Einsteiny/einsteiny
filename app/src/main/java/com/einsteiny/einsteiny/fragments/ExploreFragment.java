@@ -102,7 +102,7 @@ public class ExploreFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return ScreenSlidePageFragment.newInstance(PopularCourses.get(position));
+            return PopularCourseBannerFragment.newInstance(PopularCourses.get(position));
         }
 
         @Override

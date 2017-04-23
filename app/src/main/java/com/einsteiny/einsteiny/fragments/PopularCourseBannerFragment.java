@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
@@ -25,27 +26,30 @@ import butterknife.ButterKnife;
  * Created by lsyang on 4/21/17.
  */
 
-public class ScreenSlidePageFragment extends Fragment {
+public class PopularCourseBannerFragment extends Fragment {
 
     private static final String COURSE_KEY = "course";
 
     @BindView(R.id.popularImage)
     ImageView ivImage;
 
-    public static ScreenSlidePageFragment newInstance(Course course) {
-        ScreenSlidePageFragment screenSlidePageFragment = new ScreenSlidePageFragment();
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+
+    public static PopularCourseBannerFragment newInstance(Course course) {
+        PopularCourseBannerFragment popularCourseBannerFragment = new PopularCourseBannerFragment();
 
         Bundle args = new Bundle();
         args.putParcelable(COURSE_KEY, Parcels.wrap(course));
-        screenSlidePageFragment.setArguments(args);
-        return screenSlidePageFragment;
+        popularCourseBannerFragment.setArguments(args);
+        return popularCourseBannerFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_screen_slide_page, container, false);
+                R.layout.fragment_popular_course_banner, container, false);
         return rootView;
     }
 
@@ -56,6 +60,7 @@ public class ScreenSlidePageFragment extends Fragment {
         Course course = Parcels.unwrap(getArguments().getParcelable(COURSE_KEY));
         int displayWidth = getResources().getDisplayMetrics().widthPixels;
         Picasso.with(getContext()).load(course.getPhotoUrl()).resize(displayWidth, 0).into(ivImage);
+        tvTitle.setText(course.getTitle());
 
         ivImage.setOnClickListener(new View.OnClickListener(){
 
