@@ -1,11 +1,12 @@
 package com.einsteiny.einsteiny.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.utils.CoursesUtils;
-import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import org.parceler.Parcels;
 
@@ -26,12 +26,10 @@ import java.util.List;
  */
 public class ExploreFragment extends Fragment {
 
-    private static final String TAG = "ExploreFragment";
-    private static final int NUM_PAGES = 4;
-
     private static final String ARG_ALL_COURSES = "all_courses";
+
     private ViewPager mPager;
-    private FragmentPagerAdapter mPagerAdapter;
+    private FragmentStatePagerAdapter mPagerAdapter;
     private List<Course> PopularCourses;
 
     public static ExploreFragment newInstance(List<Course> allCourses) {
@@ -53,6 +51,13 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -61,14 +66,13 @@ public class ExploreFragment extends Fragment {
             populateTopics(allCourses);
         }
         // Instantiate a ViewPager and a PagerAdapter.
-        PopularCourses = CoursesUtils.getCoursesForCategory(allCourses, "Arts");
+        PopularCourses = CoursesUtils.getPopularCourses(allCourses);
         mPager = (ViewPager) view.findViewById(R.id.pager);
-
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) view.findViewById(R.id.indicator);
-        inkPageIndicator.setViewPager(mPager);
+//        InkPageIndicator inkPageIndicator = (InkPageIndicator) view.findViewById(R.id.indicator);
+//        inkPageIndicator.setViewPager(mPager);
     }
+
 
     private void populateTopics(List<Course> allCourses) {
         getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
@@ -89,7 +93,7 @@ public class ExploreFragment extends Fragment {
         }
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -102,6 +106,12 @@ public class ExploreFragment extends Fragment {
         @Override
         public int getCount() {
             return PopularCourses.size();
+        }
+
+        @Override
+        public Parcelable saveState() {
+            // Do Nothing
+            return null;
         }
     }
 }
