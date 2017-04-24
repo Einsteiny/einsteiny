@@ -21,25 +21,30 @@
 
     <RelativeLayout
         android:id="@+id/emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
         android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:text="NOTHING YET :("
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivNoData"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/tvNoData"
             android:src="@drawable/no_data_einstein" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ivNoData"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/simple_margin"
-            android:text="Nothing yet :("
-            android:textStyle="bold" />
+
     </RelativeLayout>
 
 </LinearLayout>
