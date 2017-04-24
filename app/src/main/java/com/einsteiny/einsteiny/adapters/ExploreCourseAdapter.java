@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -133,21 +134,14 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         }
 
         holder.liked.setOnClickListener(v -> {
-//            if (element.getLiked() == 1) {
-//                likeButton.setImageResource(R.drawable.ic_heart_outline_grey);
-//                //update Db here
-//                element.setLiked(0);
-//                databaseHelper.updateLikedStatusOfProgram(element, 0);
-//                showLikedSnackbar(v, element.getName() + " unliked!");
-//
-//            } else {
-            updateHeartButton(holder, true);
-            holder.liked.setImageResource(R.drawable.ic_heart);
-//            element.setLiked(1);
-//            databaseHelper.updateLikedStatusOfProgram(element, 1);
-//            showLikedSnackbar(v, element.getName() + " liked!");
-            // }
-
+            if (CustomUser.isLikedCourse(course)) {
+                holder.liked.setImageResource(R.drawable.ic_heart_outline);
+                CustomUser.unlikeCourse(course);
+            } else {
+                updateHeartButton(holder, true);
+                holder.liked.setImageResource(R.drawable.ic_heart);
+                CustomUser.likeCourse(course);
+            }
         });
     }
 
