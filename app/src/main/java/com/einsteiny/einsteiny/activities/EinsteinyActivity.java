@@ -185,7 +185,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                                 ps.oneShot(bottomNavigationView, 70);
                             }
 
-                            if (fromFragment == explore){
+                            if (fromFragment == explore) {
                                 // slide fragment in from the right
                                 fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                             } else if (fromFragment == profile) {

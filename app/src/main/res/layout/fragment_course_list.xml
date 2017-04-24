@@ -19,6 +19,29 @@
         android:layout_height="wrap_content"
         android:layout_margin="2dp" />
 
+    <RelativeLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivNoData"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/no_data_einstein" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivNoData"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/simple_margin"
+            android:text="Nothing yet :("
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 </LinearLayout>
 
 
