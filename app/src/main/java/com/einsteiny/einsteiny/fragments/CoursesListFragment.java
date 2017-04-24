@@ -13,6 +13,7 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
@@ -53,6 +54,9 @@ public class CoursesListFragment extends Fragment {
     @BindView(R.id.tvTitle)
     TextView tvTitle;
 
+    @BindView(R.id.emptyView)
+    RelativeLayout emptyView;
+
     public static CoursesListFragment newInstance(String title, List<Course> courses, Type type) {
         CoursesListFragment topicListFragment = new CoursesListFragment();
         Bundle args = new Bundle();
@@ -79,6 +83,14 @@ public class CoursesListFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         courses = Parcels.unwrap(getArguments().getParcelable(ARG_COURSES));
+        tvTitle.setText(getArguments().getString(ARG_TITLE));
+
+        if (courses == null || courses.isEmpty()) {
+            rvTopics.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+            return;
+        }
+
         type = (Type) getArguments().getSerializable(ARG_TYPE);
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {
@@ -112,7 +124,7 @@ public class CoursesListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvTopics.setLayoutManager(layoutManager);
 
-        tvTitle.setText(getArguments().getString(ARG_TITLE));
+
     }
 
 

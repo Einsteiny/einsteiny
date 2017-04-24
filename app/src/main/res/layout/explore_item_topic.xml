@@ -57,6 +57,14 @@
             android:layout_margin="@dimen/simple_margin"
             android:textStyle="bold" />
 
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_heart_outline" />
+
         <!--<TextView-->
         <!--android:id="@+id/tvSnippet"-->
         <!--android:layout_width="200dp"-->

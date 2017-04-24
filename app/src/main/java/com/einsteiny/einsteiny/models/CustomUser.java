@@ -17,6 +17,7 @@ public class CustomUser implements Serializable {
     public static final String COMPLETED_COURSES_KEY = "completed_courses";
     public static final String PROGRESS_FOR_COURSE = "progress_for_course";
     public static final String SUBSCRIBED_COURSES_DATES_KEY = "subscribed_courses_dates";
+    public static final String LIKED_COURSES_KEY = "liked_courses";
 
     private static Course newlyFinishedCourse = null;
 
@@ -57,6 +58,48 @@ public class CustomUser implements Serializable {
 
         user.put(SUBSCRIBED_COURSES_KEY, courses);
         user.saveInBackground();
+    }
+
+    public static void likeCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(LIKED_COURSES_KEY);
+        if (courses == null) {
+            courses = new ArrayList<>();
+        }
+        if (!courses.contains(course.getId())) {
+            courses.add(course.getId());
+        }
+
+        user.put(LIKED_COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
+    public static void unlikeCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(LIKED_COURSES_KEY);
+        if (courses == null) {
+            courses = new ArrayList<>();
+        } else {
+            courses.remove(course.getId());
+        }
+
+        user.put(LIKED_COURSES_KEY, courses);
+        user.saveInBackground();
+    }
+
+    public static boolean isLikedCourse(Course course) {
+        ParseUser user = ParseUser.getCurrentUser();
+        List<String> courses = (List<String>) user.get(LIKED_COURSES_KEY);
+        if (courses == null || courses.isEmpty()) {
+            return false;
+        }
+        return courses.contains(course.getId());
+
+    }
+
+    public static List<String> getLikedCourses() {
+        ParseUser user = ParseUser.getCurrentUser();
+        return (List<String>) user.get(LIKED_COURSES_KEY);
     }
 
     public static void addProgressForCourse(String courseId) {
