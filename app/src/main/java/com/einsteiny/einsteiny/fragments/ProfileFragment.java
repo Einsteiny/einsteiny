@@ -3,6 +3,7 @@ package com.einsteiny.einsteiny.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class ProfileFragment extends Fragment {
     private static final String LOG_TAG = "Einsteiny";
 
     private TextView tvProfileName;
-    private Button btnLogout;
+    private FloatingActionButton btnLogout;
     private ToggleButton tglNotifications;
     private ToggleButton tglFacebook;
     private TextView lblConnectedWithFacebookSetting;
@@ -66,7 +67,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tvProfileName = (TextView) view.findViewById(R.id.tvProfileName);
-        btnLogout = (Button) view.findViewById(R.id.btnProfileLogout);
+        btnLogout = (FloatingActionButton) view.findViewById(R.id.fabLogout);
         tglFacebook = (ToggleButton) view.findViewById(R.id.tglConnectFacebook);
         lblConnectedWithFacebookSetting = (TextView) view.findViewById(R.id.lblConnectedWithFacebookSetting);
 
@@ -76,7 +77,7 @@ public class ProfileFragment extends Fragment {
             tglFacebook.setChecked(true);
         } else {
             tglFacebook.setChecked(false);
-            lblConnectedWithFacebookSetting.setText("Log in with Facebook to connect");
+            lblConnectedWithFacebookSetting.setText(R.string.connect_with_facebook);
             tglFacebook.setEnabled(false);
         }
 
@@ -110,6 +111,8 @@ public class ProfileFragment extends Fragment {
                             }
                         });
                         tglFacebook.setChecked(false);
+                        tglFacebook.setEnabled(false);
+                        lblConnectedWithFacebookSetting.setText(R.string.connect_with_facebook);
                     }
                 }
 
