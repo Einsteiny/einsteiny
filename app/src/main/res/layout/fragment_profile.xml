@@ -5,25 +5,28 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:id="@+id/rlUserHeader"
-        android:layout_marginTop="80dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@color/primary_dark">
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friendProfilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="87dp" >
+            android:layout_centerHorizontal="true"
+            android:background="@color/primary_dark"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_centerInParent="true" >
 
             <ImageView
                 android:id="@+id/ivProfileImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true" />
+                android:src="@drawable/subtracted_circle"/>
         </com.facebook.login.widget.ProfilePictureView>
 
         <TextView
@@ -32,6 +35,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="Name"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
@@ -39,8 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rlNotificationPreference"
-        android:layout_below="@+id/rlUserHeader">
-        
+        android:layout_below="@+id/rlUserHeader"
+        android:background="@color/primary_light">
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="10dp" />
@@ -50,7 +56,8 @@
             android:layout_height="wrap_content"
             android:text="Notifications"
             android:textSize="20sp"
-            android:id="@+id/lblNotifications"/>
+            android:id="@+id/lblNotifications"
+            android:textColor="@color/primary_text"/>
 
         <ToggleButton
             android:layout_width="wrap_content"
@@ -63,7 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rlConnectedWithFacebook"
-        android:layout_below="@+id/rlNotificationPreference">
+        android:layout_below="@+id/rlNotificationPreference"
+        android:background="@color/primary_light"
+        >
 
         <Space
             android:layout_width="wrap_content"
@@ -74,7 +83,8 @@
             android:layout_height="wrap_content"
             android:text="@string/connected_with_facebook_label"
             android:textSize="20sp"
-            android:id="@+id/lblConnectedWithFacebook"/>
+            android:id="@+id/lblConnectedWithFacebook"
+            android:textColor="@color/primary_text"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,25 +99,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:checked="true"
-            android:text="@string/facebook_connected_button_disconnect"
             android:id="@+id/tglConnectFacebook"/>
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rlLogout"
-        android:layout_below="@+id/rlNotificationPreference">
 
-        <Button
-            android:id="@+id/btnProfileLogout"
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="170dp"
-            android:text="@string/profile_logout_button_label"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="57dp" />
-    </RelativeLayout>
+            android:layout_below="@id/rlConnectedWithFacebook"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_exit_app_white_24px"
+            android:id="@+id/fabLogout"/>
 
 
 </RelativeLayout>

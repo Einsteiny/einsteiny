@@ -1,5 +1,6 @@
 package com.einsteiny.einsteiny.activities;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.einsteiny.einsteiny.R;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -15,28 +17,43 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
 import java.util.Arrays;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageView;
+
+import static rx.schedulers.Schedulers.start;
 
 
 public class LoginActivity extends AppCompatActivity {
     private static final int LOGIN_REQUEST = 0;
     private static final String LOG_TAG = "Einsteiny";
 
-    private TextView titleTextView;
-    private TextView emailTextView;
-    private TextView nameTextView;
     private Button loginOrLogoutButton;
+    private ImageView launchView;
 
     private ParseUser currentUser;
+
+    // Get a MemoryInfo object for the device's current memory status.
+    private ActivityManager.MemoryInfo getAvailableMemory() {
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(memoryInfo);
+        return memoryInfo;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-        titleTextView = (TextView) findViewById(R.id.profile_title);
-        emailTextView = (TextView) findViewById(R.id.profile_email);
-        nameTextView = (TextView) findViewById(R.id.profile_name);
         loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
+        launchView = (ImageView) findViewById(R.id.launchGif);
+
+        ActivityManager.MemoryInfo memoryInfo = getAvailableMemory();
+
+        if (!memoryInfo.lowMemory) {
+            Glide.with(this).load(R.drawable.launch_einsteiny).asGif().into(launchView);
+        }
 
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,9 +140,6 @@ public class LoginActivity extends AppCompatActivity {
      * Show a message asking the user to log in, toggle login/logout button text.
      */
     private void showProfileLoggedOut() {
-        titleTextView.setText("");
-        emailTextView.setText("");
-        nameTextView.setText("");
         loginOrLogoutButton.setText(R.string.login_button_label);
     }
 
