@@ -76,8 +76,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         if (database != null) {
             courses = SQLite.select().
                     from(Course.class).queryList();
-            setBottomNavigationBar(courses);
-            pb.setVisibility(ProgressBar.INVISIBLE);
         }
 
         if (courses == null || courses.isEmpty()) {
@@ -109,6 +107,9 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
                         }
                     });
+        } else {
+            setBottomNavigationBar(courses);
+            pb.setVisibility(ProgressBar.INVISIBLE);
         }
 
 
