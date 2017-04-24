@@ -97,6 +97,11 @@ public class CustomUser implements Serializable {
 
     }
 
+    public static List<String> getLikedCourses() {
+        ParseUser user = ParseUser.getCurrentUser();
+        return (List<String>) user.get(LIKED_COURSES_KEY);
+    }
+
     public static void addProgressForCourse(String courseId) {
         ParseUser user = ParseUser.getCurrentUser();
         HashMap<String, Integer> progress = (HashMap<String, Integer>) user.get(PROGRESS_FOR_COURSE);

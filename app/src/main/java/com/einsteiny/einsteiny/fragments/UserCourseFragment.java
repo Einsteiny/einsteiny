@@ -50,11 +50,13 @@ public class UserCourseFragment extends Fragment {
 
             List<Course> subscribedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
             List<Course> completedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getCompletedCourses());
+            List<Course> likedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getLikedCourses());
 
 
             FragmentActivity activity = getActivity();
             CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
             CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
+            CoursesListFragment likedListFragment = CoursesListFragment.newInstance("Liked", likedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
             if (activity != null) {
                 FragmentTransaction ftActive = getChildFragmentManager().beginTransaction();
                 ftActive.replace(R.id.activeCourses, activeListFragment);
@@ -63,6 +65,10 @@ public class UserCourseFragment extends Fragment {
                 FragmentTransaction ftCompleted = getChildFragmentManager().beginTransaction();
                 ftCompleted.replace(R.id.completedCourses, completedListFragment);
                 ftCompleted.commit();
+
+                FragmentTransaction ftLiked = getChildFragmentManager().beginTransaction();
+                ftLiked.replace(R.id.likedCourses, likedListFragment);
+                ftLiked.commit();
             }
 
         }
