@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
+
 /**
  * Created by lsyang on 4/8/17.
  */
@@ -32,6 +34,22 @@ public class ExploreFragment extends Fragment {
     private ViewPager mPager;
     private FragmentPagerAdapter mPagerAdapter;
     private List<Course> PopularCourses;
+    Handler handler;
+    int page;
+    private int delay = 3000; //milliseconds
+
+    Runnable runnable = new Runnable() {
+        public void run() {
+            page = mPager.getCurrentItem();
+            if (mPagerAdapter.getCount() == page + 1) {
+                page = 0;
+            } else {
+                page++;
+            }
+            mPager.setCurrentItem(page, true);
+            handler.postDelayed(this, delay);
+        }
+    };
 
     public static ExploreFragment newInstance(List<Course> allCourses) {
         ExploreFragment topicListFragment = new ExploreFragment();
@@ -67,6 +85,7 @@ public class ExploreFragment extends Fragment {
             populateTopics(allCourses);
         }
         // Instantiate a ViewPager and a PagerAdapter.
+        handler = new Handler();
         PopularCourses = CoursesUtils.getPopularCourses(allCourses);
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
@@ -75,6 +94,17 @@ public class ExploreFragment extends Fragment {
         indicator.setViewPager(mPager);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, delay);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
 
     private void populateTopics(List<Course> allCourses) {
         getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
