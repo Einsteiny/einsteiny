@@ -115,6 +115,12 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
         holder.rating.setRating(course.getComplexity());
 
+        if (CustomUser.isLikedCourse(course)) {
+            holder.liked.setImageResource(R.drawable.ic_heart);
+        } else {
+            holder.liked.setImageResource(R.drawable.ic_heart_outline);
+        }
+
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
             Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.einstein_placeholder).into(holder.ivImage,
