@@ -7,5 +7,5 @@ public class CourseDatabase {
 
     public static final String NAME = "EinsteinyCoursesDB";
 
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 }
