@@ -175,7 +175,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         case R.id.action_user_course:
                             if (CustomUser.getNewlyFinishedCourse() != null) {
                                 Course course = CustomUser.getNewlyFinishedCourse();
-                                Toast.makeText(this, "Congratz on finishing " + course.getTitle(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Congrats on finishing " + course.getTitle(), Toast.LENGTH_SHORT).show();
                                 CustomUser.setNewlyFinishedCourse(null);
                                 ParticleSystem ps = new ParticleSystem(this, 100, R.drawable.ic_yellow_star, 800);
                                 ps.setScaleRange(0.7f, 1.3f);
