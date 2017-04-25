@@ -13,17 +13,16 @@
             android:layout_width="wrap_content"
             android:layout_height="300dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:transitionName="courseImage" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/title_margin"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:transitionName="courseTitle" />
+            android:textStyle="bold" />
     </RelativeLayout>
 </ScrollView>

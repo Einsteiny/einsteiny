@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.LoginIntroFragment;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_or_logout_button)
     Button loginOrLogoutButton;
 
-    ImageView launchView;
+//    ImageView launchView;
 
     private ParseUser currentUser;
 
@@ -46,11 +46,14 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.loginIndicator)
     CircleIndicator indicator;
 
+    @BindView(R.id.loginLayout)
+    RelativeLayout loginLayout;
+
 
     private FragmentPagerAdapter mPagerAdapter;
     Handler handler;
     int page;
-    private int delay = 3000; //milliseconds
+    private int delay = 4000; //milliseconds
 
     Runnable runnable = new Runnable() {
         public void run() {
@@ -61,6 +64,20 @@ public class LoginActivity extends AppCompatActivity {
                 page++;
             }
             pager.setCurrentItem(page, true);
+//            Bitmap bitmap;
+//            if (page == 0) {
+//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
+//            } else if (page == 1) {
+//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein2);
+//
+//            } else if (page == 2) {
+//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein3);
+//            } else {
+//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein4);
+//            }
+
+//            Palette palette = Palette.from(bitmap).generate();
+//            loginLayout.setBackgroundColor(palette.getDominantColor(0));
             handler.postDelayed(this, delay);
         }
     };
@@ -93,6 +110,10 @@ public class LoginActivity extends AppCompatActivity {
         handler = new Handler();
         pager.setAdapter(mPagerAdapter);
         indicator.setViewPager(pager);
+
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
+//        Palette palette = Palette.from(bitmap).generate();
+//        loginLayout.setBackgroundColor(palette.getDominantColor(0));
 
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,14 +224,34 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
-                    return LoginIntroFragment.newInstance("HEllo", R.drawable.einstein1);
-                case 1:
-                    return LoginIntroFragment.newInstance("HEllo", R.drawable.einstein2);
-                case 2:
-                    return LoginIntroFragment.newInstance("HEllo", R.drawable.einstein3);
-                default:
-                    return LoginIntroFragment.newInstance("HEllo", R.drawable.einstein4);
+                case 0: {
+                    LoginIntroFragment frag = LoginIntroFragment.newInstance("Hi! I am Einsteiny :)", R.drawable.einstein2);
+//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
+//                    Palette palette = Palette.from(bitmap).generate();
+//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+                    return frag;
+                }
+                case 1: {
+                    LoginIntroFragment frag = LoginIntroFragment.newInstance("I will help you to learn effortlessly every day", R.drawable.einstein3);
+//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein2);
+//                    Palette palette = Palette.from(bitmap).generate();
+//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+                    return frag;
+                }
+                case 2: {
+                    LoginIntroFragment frag = LoginIntroFragment.newInstance("Even when it's hard", R.drawable.einstein4);
+//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein3);
+//                    Palette palette = Palette.from(bitmap).generate();
+//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+                    return frag;
+                }
+                default: {
+                    LoginIntroFragment frag = LoginIntroFragment.newInstance("I am with you", R.drawable.einstein1);
+//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein4);
+//                    Palette palette = Palette.from(bitmap).generate();
+//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+                    return frag;
+                }
 
             }
 

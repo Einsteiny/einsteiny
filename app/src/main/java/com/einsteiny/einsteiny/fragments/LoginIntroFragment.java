@@ -53,9 +53,11 @@ public class LoginIntroFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-
         tvTitle.setText(getArguments().getString(TEXT_EXTRA));
-        ivImage.setImageDrawable(getResources().getDrawable(getArguments().getInt(DRAWABLE_EXTRA)));
+
+        int drawableResource = getArguments().getInt(DRAWABLE_EXTRA);
+        ivImage.setImageDrawable(getResources().getDrawable(drawableResource));
+
 
     }
 }
