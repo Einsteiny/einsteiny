@@ -4,56 +4,57 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_exit_app_white_24px"
-        android:id="@+id/fabLogout"/>
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_exit_app_white_24px" />
 
 
     <RelativeLayout
+        android:id="@+id/rlUserHeader"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:id="@+id/rlUserHeader"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@color/primary_dark">
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friendProfilePicture"
-            android:saveEnabled="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@color/primary_dark"
-            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
             android:layout_marginBottom="20dp"
-            android:layout_centerInParent="true" >
+            android:layout_marginTop="10dp"
+            android:background="@color/primary_dark"
+            android:saveEnabled="false">
 
             <ImageView
                 android:id="@+id/ivProfileImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/subtracted_circle"/>
+                android:src="@drawable/subtracted_circle" />
         </com.facebook.login.widget.ProfilePictureView>
 
         <TextView
             android:id="@+id/tvProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Name"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:text="Name"
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rlNotificationPreference"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rlNotificationPreference"
         android:layout_below="@+id/rlUserHeader"
         android:background="@color/primary_light">
 
@@ -62,73 +63,73 @@
             android:layout_height="10dp" />
 
         <TextView
+            android:id="@+id/lblNotifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/simple_margin"
             android:text="Notifications"
-            android:textSize="20sp"
-            android:id="@+id/lblNotifications"
-            android:textColor="@color/primary_text"/>
+            android:textColor="@color/primary_text"
+            android:textSize="20sp" />
 
         <ToggleButton
+            android:id="@+id/tglNotifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:checked="true"
-            android:id="@+id/tglNotifications"/>
-        </RelativeLayout>
+            android:checked="true" />
+    </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/rlConnectedWithFacebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rlConnectedWithFacebook"
         android:layout_below="@+id/rlNotificationPreference"
-        android:background="@color/primary_light"
-        >
+        android:background="@color/primary_light">
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="10dp" />
 
         <TextView
+            android:id="@+id/lblConnectedWithFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/simple_margin"
             android:text="@string/connected_with_facebook_label"
-            android:textSize="20sp"
-            android:id="@+id/lblConnectedWithFacebook"
-            android:textColor="@color/primary_text"/>
+            android:textColor="@color/primary_text"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/lblConnectedWithFacebookSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lblConnectedWithFacebookSetting"
-            android:text=""
             android:layout_below="@id/lblConnectedWithFacebook"
-            />
+            android:text="" />
 
         <ToggleButton
+            android:id="@+id/tglConnectFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:checked="true"
-            android:id="@+id/tglConnectFacebook"/>
+            android:checked="true" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/graphTopics"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/graphTopics"
         android:layout_below="@id/rlConnectedWithFacebook">
 
-        <org.eazegraph.lib.charts.PieChart
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/piechart"
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:padding="8dp"
             app:egLegendTextSize="18sp"
             app:egUsePieRotation="true"
-            app:egValueTextSize="36sp"/>
+            app:egValueTextSize="36sp" />
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>
