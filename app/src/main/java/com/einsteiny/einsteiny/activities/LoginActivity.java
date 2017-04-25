@@ -65,13 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             }
             pager.setCurrentItem(page, true);
             if (page == 0) {
-
                 loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
             } else if (page == 1) {
                 loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny3));
-
-            } else if (page == 2) {
-                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny4));
 
             } else {
                 loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny1));
@@ -227,21 +223,20 @@ public class LoginActivity extends AppCompatActivity {
             switch (position) {
                 case 0: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("Hi! I am Einsteiny :)", R.drawable.einstein2);
+                    // loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
 //
                     return frag;
                 }
                 case 1: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("I will help you to learn effortlessly every day", R.drawable.einstein3);
+                    // loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny3));
 //
                     return frag;
                 }
-                case 2: {
-                    LoginIntroFragment frag = LoginIntroFragment.newInstance("Even when it's hard", R.drawable.einstein4);
-//
-                    return frag;
-                }
+
                 default: {
-                    LoginIntroFragment frag = LoginIntroFragment.newInstance("I am with you", R.drawable.einstein1);
+                    LoginIntroFragment frag = LoginIntroFragment.newInstance("Even when it's hard, I am with you", R.drawable.einstein1);
+                    // loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny1));
 //
                     return frag;
                 }
@@ -252,7 +247,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
     }
 
