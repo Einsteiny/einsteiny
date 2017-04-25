@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/loginIndicator"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold" />
 
