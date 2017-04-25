@@ -64,17 +64,19 @@ public class LoginActivity extends AppCompatActivity {
                 page++;
             }
             pager.setCurrentItem(page, true);
-//            Bitmap bitmap;
-//            if (page == 0) {
-//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
-//            } else if (page == 1) {
-//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein2);
-//
-//            } else if (page == 2) {
-//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein3);
-//            } else {
-//                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein4);
-//            }
+            if (page == 0) {
+
+                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
+            } else if (page == 1) {
+                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny3));
+
+            } else if (page == 2) {
+                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny4));
+
+            } else {
+                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny1));
+
+            }
 
 //            Palette palette = Palette.from(bitmap).generate();
 //            loginLayout.setBackgroundColor(palette.getDominantColor(0));
@@ -106,14 +108,13 @@ public class LoginActivity extends AppCompatActivity {
 //            Glide.with(this).load(R.drawable.launch_einsteiny).asGif().into(launchView);
 //        }
 
+        loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
+
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         handler = new Handler();
         pager.setAdapter(mPagerAdapter);
         indicator.setViewPager(pager);
 
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
-//        Palette palette = Palette.from(bitmap).generate();
-//        loginLayout.setBackgroundColor(palette.getDominantColor(0));
 
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,30 +227,22 @@ public class LoginActivity extends AppCompatActivity {
             switch (position) {
                 case 0: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("Hi! I am Einsteiny :)", R.drawable.einstein2);
-//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein1);
-//                    Palette palette = Palette.from(bitmap).generate();
-//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+//
                     return frag;
                 }
                 case 1: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("I will help you to learn effortlessly every day", R.drawable.einstein3);
-//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein2);
-//                    Palette palette = Palette.from(bitmap).generate();
-//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+//
                     return frag;
                 }
                 case 2: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("Even when it's hard", R.drawable.einstein4);
-//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein3);
-//                    Palette palette = Palette.from(bitmap).generate();
-//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+//
                     return frag;
                 }
                 default: {
                     LoginIntroFragment frag = LoginIntroFragment.newInstance("I am with you", R.drawable.einstein1);
-//                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.einstein4);
-//                    Palette palette = Palette.from(bitmap).generate();
-//                    loginLayout.setBackgroundColor(palette.getDominantColor(0));
+//
                     return frag;
                 }
 
