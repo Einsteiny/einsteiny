@@ -7,7 +7,7 @@
     android:paddingBottom="@dimen/com_parse_ui_vertical_margin"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:background="@color/primary_light">
 
     <include
         layout="@layout/com_parse_ui_parse_signup_form"

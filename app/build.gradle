@@ -27,6 +27,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.einsteiny.einsteiny"
+        multiDexEnabled true
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -108,4 +109,11 @@ dependencies {
 
     compile 'com.android.support:palette-v7:25.2.0'
 
+    compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
+
+    compile group: 'com.google.guava', name: 'guava', version: '20.0'
+
 }
+
+

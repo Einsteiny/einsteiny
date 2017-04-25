@@ -48,6 +48,7 @@
 
     <Button
         android:id="@+id/parse_login_help"
+        android:textColor="@color/primary_text"
         style="@style/ParseLoginUI.HelpButton"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
         android:layout_marginBottom="@dimen/com_parse_ui_small_vertical_spacing"
