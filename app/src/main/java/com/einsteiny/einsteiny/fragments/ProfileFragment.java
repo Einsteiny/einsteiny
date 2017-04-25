@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,20 +18,35 @@ import android.widget.ToggleButton;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.LoginActivity;
+import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
+import com.einsteiny.einsteiny.utils.CoursesUtils;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_COURSES;
+import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_TITLE;
+import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_TYPE;
 
 
 /**
@@ -39,6 +55,7 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     private static final String LOG_TAG = "Einsteiny";
+    private static final String ARG_ALL_COURSES = "all_courses";
 
     private TextView tvProfileName;
     private FloatingActionButton btnLogout;
@@ -48,6 +65,14 @@ public class ProfileFragment extends Fragment {
 
     private OnLogoutClickListener listener;
 
+    public static ProfileFragment newInstance(List<Course> allCourses) {
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
+        profileFragment.setArguments(args);
+        return profileFragment;
+    }
 
     public interface OnLogoutClickListener {
         public void profileLogout();
@@ -80,6 +105,33 @@ public class ProfileFragment extends Fragment {
             lblConnectedWithFacebookSetting.setText(R.string.connect_with_facebook);
             tglFacebook.setEnabled(false);
         }
+
+        // Get the course topics to show user what they have been interested in
+        // Note: prefer the below over "String words[]"
+        String[] categories = {"Arts","Economics & finance","Computing","Science"};
+        String[] colors = {"#FE6DA8", "#56B7F1", "#CDA67F", "#FED70E"};
+        Multiset<String> categoryMap = HashMultiset.create(Arrays.asList(categories));
+
+        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
+        if (allCourses != null) {
+            for (int x=0; x < allCourses.size(); x++){
+                // Build the map of categories for courses
+                categoryMap.add(allCourses.get(x).getCategory().toString(), 1);
+            }
+
+        }
+
+        PieChart mPieChart = (PieChart) view.findViewById(R.id.piechart);
+
+        int color_count = 0;
+        // Put the counts into PieChart
+        for (Multiset.Entry<String> entry : categoryMap.entrySet()) {
+            System.out.println(entry.getElement() + ": " + entry.getCount());
+            mPieChart.addPieSlice(new PieModel(entry.getElement(), entry.getCount(), Color.parseColor(colors[color_count])));
+            color_count++;
+        }
+
+        mPieChart.startAnimation();
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

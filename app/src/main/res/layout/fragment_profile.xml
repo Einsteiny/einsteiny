@@ -3,10 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_exit_app_white_24px"
+        android:id="@+id/fabLogout"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         android:id="@+id/rlUserHeader"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -19,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@color/primary_dark"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_centerInParent="true" >
 
             <ImageView
@@ -37,7 +46,7 @@
             android:textSize="16sp"
             android:text="Name"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
@@ -102,15 +111,24 @@
             android:checked="true"
             android:id="@+id/tglConnectFacebook"/>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/graphTopics"
+        android:layout_below="@id/rlConnectedWithFacebook">
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/rlConnectedWithFacebook"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_exit_app_white_24px"
-            android:id="@+id/fabLogout"/>
+        <org.eazegraph.lib.charts.PieChart
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:padding="8dp"
+            app:egLegendTextSize="18sp"
+            app:egUsePieRotation="true"
+            app:egValueTextSize="36sp"/>
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>
