@@ -4,7 +4,7 @@
     android:id="@+id/loginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/einsteiny2">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/loginPager"
@@ -20,6 +20,16 @@
         android:layout_below="@id/loginPager"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-40dp" />
+
+    <TextView
+        android:id="@+id/tvIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginIndicator"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textStyle="bold" />
 
 
     <Button
