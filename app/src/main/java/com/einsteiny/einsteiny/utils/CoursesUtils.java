@@ -45,15 +45,19 @@ public class CoursesUtils {
 
     public static List<Course> getPopularCourses(List<Course> allCourses) {
         List<Course> courses = new ArrayList<>();
+        List<Course> sortCourses = new ArrayList<>(allCourses);
 
-        Collections.sort(allCourses, new Comparator<Course>(){
-            public int compare(Course o1, Course o2){
+        Collections.sort(sortCourses, new Comparator<Course>() {
+            public int compare(Course o1, Course o2) {
                 return Float.compare(o2.getComplexity(), o1.getComplexity());
             }
         });
 
-        for(int i = 0; i < POPULARITY_THRESHOLD; i++) {
-            courses.add(allCourses.get(i));
+
+        for (int i = 0; i < POPULARITY_THRESHOLD; i++) {
+            if (sortCourses.size() >= i) {
+                courses.add(sortCourses.get(i));
+            }
         }
 
         return courses;

@@ -33,7 +33,7 @@ public class ExploreFragment extends Fragment {
 
     private ViewPager mPager;
     private FragmentPagerAdapter mPagerAdapter;
-    private List<Course> PopularCourses;
+    private List<Course> popularCourses;
     Handler handler;
     int page;
     private int delay = 3000; //milliseconds
@@ -86,7 +86,7 @@ public class ExploreFragment extends Fragment {
         }
         // Instantiate a ViewPager and a PagerAdapter.
         handler = new Handler();
-        PopularCourses = CoursesUtils.getPopularCourses(allCourses);
+        popularCourses = CoursesUtils.getPopularCourses(allCourses);
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
 
@@ -132,12 +132,12 @@ public class ExploreFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return PopularCourseBannerFragment.newInstance(PopularCourses.get(position));
+            return PopularCourseBannerFragment.newInstance(popularCourses.get(position));
         }
 
         @Override
         public int getCount() {
-            return PopularCourses.size();
+            return popularCourses.size();
         }
     }
 }
