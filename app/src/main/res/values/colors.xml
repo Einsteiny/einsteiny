@@ -21,4 +21,10 @@
 
     <color name="lesson_done">@android:color/holo_green_dark</color>
     <color name="lesson_scheduled">@android:color/holo_orange_dark</color>
+
+    <color name="einsteiny1">#efa2ac</color>
+    <color name="einsteiny2">#f8d9aa</color>
+    <color name="einsteiny3">#b2d9bc</color>
+    <color name="einsteiny4">#f7d49a</color>
+
 </resources>
