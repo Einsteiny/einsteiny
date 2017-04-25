@@ -10,24 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.activities.LoginActivity;
 import com.einsteiny.einsteiny.models.Course;
-import com.einsteiny.einsteiny.models.CustomUser;
-import com.einsteiny.einsteiny.utils.CoursesUtils;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -39,14 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_COURSES;
-import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_TITLE;
-import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_TYPE;
 
 
 /**
@@ -96,9 +85,10 @@ public class ProfileFragment extends Fragment {
         tglFacebook = (ToggleButton) view.findViewById(R.id.tglConnectFacebook);
         lblConnectedWithFacebookSetting = (TextView) view.findViewById(R.id.lblConnectedWithFacebookSetting);
 
-        tvProfileName.setText(ParseUser.getCurrentUser().get("name").toString());
+        //it was empty for me, retrieve name in the same way as pic
+        //tvProfileName.setText(ParseUser.getCurrentUser().get("name").toString());
 
-        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             tglFacebook.setChecked(true);
         } else {
             tglFacebook.setChecked(false);
@@ -108,13 +98,13 @@ public class ProfileFragment extends Fragment {
 
         // Get the course topics to show user what they have been interested in
         // Note: prefer the below over "String words[]"
-        String[] categories = {"Arts","Economics & finance","Computing","Science"};
+        String[] categories = {"Arts", "Economics & finance", "Computing", "Science"};
         String[] colors = {"#FE6DA8", "#56B7F1", "#CDA67F", "#FED70E"};
         Multiset<String> categoryMap = HashMultiset.create(Arrays.asList(categories));
 
         List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
         if (allCourses != null) {
-            for (int x=0; x < allCourses.size(); x++){
+            for (int x = 0; x < allCourses.size(); x++) {
                 // Build the map of categories for courses
                 categoryMap.add(allCourses.get(x).getCategory().toString(), 1);
             }
@@ -185,6 +175,7 @@ public class ProfileFragment extends Fragment {
                                 ProfilePictureView profilePictureView;
                                 profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
                                 profilePictureView.setProfileId(response.getJSONObject().get("id").toString());
+                                tvProfileName.setText(response.getJSONObject().get("name").toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
