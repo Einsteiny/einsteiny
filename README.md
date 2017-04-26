@@ -1,6 +1,10 @@
 # Codepath Group Project - *Einsteiny*  [![Build Status](https://travis-ci.org/Einsteiny/einsteiny.svg?branch=master)](https://travis-ci.org/Einsteiny/einsteiny)
 
-**Einsteiny** builds on the Khan Academy API & content (for now, could be extended to several content providers) to offer users a way to get daily reminders to take a break and learn something new.  For the busy full time worker or for someone who has challenges sticking to online & remote learning, this tool will help create bite-sized lessons that you can complete to finish an overall goal.
+**Einsteiny** So many apps exist to help us track & measure fitness, water consumption, and nutrition.  With Einsteiny we are trying to bring this style of daily guidance to online learning.
+              
+Our app helps you sign up for courses from a wide range of categories and for each class you register in, you receive a daily notification with a small (<10min) lesson that will move you through to completing the course.  This helps you learn something new every day and make sustainable steps towards remaining a lifelong learner.
+              
+If you work full time and want to level up your skills in a new area of study or if you’re someone who wants to learn online but has difficulty staying on goal - we want to help you succeed!
 
 ## User Stories
 
@@ -15,38 +19,51 @@ Core:
 * [x] Spinner for progress/network load to give proper user feedback
 
 Extended
+* [x] Use Material Design to polish the UI
+* [x] Add animations to smooth the transition between fragments
+* [x] Add animation to opening screen
+* [x] Consistent color palette used throughout the app
+* [x] Add a scrolling header image to the Explore page
 * [x] Can use Facebook for account creation/login
-* [ ] User can see their progress in each category of study on the profile page as well as badges for in-app achievements
-* [ ] User can set the time for push notifications
-* [ ] User can mark a lesson "complete"
-* [ ] User can see the "tree" of what they have currently completed in a course (on the course detail page)
-* [ ] Lesson content (video, images, text) is downloaded and available offline for the user to complete it without worrying network will lose their progress
-* [ ] User can edit the default push notification settings from their profile page
+* [x] User can see their progress in each category of study on the profile page as well as badges for in-app achievements
+* [x] User can set the time for push notifications
+* [x] User can complete a lesson
+* [x] User can see the "tree" of what they have currently completed in a course (on the course detail page)
+
+## Final Demo Walkthrough
+
+<img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/final_walkthrough_demo.gif' title='Final Demo Walkthrough' width='' alt='Final Demo Walkthrough' />
+
+## Sprint 2 Walkthrough
+
+<img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/einsteiny.gif' title='Sprint 2 Walkthrough' width='' alt='Sprint 2 Walkthrough' />
 
 ## Wireframe Walkthrough
 
-Walkthrough of Sprint 2:
-
-<img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/einsteiny.gif' title='Wireframes Walkthrough' width='' alt='Wireframes Walkthrough' />
-
-
-Here's a walkthrough of wireframes for the MVP:
-
 <img src='https://github.com/Einsteiny/einsteiny/blob/master/resources/wireframes.gif' title='Wireframes Walkthrough' width='' alt='Wireframes Walkthrough' />
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
 ## Notes
-
+* GIFs created with [LiceCap](http://www.cockos.com/licecap/)
 
 ## Open-source libraries used
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [ParseUI Android](https://github.com/parse-community/ParseUI-Android) - ParseUI contains user interface libraries for building apps with the Parse Android SDK.
+- [EazeGraph](https://github.com/blackfizz/EazeGraph) - An Android chart and graph library
+- [Guava](https://github.com/google/guava) - Google Core Libraries for Java
+- [Nineoldandroids](http://nineoldandroids.com/) -  Android library for using the Honeycomb (Android 3.0) animation API on all versions of the platform back to 1.0!
+- [DBFlow](https://github.com/Raizlabs/DBFlow) - 
+A blazing fast, powerful, and very simple ORM android database library that writes database code for you.
+- [Parceler](parceler.org) - Android Parcelable code generator for Google Android
+- [Butterknife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks to fields and methods. 
+- [Retrofit](https://github.com/square/retrofit) -  Type-safe HTTP client for Android and Java by Square, Inc. 
+- [RXAndroid](https://github.com/ReactiveX/RxAndroid) - RxJava bindings for Android
+- [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
 
 ## License
 
-    Copyright 2017 Einsteiny
+    Copyright 2017 Einsteiny: Antonina Cherednichenko, Sam Liu, Lukas Blakk
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

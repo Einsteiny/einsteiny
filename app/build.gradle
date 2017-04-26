@@ -93,7 +93,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
 
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
