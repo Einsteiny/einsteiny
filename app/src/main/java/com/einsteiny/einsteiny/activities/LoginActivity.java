@@ -1,6 +1,5 @@
 package com.einsteiny.einsteiny.activities;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +21,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
+import com.skyfishjy.library.RippleBackground;
 
 import java.util.Arrays;
 
@@ -37,8 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_or_logout_button)
     Button loginOrLogoutButton;
 
-//    ImageView launchView;
-
     private ParseUser currentUser;
 
     @BindView(R.id.loginPager)
@@ -52,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.tvIntro)
     TextView tvIntro;
+
+    @BindView(R.id.content)
+    RippleBackground rippleBackground;
 
 
     private FragmentPagerAdapter mPagerAdapter;
@@ -81,19 +82,10 @@ public class LoginActivity extends AppCompatActivity {
 
             }
 
-//            Palette palette = Palette.from(bitmap).generate();
-//            loginLayout.setBackgroundColor(palette.getDominantColor(0));
+
             handler.postDelayed(this, delay);
         }
     };
-
-    // Get a MemoryInfo object for the device's current memory status.
-    private ActivityManager.MemoryInfo getAvailableMemory() {
-        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        activityManager.getMemoryInfo(memoryInfo);
-        return memoryInfo;
-    }
 
 
     @Override
@@ -103,13 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-//        launchView = (ImageView) findViewById(R.id.launchGif);
-
-//        ActivityManager.MemoryInfo memoryInfo = getAvailableMemory();
-//
-//        if (!memoryInfo.lowMemory) {
-//            Glide.with(this).load(R.drawable.launch_einsteiny).asGif().into(launchView);
-//        }
+        rippleBackground.startRippleAnimation();
 
         tvIntro.setText("Hi! I am Einsteiny :)");
         loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
@@ -217,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
      * Show a message asking the user to log in, toggle login/logout button text.
      */
     private void showProfileLoggedOut() {
-        loginOrLogoutButton.setText(R.string.login_button_label);
+        //loginOrLogoutButton.setText(R.string.login_button_label);
     }
 
 
