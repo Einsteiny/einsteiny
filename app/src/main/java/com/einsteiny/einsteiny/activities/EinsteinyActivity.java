@@ -52,7 +52,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
     private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
 
     private Fragment fromFragment;
-    private Fragment toFragment;
 
 
     @Override
@@ -111,7 +110,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             setBottomNavigationBar(courses);
             pb.setVisibility(ProgressBar.INVISIBLE);
         }
-
 
     }
 

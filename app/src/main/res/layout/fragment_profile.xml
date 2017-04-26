@@ -125,12 +125,22 @@
         <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/piechart"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="200dp"
             android:padding="8dp"
             app:egLegendTextSize="18sp"
             app:egUsePieRotation="true"
             app:egValueTextSize="36sp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvCourseBreakdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rlConnectedWithFacebook"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/course_breakdown" />
 
 
 </RelativeLayout>

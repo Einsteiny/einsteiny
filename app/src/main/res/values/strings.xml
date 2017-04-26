@@ -41,6 +41,7 @@
     <string name="connected_with_facebook_label">Link Facebook Account</string>
     <string name="facebook_login_label">Log in with Facebook</string>
     <string name="connect_with_facebook">Log in with Facebook to connect</string>
+    <string name="course_breakdown">Areas of Study </string>
 
     <plurals name="days">
 
