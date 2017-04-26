@@ -69,23 +69,26 @@ public class LoginActivity extends AppCompatActivity {
                 page++;
             }
             pager.setCurrentItem(page, true);
-            if (page == 0) {
-                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
-                tvIntro.setText("Hi! I am Einsteiny :)");
-            } else if (page == 1) {
-                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny3));
-                tvIntro.setText("I will help you to learn every day");
-
-            } else {
-                tvIntro.setText("Even when it's hard, I am with you");
-                loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny1));
-
-            }
-
+            changePage(page);
 
             handler.postDelayed(this, delay);
         }
     };
+
+    private void changePage(int page) {
+        if (page == 0) {
+            loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
+            tvIntro.setText("Hi! I am Einsteiny :)");
+        } else if (page == 1) {
+            loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny3));
+            tvIntro.setText("I will help you to learn every day");
+
+        } else {
+            tvIntro.setText("Even when it's hard, I am with you");
+            loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny1));
+        }
+
+    }
 
 
     @Override
@@ -104,6 +107,25 @@ public class LoginActivity extends AppCompatActivity {
         handler = new Handler();
         pager.setAdapter(mPagerAdapter);
         indicator.setViewPager(pager);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // changePage(position);
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                changePage(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
         loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
