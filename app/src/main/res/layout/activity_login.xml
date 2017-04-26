@@ -31,17 +31,43 @@
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold" />
 
+    <com.skyfishjy.library.RippleBackground xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/loginIndicator"
+        android:layout_marginTop="60dp"
+        app:rb_color="@android:color/white"
+        app:rb_duration="3000"
+        app:rb_radius="24dp"
+        app:rb_rippleAmount="3"
+        app:rb_scale="6">
 
-    <Button
-        android:id="@+id/login_or_logout_button"
-        style="@style/ParseLoginUI.Button"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/email_login_background"
-        android:padding="10dp"
-        android:text="@string/login_button_label" />
+
+        <Button
+            android:id="@+id/login_or_logout_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circle_start"
+            android:text="START"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!--<Button-->
+        <!--android:id="@+id/login_or_logout_button"-->
+        <!--style="@style/ParseLoginUI.Button"-->
+        <!--android:layout_width="250dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_marginBottom="60dp"-->
+        <!--android:background="@drawable/email_login_background"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="@string/login_button_label" />-->
+
+
+    </com.skyfishjy.library.RippleBackground>
 
 </RelativeLayout>

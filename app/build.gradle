@@ -114,6 +114,8 @@ dependencies {
 
     compile group: 'com.google.guava', name: 'guava', version: '20.0'
 
+    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+
 }
 
 
