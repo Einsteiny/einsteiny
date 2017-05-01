@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.course.CourseActivity;
 import com.einsteiny.einsteiny.fragments.ResubscribeDialogAlertFragment;
 import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
 import com.einsteiny.einsteiny.models.Course;

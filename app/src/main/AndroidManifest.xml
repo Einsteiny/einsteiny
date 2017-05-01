@@ -107,7 +107,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.CourseActivity"
+            android:name=".course.CourseActivity"
             android:parentActivityName=".activities.EinsteinyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

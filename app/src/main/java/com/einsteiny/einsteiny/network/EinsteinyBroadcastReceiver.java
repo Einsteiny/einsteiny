@@ -10,7 +10,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.activities.CourseActivity;
+import com.einsteiny.einsteiny.course.CourseActivity;
 import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.Course_Table;

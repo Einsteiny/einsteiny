@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
+import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.squareup.picasso.Picasso;
 
@@ -32,14 +34,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     private int progress;
     private boolean completed;
 
+
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 
-    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress, boolean completed) {
+    public LessonAdapter(Context context, Course course) {
         this.context = context;
-        this.lessons = Lessons;
-        this.startTime = date;
-        this.progress = progress;
-        this.completed = completed;
+        this.lessons = course.getLessons();
+
+        this.startTime = CustomUser.getDateForCourse(course.getId());
+        this.progress = CustomUser.getProgressForCourse(course.getId());
+        this.completed = CustomUser.isCompletedCourse(course.getId());
     }
 
 
