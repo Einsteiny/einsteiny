@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.course.CourseActivity;
-import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
+import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
 

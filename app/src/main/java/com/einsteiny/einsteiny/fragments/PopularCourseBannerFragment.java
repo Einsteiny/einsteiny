@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
+import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.models.Course;
 import com.squareup.picasso.Picasso;
 

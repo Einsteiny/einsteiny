@@ -102,7 +102,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".activities.CourseSubscribeActivity"
+            android:name=".coursesubscribe.CourseSubscribeActivity"
             android:parentActivityName=".activities.EinsteinyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
