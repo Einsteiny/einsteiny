@@ -115,8 +115,8 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
 
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
-            int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
-            Picasso.with(context).load(photoUrl).resize(displayWidth, 0).placeholder(R.drawable.no_data_einstein).into(holder.ivImage);
+//            int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
+            Picasso.with(context).load(photoUrl).placeholder(R.drawable.no_data_einstein).into(holder.ivImage);
         }
 
         holder.liked.setOnClickListener(v -> {
