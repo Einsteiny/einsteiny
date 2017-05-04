@@ -14,12 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.adapters.ExploreVerticalCourseAdapter;
 import com.einsteiny.einsteiny.course.CourseActivity;
 import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
-import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 
@@ -34,27 +33,23 @@ import butterknife.ButterKnife;
  * Created by lsyang on 4/9/17.
  */
 
-public class CoursesListFragment extends Fragment {
+public class CoursesVerticalFragment extends Fragment {
 
-    public static final String ARG_TITLE = "title";
     public static final String ARG_COURSES = "courses";
 
     private List<Course> courses;
-    private ExploreCourseAdapter topicAdapter;
+    private ExploreVerticalCourseAdapter topicAdapter;
 
     @BindView(R.id.rvTopics)
     RecyclerView rvTopics;
 
-    @BindView(R.id.tvTitle)
-    TextView tvTitle;
 
     @BindView(R.id.emptyView)
     RelativeLayout emptyView;
 
-    public static CoursesListFragment newInstance(String title, List<Course> courses) {
-        CoursesListFragment topicListFragment = new CoursesListFragment();
+    public static CoursesVerticalFragment newInstance(List<Course> courses) {
+        CoursesVerticalFragment topicListFragment = new CoursesVerticalFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
         args.putParcelable(ARG_COURSES, Parcels.wrap(courses));
         topicListFragment.setArguments(args);
         return topicListFragment;
@@ -65,7 +60,7 @@ public class CoursesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_course_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_course_vertical_list, container, false);
         return view;
     }
 
@@ -76,7 +71,6 @@ public class CoursesListFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         courses = Parcels.unwrap(getArguments().getParcelable(ARG_COURSES));
-        tvTitle.setText(getArguments().getString(ARG_TITLE));
 
         if (courses == null || courses.isEmpty()) {
             rvTopics.setVisibility(View.GONE);
@@ -84,7 +78,7 @@ public class CoursesListFragment extends Fragment {
             return;
         }
 
-        topicAdapter = new ExploreCourseAdapter(getContext(), courses);
+        topicAdapter = new ExploreVerticalCourseAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {
             Course course = courses.get(position);
             if (CustomUser.isSubscribedCourse(course.getId())) {
@@ -113,7 +107,7 @@ public class CoursesListFragment extends Fragment {
         snapHelper.attachToRecyclerView(rvTopics);
 
         rvTopics.setAdapter(topicAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         rvTopics.setLayoutManager(layoutManager);
     }

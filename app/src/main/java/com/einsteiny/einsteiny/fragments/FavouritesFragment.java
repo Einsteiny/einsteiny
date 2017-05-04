@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
-import com.einsteiny.einsteiny.utils.CoursesUtils;
 
 import org.parceler.Parcels;
 
@@ -47,27 +46,14 @@ public class FavouritesFragment extends Fragment {
 
         List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
         if (allCourses != null) {
-            populateTopics(allCourses);
+            CoursesVerticalFragment topicListFragment = CoursesVerticalFragment.newInstance(allCourses);
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                ft.replace(R.id.favourites, topicListFragment);
+                ft.commit();
+            }
         }
     }
-
-
-    private void populateTopics(List<Course> allCourses) {
-        getTopic("", CoursesUtils.getFavouritesCourses(allCourses), R.id.favourites);
-
-
-    }
-
-
-    public void getTopic(String category, final List<Course> courses, final int container) {
-        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category, courses);
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-            ft.replace(container, topicListFragment);
-            ft.commit();
-        }
-    }
-
 
 }
