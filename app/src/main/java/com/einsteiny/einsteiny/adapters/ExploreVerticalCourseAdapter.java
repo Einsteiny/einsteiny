@@ -92,7 +92,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View topicView = inflater.inflate(R.layout.explore_vertical_item_topic, parent, false);
+        View topicView = inflater.inflate(R.layout.item_topic_vertical, parent, false);
         CourseViewHolder viewHolder = new CourseViewHolder(topicView);
         return viewHolder;
     }
@@ -125,8 +125,8 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
                 CustomUser.unlikeCourse(course);
 
                 //TODO think if I need this functionality
-                courses.remove(course);
-                notifyDataSetChanged();
+//                courses.remove(course);
+//                notifyDataSetChanged();
             } else {
                 updateHeartButton(holder, true);
                 holder.liked.setImageResource(R.drawable.ic_heart);

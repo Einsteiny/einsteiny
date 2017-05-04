@@ -95,7 +95,7 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View topicView = inflater.inflate(R.layout.explore_item_topic, parent, false);
+        View topicView = inflater.inflate(R.layout.item_topic, parent, false);
         CourseViewHolder viewHolder = new CourseViewHolder(topicView);
         return viewHolder;
     }
