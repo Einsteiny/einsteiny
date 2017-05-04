@@ -1,6 +1,7 @@
 package com.einsteiny.einsteiny.utils;
 
 import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +58,18 @@ public class CoursesUtils {
         for (int i = 0; i < POPULARITY_THRESHOLD; i++) {
             if (sortCourses.size() >= i) {
                 courses.add(sortCourses.get(i));
+            }
+        }
+
+        return courses;
+    }
+
+    public static List<Course> getFavouritesCourses(List<Course> allCourses) {
+        List<Course> courses = new ArrayList<>();
+
+        for (Course course : allCourses) {
+            if (CustomUser.isLikedCourse(course)) {
+                courses.add(course);
             }
         }
 

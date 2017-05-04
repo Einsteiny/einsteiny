@@ -16,6 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
+import com.einsteiny.einsteiny.fragments.FavouritesFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;
 import com.einsteiny.einsteiny.fragments.UserCourseFragment;
 import com.einsteiny.einsteiny.models.Course;
@@ -155,6 +156,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         final Fragment explore = ExploreFragment.newInstance(courses);
         final Fragment userCourse = UserCourseFragment.newInstance(courses);
         final Fragment profile = ProfileFragment.newInstance(courses);
+        final Fragment saved = FavouritesFragment.newInstance(courses);
 
         // set passed in tab as default
         fragmentTransaction.replace(R.id.flContainer, explore).commit();
@@ -193,6 +195,11 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                             }
                             fragmentTransaction1.replace(R.id.flContainer, userCourse).commit();
                             fromFragment = userCourse;
+                            return true;
+                        case R.id.action_saved:
+                            fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                            fragmentTransaction1.replace(R.id.flContainer, saved).commit();
+                            fromFragment = saved;
                             return true;
                         case R.id.action_profile:
                             fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);

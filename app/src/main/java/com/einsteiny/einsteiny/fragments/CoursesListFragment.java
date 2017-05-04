@@ -21,6 +21,7 @@ import com.einsteiny.einsteiny.course.CourseActivity;
 import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
 
 import org.parceler.Parcels;
 
@@ -35,17 +36,10 @@ import butterknife.ButterKnife;
 
 public class CoursesListFragment extends Fragment {
 
-    public enum Type {
-        ALREADY_SUBSCRIBED,
-        NEW
-    }
-
     public static final String ARG_TITLE = "title";
     public static final String ARG_COURSES = "courses";
-    public static final String ARG_TYPE = "type";
 
     private List<Course> courses;
-    private Type type;
     private ExploreCourseAdapter topicAdapter;
 
     @BindView(R.id.rvTopics)
@@ -57,12 +51,11 @@ public class CoursesListFragment extends Fragment {
     @BindView(R.id.emptyView)
     RelativeLayout emptyView;
 
-    public static CoursesListFragment newInstance(String title, List<Course> courses, Type type) {
+    public static CoursesListFragment newInstance(String title, List<Course> courses) {
         CoursesListFragment topicListFragment = new CoursesListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putParcelable(ARG_COURSES, Parcels.wrap(courses));
-        args.putSerializable(ARG_TYPE, type);
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -91,11 +84,10 @@ public class CoursesListFragment extends Fragment {
             return;
         }
 
-        type = (Type) getArguments().getSerializable(ARG_TYPE);
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {
             Course course = courses.get(position);
-            if (type == Type.ALREADY_SUBSCRIBED) {
+            if (CustomUser.isSubscribedCourse(course.getId())) {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
                 Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");

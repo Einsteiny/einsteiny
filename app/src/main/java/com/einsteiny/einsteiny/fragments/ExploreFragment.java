@@ -116,7 +116,7 @@ public class ExploreFragment extends Fragment {
 
 
     public void getTopic(String category, final List<Course> courses, final int container) {
-        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category, courses, CoursesListFragment.Type.NEW);
+        CoursesListFragment topicListFragment = CoursesListFragment.newInstance(category, courses);
         FragmentActivity activity = getActivity();
         if (activity != null) {
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();

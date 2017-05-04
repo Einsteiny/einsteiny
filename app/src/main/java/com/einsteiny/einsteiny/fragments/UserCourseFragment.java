@@ -54,9 +54,9 @@ public class UserCourseFragment extends Fragment {
 
 
             FragmentActivity activity = getActivity();
-            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
-            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
-            CoursesListFragment likedListFragment = CoursesListFragment.newInstance("Liked", likedCourses, CoursesListFragment.Type.ALREADY_SUBSCRIBED);
+            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses);
+            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses);
+            CoursesListFragment likedListFragment = CoursesListFragment.newInstance("Liked", likedCourses);
             if (activity != null) {
                 FragmentTransaction ftActive = getChildFragmentManager().beginTransaction();
                 ftActive.replace(R.id.activeCourses, activeListFragment);

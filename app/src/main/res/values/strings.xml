@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Einsteiny</string>
     <string name="text_profile">Profile</string>
-    <string name="text_your_classes">Manage Courses</string>
+    <string name="text_your_classes">Your Courses</string>
     <string name="text_explore">Explore</string>
+    <string name="text_favourites">Saved</string>
 
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">einsteiny-client</string>
