@@ -38,6 +38,7 @@ public class CoursesListFragment extends Fragment {
 
     public static final String ARG_TITLE = "title";
     public static final String ARG_COURSES = "courses";
+    public static final String ARG_TYPE = "type";
 
     private List<Course> courses;
     private ExploreCourseAdapter topicAdapter;
@@ -114,10 +115,7 @@ public class CoursesListFragment extends Fragment {
 
         rvTopics.setAdapter(topicAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
         rvTopics.setLayoutManager(layoutManager);
-
-
     }
-
-
 }
