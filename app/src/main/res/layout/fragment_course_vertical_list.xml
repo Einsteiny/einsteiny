@@ -15,8 +15,9 @@
 
     <RelativeLayout
         android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:visibility="gone">
 
         <TextView
@@ -34,10 +35,8 @@
             android:id="@+id/ivNoData"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/tvNoData"
+            android:layout_centerInParent="true"
             android:src="@drawable/no_data_einstein" />
-
 
     </RelativeLayout>
 

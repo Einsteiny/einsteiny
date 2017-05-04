@@ -123,6 +123,10 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
             if (CustomUser.isLikedCourse(course)) {
                 holder.liked.setImageResource(R.drawable.ic_heart_outline);
                 CustomUser.unlikeCourse(course);
+
+                //TODO think if I need this functionlity
+                courses.remove(course);
+                notifyDataSetChanged();
             } else {
                 updateHeartButton(holder, true);
                 holder.liked.setImageResource(R.drawable.ic_heart);
