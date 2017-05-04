@@ -25,6 +25,7 @@ import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
+import com.einsteiny.einsteiny.utils.BottomNavigationViewHelper;
 import com.parse.ParseUser;
 import com.plattysoft.leonids.ParticleSystem;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
@@ -36,6 +37,8 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
 import rx.Observer;
@@ -54,6 +57,12 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     private Fragment fromFragment;
 
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView mBottomBar;
+
+    @BindView(R.id.pbLoading)
+    ProgressBar pb;
+
 
     @Override
     protected void onResume() {
@@ -68,7 +77,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_einsteiny);
-        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+
+        ButterKnife.bind(this);
         pb.setVisibility(ProgressBar.VISIBLE);
 
         List<Course> courses = null;
@@ -163,8 +173,8 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
         fromFragment = explore;
 
         // handle navigation selection
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+        BottomNavigationViewHelper.disableShiftMode(mBottomBar);
+        mBottomBar.setOnNavigationItemSelectedListener(
                 item -> {
                     FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     switch (item.getItemId()) {
@@ -183,7 +193,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                                 ps.setSpeedRange(0.1f, 0.25f);
                                 ps.setRotationSpeedRange(90, 180);
                                 ps.setFadeOut(200, new AccelerateInterpolator());
-                                ps.oneShot(bottomNavigationView, 70);
+                                ps.oneShot(mBottomBar, 70);
                             }
 
                             if (fromFragment == explore) {
@@ -239,4 +249,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             startActivity(i);
         }
     }
+
+
 }
