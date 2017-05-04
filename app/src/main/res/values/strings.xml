@@ -39,7 +39,7 @@
     <string name="gcm_sender_id">id:195129503955</string>
     <string name="connected_with_facebook_true">connected</string>
     <string name="connected_with_facebook_label">Link Facebook Account</string>
-    <string name="facebook_login_label">Log in with Facebook</string>
+    <string name="facebook_login_label">Continue with Facebook</string>
     <string name="connect_with_facebook">Log in with Facebook to connect</string>
     <string name="course_breakdown">Areas of Study </string>
 
