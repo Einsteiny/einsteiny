@@ -124,7 +124,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
                 holder.liked.setImageResource(R.drawable.ic_heart_outline);
                 CustomUser.unlikeCourse(course);
 
-                //TODO think if I need this functionlity
+                //TODO think if I need this functionality
                 courses.remove(course);
                 notifyDataSetChanged();
             } else {

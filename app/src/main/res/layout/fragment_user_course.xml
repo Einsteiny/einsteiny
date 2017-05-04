@@ -6,20 +6,9 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/activeCourses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <FrameLayout
-        android:id="@+id/completedCourses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <FrameLayout
-        android:id="@+id/likedCourses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/userCourses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

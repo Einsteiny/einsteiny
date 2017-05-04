@@ -18,7 +18,7 @@ import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
 import com.einsteiny.einsteiny.fragments.FavouritesFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;
-import com.einsteiny.einsteiny.fragments.UserCourseFragment;
+import com.einsteiny.einsteiny.fragments.UserCoursesFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.models.CustomUser;
@@ -154,7 +154,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
         // define fragments
         final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = UserCourseFragment.newInstance(courses);
+        final Fragment userCourse = UserCoursesFragment.newInstance(courses);
         final Fragment profile = ProfileFragment.newInstance(courses);
         final Fragment saved = FavouritesFragment.newInstance(courses);
 

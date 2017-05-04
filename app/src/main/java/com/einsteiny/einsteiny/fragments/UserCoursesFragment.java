@@ -16,18 +16,17 @@ import com.einsteiny.einsteiny.utils.CoursesUtils;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lsyang on 4/8/17.
- */
-public class UserCourseFragment extends Fragment {
+
+public class UserCoursesFragment extends Fragment {
 
     private static final String ARG_ALL_COURSES = "all_courses";
 
 
-    public static UserCourseFragment newInstance(List<Course> allCourses) {
-        UserCourseFragment topicListFragment = new UserCourseFragment();
+    public static UserCoursesFragment newInstance(List<Course> allCourses) {
+        UserCoursesFragment topicListFragment = new UserCoursesFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         topicListFragment.setArguments(args);
@@ -50,27 +49,20 @@ public class UserCourseFragment extends Fragment {
 
             List<Course> subscribedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
             List<Course> completedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getCompletedCourses());
-            List<Course> likedCourses = CoursesUtils.getCoursesForIds(allCourses, CustomUser.getLikedCourses());
+
+            List<Course> userCourses = new ArrayList<>();
+            userCourses.addAll(subscribedCourses);
+            userCourses.addAll(completedCourses);
 
 
             FragmentActivity activity = getActivity();
-            CoursesListFragment activeListFragment = CoursesListFragment.newInstance("Active", subscribedCourses);
-            CoursesListFragment completedListFragment = CoursesListFragment.newInstance("Completed", completedCourses);
-            CoursesListFragment likedListFragment = CoursesListFragment.newInstance("Liked", likedCourses);
+            CoursesVerticalFragment userCoursesFragment = CoursesVerticalFragment.newInstance(userCourses);
+
             if (activity != null) {
                 FragmentTransaction ftActive = getChildFragmentManager().beginTransaction();
-                ftActive.replace(R.id.activeCourses, activeListFragment);
+                ftActive.replace(R.id.userCourses, userCoursesFragment);
                 ftActive.commit();
-
-                FragmentTransaction ftCompleted = getChildFragmentManager().beginTransaction();
-                ftCompleted.replace(R.id.completedCourses, completedListFragment);
-                ftCompleted.commit();
-
-                FragmentTransaction ftLiked = getChildFragmentManager().beginTransaction();
-                ftLiked.replace(R.id.likedCourses, likedListFragment);
-                ftLiked.commit();
             }
-
         }
 
     }
