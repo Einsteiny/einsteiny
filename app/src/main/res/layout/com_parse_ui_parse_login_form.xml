@@ -52,6 +52,6 @@
         android:layout_marginBottom="@dimen/com_parse_ui_small_vertical_spacing"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
         android:text="@string/com_parse_ui_forgot_password_button_label"
-        android:textColor="@color/primary_text"
+        android:textColor="@android:color/darker_gray"
         android:visibility="gone" />
 </LinearLayout><!-- From: file:/Users/wangmengyan/Parse/ParseUIAndroid/ParseUI-Android/ParseUI-Login/src/main/res/layout/com_parse_ui_parse_login_form.xml -->
