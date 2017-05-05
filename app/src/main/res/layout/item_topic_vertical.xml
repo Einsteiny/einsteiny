@@ -19,7 +19,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="@dimen/simple_margin"
             android:scaleType="fitXY"
             android:transitionName="courseImage"
             tools:src="@mipmap/ic_launcher" />
@@ -48,12 +47,23 @@
             android:theme="@style/RatingBar" />
 
         <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_margin="@dimen/simple_margin"
+            android:background="@drawable/title_circle"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvDurationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@id/tvTitle"
             android:layout_margin="@dimen/simple_margin"
+            android:layout_toRightOf="@id/tvStatus"
             android:text="Duration:" />
 
         <TextView
@@ -81,7 +91,9 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:elevation="8dp"
             android:src="@drawable/ic_heart_outline_big" />

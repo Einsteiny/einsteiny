@@ -63,6 +63,9 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
         @BindView(R.id.btnLike)
         ImageButton liked;
 
+        @BindView(R.id.tvStatus)
+        TextView tvStatus;
+
         public CourseViewHolder(View itemView) {
             super(itemView);
 
@@ -105,6 +108,11 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
         holder.tvDuration.setText(context.getResources().getQuantityString(R.plurals.days,
                 course.getLessons().size(), course.getLessons().size()));
         holder.tvDescription.setText(course.getDescription());
+
+        holder.tvStatus.setText(CustomUser.isCompletedCourse(course.getId()) ? "Completed" : "In progress");
+        holder.tvStatus.setBackground(CustomUser.isCompletedCourse(course.getId()) ?
+                context.getResources().getDrawable(R.drawable.title_circle_done) :
+                context.getResources().getDrawable(R.drawable.title_circle));
 
         holder.rating.setRating(course.getComplexity());
 
