@@ -284,4 +284,5 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     public void callFinishAfterTransition() {
         supportFinishAfterTransition();
     }
+
 }
