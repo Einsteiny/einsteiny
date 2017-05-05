@@ -109,9 +109,9 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
         holder.rating.setRating(course.getComplexity());
 
         if (CustomUser.isLikedCourse(course)) {
-            holder.liked.setImageResource(R.drawable.ic_heart);
+            holder.liked.setImageResource(R.drawable.ic_heart_big);
         } else {
-            holder.liked.setImageResource(R.drawable.ic_heart_outline);
+            holder.liked.setImageResource(R.drawable.ic_heart_outline_big);
         }
 
         String photoUrl = course.getPhotoUrl();
@@ -122,7 +122,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
 
         holder.liked.setOnClickListener(v -> {
             if (CustomUser.isLikedCourse(course)) {
-                holder.liked.setImageResource(R.drawable.ic_heart_outline);
+                holder.liked.setImageResource(R.drawable.ic_heart_outline_big);
                 CustomUser.unlikeCourse(course);
 
                 //TODO think if I need this functionality
@@ -130,7 +130,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
 //                notifyDataSetChanged();
             } else {
                 updateHeartButton(holder, true);
-                holder.liked.setImageResource(R.drawable.ic_heart);
+                holder.liked.setImageResource(R.drawable.ic_heart_big);
                 CustomUser.likeCourse(course);
             }
         });
@@ -160,7 +160,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
             bounceAnimY.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    holder.liked.setImageResource(R.drawable.ic_heart);
+                    holder.liked.setImageResource(R.drawable.ic_heart_big);
                 }
             });
 
