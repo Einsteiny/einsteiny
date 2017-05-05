@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.course.CourseActivity;
 import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
-import com.einsteiny.einsteiny.adapters.ExploreCourseAdapter;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 
@@ -90,19 +89,15 @@ public class CoursesListFragment extends Fragment {
             if (CustomUser.isSubscribedCourse(course.getId())) {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
-                Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
-                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseTitle");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(), p1, p2);
+                        makeSceneTransitionAnimation(getActivity(), itemView.findViewById(R.id.ivImage), "courseImage");
                 getContext().startActivity(intent, options.toBundle());
 
             } else {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
                 intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
-                Pair<View, String> p1 = Pair.create(itemView.findViewById(R.id.ivImage), "courseImage");
-                Pair<View, String> p2 = Pair.create(itemView.findViewById(R.id.tvTitle), "courseTitle");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(), p1, p2);
+                        makeSceneTransitionAnimation(getActivity(), itemView.findViewById(R.id.ivImage), "courseImage");
                 getContext().startActivity(intent, options.toBundle());
 
             }
