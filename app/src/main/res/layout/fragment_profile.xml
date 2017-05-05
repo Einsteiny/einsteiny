@@ -16,17 +16,27 @@
     <RelativeLayout
         android:id="@+id/rlUserHeader"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/tvProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Name"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friendProfilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvProfileName"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
@@ -39,17 +49,7 @@
                 android:src="@drawable/subtracted_circle" />
         </com.facebook.login.widget.ProfilePictureView>
 
-        <TextView
-            android:id="@+id/tvProfileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Name"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+
     </RelativeLayout>
 
 
