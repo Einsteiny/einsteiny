@@ -67,7 +67,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="@string/course_breakdown"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/piechart"
@@ -81,5 +82,24 @@
             app:egValueTextSize="36sp" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/progressTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/graphTopics"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/simple_margin"
+        android:text="Your Statistic"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvProgressInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp" />
 
 </RelativeLayout>

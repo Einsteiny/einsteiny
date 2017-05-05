@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.BulletSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,11 @@ import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.einsteiny.einsteiny.utils.CoursesUtils.getCoursesForIds;
 
@@ -39,10 +46,22 @@ public class ProfileFragment extends Fragment {
     private static final String LOG_TAG = "Einsteiny";
     private static final String ARG_ALL_COURSES = "all_courses";
 
-    private TextView tvProfileName;
-    private FloatingActionButton btnLogout;
+    @BindView(R.id.tvProfileName)
+    TextView tvProfileName;
+
+    @BindView(R.id.fabLogout)
+    FloatingActionButton btnLogout;
+
+    @BindView(R.id.piechart)
+    PieChart mPieChart;
+
+    @BindView(R.id.tvProgressInfo)
+    TextView progressInfo;
 
     private OnLogoutClickListener listener;
+
+    private String showBulletsText = "";
+    private SpannableStringBuilder mSSBuilder;
 
     public static ProfileFragment newInstance(List<Course> allCourses) {
         ProfileFragment profileFragment = new ProfileFragment();
@@ -69,26 +88,49 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        tvProfileName = (TextView) view.findViewById(R.id.tvProfileName);
-        btnLogout = (FloatingActionButton) view.findViewById(R.id.fabLogout);
+        ButterKnife.bind(this, view);
 
         //it was empty for me, retrieve name in the same way as pic
         //tvProfileName.setText(ParseUser.getCurrentUser().get("name").toString());
 
         // Get the course topics to show user what they have been interested in
         // Note: prefer the below over "String words[]"
+
+
         String[] categories = {"Arts", "Economics & finance", "Computing", "Science"};
         String[] colors = {"#FE6DA8", "#56B7F1", "#7E57C2", "#FED70E"};
-        List<Course> userCourses = null;
+        List<Course> userCourses = new ArrayList<>();
 
         List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
         if (allCourses != null) {
 
-            userCourses = getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
+            List<Course> subscribedCourses = getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
             List<Course> completedCourses = getCoursesForIds(allCourses, CustomUser.getCompletedCourses());
             List<Course> likedCourses = getCoursesForIds(allCourses, CustomUser.getLikedCourses());
 
+//            String coursePluralsCompleted = getContext().getResources().getQuantityString(R.plurals.courses,
+//                    completedCourses.size());
+//            String coursePluralsSubsc = getContext().getResources().getQuantityString(R.plurals.courses,
+//                    subscribedCourses.size());
+//            String coursePluralsLiked = getContext().getResources().getQuantityString(R.plurals.courses,
+//                    likedCourses.size());
+
+            String bullet1 = String.format("%s Completed", completedCourses.size());
+            String bullet2 = String.format("%s Subscribed", subscribedCourses.size());
+            String bullet3 = String.format("%s Liked", likedCourses.size());
+            showBulletsText = String.format("%s \n%s \n%s ", bullet1, bullet2, bullet3);
+
+            mSSBuilder = new SpannableStringBuilder(showBulletsText);
+
+            // Generate bulleted list
+            showBullet(bullet1);
+            showBullet(bullet2);
+            showBullet(bullet3);
+
+            progressInfo.setText(mSSBuilder);
+
+
+            userCourses.addAll(subscribedCourses);
             for (Course course : completedCourses) {
                 if (!userCourses.contains(course)) {
                     userCourses.add(course);
@@ -101,9 +143,6 @@ public class ProfileFragment extends Fragment {
                 }
             }
         }
-
-        PieChart mPieChart = (PieChart) view.findViewById(R.id.piechart);
-
 
         // Put the counts into PieChart
         for (int i = 0; i < categories.length; i++) {
@@ -154,6 +193,22 @@ public class ProfileFragment extends Fragment {
             throw new ClassCastException(context.toString()
                     + " must implement ProfileFragment.OnLogoutClickListener");
         }
+    }
+
+    protected void showBullet(String textToBullet) {
+        // Initialize a new BulletSpan
+        BulletSpan bulletSpan = new BulletSpan(
+                50, // Gap width
+                getResources().getColor(R.color.colorPrimary) // Color for Bullet
+        );
+
+        // Apply the bullet to the span
+        mSSBuilder.setSpan(
+                bulletSpan, // Span to add
+                showBulletsText.indexOf(textToBullet), // Start of the span (inclusive)
+                showBulletsText.indexOf(textToBullet) + 1,  // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
     }
 
 }

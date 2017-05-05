@@ -45,8 +45,12 @@
     <string name="course_breakdown">Areas of Study </string>
 
     <plurals name="days">
-
         <item quantity="one">1 Day </item>
         <item quantity="other">%d  Days</item>
     </plurals>
+
+    <!--<plurals name="courses">-->
+    <!--<item quantity="one">Course </item>-->
+    <!--<item quantity="other">Courses</item>-->
+    <!--</plurals>-->
 </resources>
