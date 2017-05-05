@@ -52,75 +52,14 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rlNotificationPreference"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlUserHeader"
-        android:background="@color/colorPrimaryLight">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <TextView
-            android:id="@+id/lblNotifications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/simple_margin"
-            android:text="Notifications"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-        <ToggleButton
-            android:id="@+id/tglNotifications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:checked="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlConnectedWithFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlNotificationPreference"
-        android:background="@color/colorPrimaryLight">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <TextView
-            android:id="@+id/lblConnectedWithFacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/simple_margin"
-            android:text="@string/connected_with_facebook_label"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/lblConnectedWithFacebookSetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lblConnectedWithFacebook"
-            android:text="" />
-
-        <ToggleButton
-            android:id="@+id/tglConnectFacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:checked="true" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/graphTopics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlConnectedWithFacebook"
-        android:layout_marginTop="30dp">
+        android:layout_below="@id/rlUserHeader"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimaryLight">
 
         <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/piechart"
