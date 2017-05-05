@@ -82,12 +82,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         if (!completed && position >= progress) {
             viewHolder.cardView.setAlpha(0.5f);
             viewHolder.statusInfo.setText("Scheduled");
-            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_scheduled));
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.colorAccent));
             viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_timer));
         } else {
             viewHolder.cardView.setAlpha(1.0f);
             viewHolder.statusInfo.setText("Done");
-            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_done));
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_done));
         }
 
