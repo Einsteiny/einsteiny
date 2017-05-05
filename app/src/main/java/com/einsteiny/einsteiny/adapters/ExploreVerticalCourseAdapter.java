@@ -48,8 +48,8 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
         @BindView(R.id.tvTitle)
         TextView tvTitle;
 
-//        @BindView(R.id.tvSnippet)
-//        TextView tvDescription;
+        @BindView(R.id.tvSnippet)
+        TextView tvDescription;
 
         @BindView(R.id.tvDuration)
         TextView tvDuration;
@@ -104,6 +104,7 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
 
         holder.tvDuration.setText(context.getResources().getQuantityString(R.plurals.days,
                 course.getLessons().size(), course.getLessons().size()));
+        holder.tvDescription.setText(course.getDescription());
 
         holder.rating.setRating(course.getComplexity());
 
