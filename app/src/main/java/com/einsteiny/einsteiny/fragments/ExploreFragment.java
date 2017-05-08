@@ -108,9 +108,9 @@ public class ExploreFragment extends Fragment {
 
     private void populateTopics(List<Course> allCourses) {
         getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
-        getTopic("Economics & finance", CoursesUtils.getCoursesForCategory(allCourses, "Economics & finance"), R.id.topic2);
-        getTopic("Computing", CoursesUtils.getCoursesForCategory(allCourses, "Computing"), R.id.topic3);
-        getTopic("Science", CoursesUtils.getCoursesForCategory(allCourses, "Science"), R.id.topic4);
+        getTopic("Entrepreneurship", CoursesUtils.getCoursesForCategory(allCourses, "Entrepreneurship"), R.id.topic2);
+        getTopic("Computing & Science", CoursesUtils.getCoursesForCategory(allCourses, "Computing & Science"), R.id.topic3);
+        getTopic("US History", CoursesUtils.getCoursesForCategory(allCourses, "US History"), R.id.topic4);
 
     }
 

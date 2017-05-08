@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
         // Note: prefer the below over "String words[]"
 
 
-        String[] categories = {"Arts", "Economics & finance", "Computing", "Science"};
+        String[] categories = {"Arts", "Entrepreneurship", "Computing & Science", "US History"};
         String[] colors = {"#FE6DA8", "#56B7F1", "#7E57C2", "#FED70E"};
         List<Course> userCourses = new ArrayList<>();
 
