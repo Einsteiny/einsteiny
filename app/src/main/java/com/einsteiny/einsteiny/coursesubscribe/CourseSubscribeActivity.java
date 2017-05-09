@@ -134,7 +134,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         for (Lesson lesson : course.getLessons()) {
             sendParseNotification(course.getId(), cal.getTimeInMillis());
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.MINUTE, 2);
         }
 
         startActivity(i);

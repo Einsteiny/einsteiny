@@ -53,7 +53,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
-    private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
+    private EinsteinyBroadcastReceiver receiver = EinsteinyBroadcastReceiver.getInstance();
 
     private Fragment fromFragment;
 

@@ -109,10 +109,20 @@ public class ExploreVerticalCourseAdapter extends RecyclerView.Adapter<ExploreVe
                 course.getLessons().size(), course.getLessons().size()));
         holder.tvDescription.setText(course.getDescription());
 
-        holder.tvStatus.setText(CustomUser.isCompletedCourse(course.getId()) ? "Completed" : "In progress");
-        holder.tvStatus.setBackground(CustomUser.isCompletedCourse(course.getId()) ?
-                context.getResources().getDrawable(R.drawable.title_circle_done) :
-                context.getResources().getDrawable(R.drawable.title_circle));
+        if (CustomUser.isCompletedCourse(course.getId())) {
+            holder.tvStatus.setText("Completed");
+            holder.tvStatus.setBackground(context.getResources().getDrawable(R.drawable.title_circle_done));
+        } else if (CustomUser.isSubscribedCourse(course.getId())) {
+            holder.tvStatus.setText("In progress");
+            holder.tvStatus.setBackground(context.getResources().getDrawable(R.drawable.title_circle));
+        } else {
+            holder.tvStatus.setText("Saved");
+            holder.tvStatus.setBackground(context.getResources().getDrawable(R.drawable.title_circle_inactive));
+        }
+//        holder.tvStatus.setText(CustomUser.isCompletedCourse(course.getId()) ? "Completed" : "In progress");
+//        holder.tvStatus.setBackground(CustomUser.isCompletedCourse(course.getId()) ?
+//                context.getResources().getDrawable(R.drawable.title_circle_done) :
+//                context.getResources().getDrawable(R.drawable.title_circle));
 
         holder.rating.setRating(course.getComplexity());
 

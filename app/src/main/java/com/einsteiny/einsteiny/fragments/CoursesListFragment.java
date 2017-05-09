@@ -86,7 +86,7 @@ public class CoursesListFragment extends Fragment {
         topicAdapter = new ExploreCourseAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {
             Course course = courses.get(position);
-            if (CustomUser.isSubscribedCourse(course.getId())) {
+            if (CustomUser.isSubscribedCourse(course.getId()) || CustomUser.isCompletedCourse(course.getId())) {
                 Intent intent = new Intent(getContext(), CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
                 ActivityOptionsCompat options = ActivityOptionsCompat.

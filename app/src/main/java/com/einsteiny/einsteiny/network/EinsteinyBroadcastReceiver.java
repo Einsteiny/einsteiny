@@ -31,6 +31,15 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
 
     private String TAG = "EinsteinyBroadcastRec";
 
+    private static EinsteinyBroadcastReceiver receiver = null;
+
+    public static EinsteinyBroadcastReceiver getInstance() {
+        if (receiver == null) {
+            receiver = new EinsteinyBroadcastReceiver();
+        }
+        return receiver;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -80,7 +89,7 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
                             PendingIntent pCourseIntent = PendingIntent.getActivity(context.getApplicationContext(), requestCourseID, intentCourseActivity, 0);
 
                             Notification noti = new NotificationCompat.Builder(context.getApplicationContext())
-                                    .setSmallIcon(R.drawable.ic_explore)
+                                    .setSmallIcon(R.drawable.einstein_placeholder)
                                     .setContentTitle("Hello clever!")
                                     .setContentText(String.format("Time to watch Lesson %s of course %s", progress + 1, course.getTitle()))
                                     .setContentIntent(pIntent)
