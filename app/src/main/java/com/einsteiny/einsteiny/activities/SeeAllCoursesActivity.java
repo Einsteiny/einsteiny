@@ -63,14 +63,14 @@ public class SeeAllCoursesActivity extends AppCompatActivity {
                 intent.putExtra(CourseActivity.EXTRA_COURSE, Parcels.wrap(course));
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(this, itemView.findViewById(R.id.ivImage), "courseImage");
-                getContext().startActivity(intent, options.toBundle());
+                startActivity(intent, options.toBundle());
 
             } else {
                 Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
                 intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(this, itemView.findViewById(R.id.ivImage), "courseImage");
-                getContext().startActivity(intent, options.toBundle());
+                startActivity(intent, options.toBundle());
 
             }
 

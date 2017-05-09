@@ -118,7 +118,8 @@ public class ExploreCourseGridAdapter extends RecyclerView.Adapter<ExploreCourse
 
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
-            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.no_data_einstein).into(holder.ivImage);
+            int displayWidth = context.getResources().getDisplayMetrics().widthPixels;
+            Picasso.with(context).load(photoUrl).resize(displayWidth / 2, 0).placeholder(R.drawable.no_data_einstein).into(holder.ivImage);
         }
 
         holder.liked.setOnClickListener(v -> {
