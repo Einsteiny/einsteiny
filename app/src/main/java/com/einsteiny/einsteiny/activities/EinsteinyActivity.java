@@ -110,7 +110,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         public void onNext(CourseCategory allCourses) {
                             if (allCourses != null) {
                                 saveDB(allCourses.getCourses());
-                                setBottomNavigationBar(allCourses.getCourses());
+                                setBottomNavigationBar();
                                 pb.setVisibility(ProgressBar.INVISIBLE);
 
                             }
@@ -118,7 +118,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         }
                     });
         } else {
-            setBottomNavigationBar(courses);
+            setBottomNavigationBar();
             pb.setVisibility(ProgressBar.INVISIBLE);
         }
 
@@ -159,14 +159,14 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     }
 
-    private void setBottomNavigationBar(List<Course> courses) {
+    private void setBottomNavigationBar() {
         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         // define fragments
-        final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = UserCoursesFragment.newInstance(courses);
-        final Fragment profile = ProfileFragment.newInstance(courses);
-        final Fragment saved = FavouritesFragment.newInstance(courses);
+        final Fragment explore = ExploreFragment.newInstance();
+        final Fragment userCourse = UserCoursesFragment.newInstance();
+        final Fragment profile = ProfileFragment.newInstance();
+        final Fragment saved = FavouritesFragment.newInstance();
 
         // set passed in tab as default
         fragmentTransaction.replace(R.id.flContainer, explore).commit();

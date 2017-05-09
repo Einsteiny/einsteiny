@@ -11,22 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.utils.CoursesUtils;
+import com.raizlabs.android.dbflow.config.DatabaseDefinition;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import org.parceler.Parcels;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavouritesFragment extends Fragment {
 
-    private static final String ARG_ALL_COURSES = "all_courses";
+    private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
-    public static FavouritesFragment newInstance(List<Course> allCourses) {
+
+    public static FavouritesFragment newInstance() {
         FavouritesFragment topicListFragment = new FavouritesFragment();
         Bundle args = new Bundle();
 
-        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -45,7 +48,11 @@ public class FavouritesFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
+        List<Course> allCourses = new ArrayList<>();
+        if (database != null) {
+            allCourses = SQLite.select().
+                    from(Course.class).queryList();
+        }
         if (allCourses != null) {
             List<Course> favouritesCourses = CoursesUtils.getFavouritesCourses(allCourses);
             CoursesVerticalFragment topicListFragment = CoursesVerticalFragment.newInstance(favouritesCourses);

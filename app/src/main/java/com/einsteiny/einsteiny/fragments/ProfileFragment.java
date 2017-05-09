@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.utils.CoursesUtils;
@@ -23,11 +24,13 @@ import com.facebook.GraphRequest;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.raizlabs.android.dbflow.config.DatabaseDefinition;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,8 @@ import static com.einsteiny.einsteiny.utils.CoursesUtils.getCoursesForIds;
 
 public class ProfileFragment extends Fragment {
     private static final String LOG_TAG = "Einsteiny";
-    private static final String ARG_ALL_COURSES = "all_courses";
+
+    private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
     @BindView(R.id.tvProfileName)
     TextView tvProfileName;
@@ -63,11 +67,10 @@ public class ProfileFragment extends Fragment {
     private String showBulletsText = "";
     private SpannableStringBuilder mSSBuilder;
 
-    public static ProfileFragment newInstance(List<Course> allCourses) {
+    public static ProfileFragment newInstance() {
         ProfileFragment profileFragment = new ProfileFragment();
         Bundle args = new Bundle();
 
-        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         profileFragment.setArguments(args);
         return profileFragment;
     }
@@ -99,11 +102,15 @@ public class ProfileFragment extends Fragment {
 
         String[] categories = {"Arts", "Entrepreneurship", "Computing & Science", "US History"};
         String[] colors = {"#FE6DA8", "#56B7F1", "#7E57C2", "#FED70E"};
+
         List<Course> userCourses = new ArrayList<>();
+        List<Course> allCourses = new ArrayList<>();
 
-        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
+        if (database != null) {
+            allCourses = SQLite.select().
+                    from(Course.class).queryList();
+        }
         if (allCourses != null) {
-
             List<Course> subscribedCourses = getCoursesForIds(allCourses, CustomUser.getSubscribedCourses());
             List<Course> completedCourses = getCoursesForIds(allCourses, CustomUser.getCompletedCourses());
             List<Course> likedCourses = getCoursesForIds(allCourses, CustomUser.getLikedCourses());
@@ -142,18 +149,19 @@ public class ProfileFragment extends Fragment {
                     userCourses.add(course);
                 }
             }
-        }
 
-        // Put the counts into PieChart
-        for (int i = 0; i < categories.length; i++) {
-            List<Course> coursesForCategory = CoursesUtils.getCoursesForCategory(userCourses, categories[i]);
-            if (coursesForCategory != null) {
-                mPieChart.addPieSlice(new PieModel(categories[i], coursesForCategory.size(),
-                        Color.parseColor(colors[i])));
+
+            // Put the counts into PieChart
+            for (int i = 0; i < categories.length; i++) {
+                List<Course> coursesForCategory = CoursesUtils.getCoursesForCategory(userCourses, categories[i]);
+                if (coursesForCategory != null) {
+                    mPieChart.addPieSlice(new PieModel(categories[i], coursesForCategory.size(),
+                            Color.parseColor(colors[i])));
+                }
             }
-        }
 
-        mPieChart.startAnimation();
+            mPieChart.startAnimation();
+        }
 
         btnLogout.setOnClickListener(v -> {
             if (ParseUser.getCurrentUser() != null) {

@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.utils.CoursesUtils;
+import com.raizlabs.android.dbflow.config.DatabaseDefinition;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import org.parceler.Parcels;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -29,7 +32,7 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class ExploreFragment extends Fragment {
 
-    private static final String ARG_ALL_COURSES = "all_courses";
+    private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
     private ViewPager mPager;
     private FragmentPagerAdapter mPagerAdapter;
@@ -51,11 +54,10 @@ public class ExploreFragment extends Fragment {
         }
     };
 
-    public static ExploreFragment newInstance(List<Course> allCourses) {
+    public static ExploreFragment newInstance() {
         ExploreFragment topicListFragment = new ExploreFragment();
         Bundle args = new Bundle();
 
-        args.putParcelable(ARG_ALL_COURSES, Parcels.wrap(allCourses));
         topicListFragment.setArguments(args);
         return topicListFragment;
     }
@@ -80,7 +82,13 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Course> allCourses = Parcels.unwrap(getArguments().getParcelable(ARG_ALL_COURSES));
+        List<Course> allCourses = new ArrayList<>();
+
+        if (database != null) {
+            allCourses = SQLite.select().
+                    from(Course.class).queryList();
+        }
+
         if (allCourses != null) {
             populateTopics(allCourses);
         }
@@ -110,7 +118,7 @@ public class ExploreFragment extends Fragment {
         getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
         getTopic("Entrepreneurship", CoursesUtils.getCoursesForCategory(allCourses, "Entrepreneurship"), R.id.topic2);
         getTopic("Computing & Science", CoursesUtils.getCoursesForCategory(allCourses, "Computing & Science"), R.id.topic3);
-        getTopic("US History", CoursesUtils.getCoursesForCategory(allCourses, "US History"), R.id.topic4);
+//        getTopic("US History", CoursesUtils.getCoursesForCategory(allCourses, "US History"), R.id.topic4);
 
     }
 
