@@ -42,6 +42,10 @@ public class Course extends BaseModel {
     @SerializedName("photo_url")
     String photoUrl;
 
+    @Column
+    @SerializedName("is_popular")
+    boolean isPopular;
+
 
     @SerializedName("lessons")
     List<Lesson> lessons;
@@ -87,6 +91,10 @@ public class Course extends BaseModel {
 
     public String getCategory() {
         return category;
+    }
+
+    public boolean isPopular() {
+        return isPopular;
     }
 
     @Override
