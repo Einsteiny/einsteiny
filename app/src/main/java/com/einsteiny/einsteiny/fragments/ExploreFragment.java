@@ -118,23 +118,26 @@ public class ExploreFragment extends Fragment {
 
             topic1SeeAll.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.EXTRA_TITLE, "Arts");
                 intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(artCourses));
                 startActivity(intent);
             });
 
             topic2SeeAll.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.EXTRA_TITLE, "Entrepreneurship");
                 intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(enterCourses));
                 startActivity(intent);
             });
 
             topic3SeeAll.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.EXTRA_TITLE, "Computing & Science");
                 intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(compCourses));
                 startActivity(intent);
             });
         }
-        
+
         // Instantiate a ViewPager and a PagerAdapter.
         handler = new Handler();
         popularCourses = CoursesUtils.getPopularCourses(allCourses);

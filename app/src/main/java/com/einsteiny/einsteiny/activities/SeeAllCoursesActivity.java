@@ -28,6 +28,7 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 public class SeeAllCoursesActivity extends AppCompatActivity {
 
     public static final String ALL_COURSES = "all_courses";
+    public static final String EXTRA_TITLE = "title";
 
     private List<Course> courses;
     private ExploreCourseGridAdapter topicAdapter;
@@ -54,6 +55,9 @@ public class SeeAllCoursesActivity extends AppCompatActivity {
             emptyView.setVisibility(View.VISIBLE);
             return;
         }
+
+        String title = getIntent().getStringExtra(EXTRA_TITLE);
+        getSupportActionBar().setTitle(title);
 
         topicAdapter = new ExploreCourseGridAdapter(getContext(), courses);
         topicAdapter.setOnItemClickListener((itemView, position) -> {

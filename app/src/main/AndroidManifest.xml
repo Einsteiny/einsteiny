@@ -115,7 +115,9 @@
         <activity
             android:name=".activities.PlayYoutubeActivity"
             android:exported="true" />
-        <activity android:name=".activities.SeeAllCoursesActivity"></activity>
+        <activity
+            android:name=".activities.SeeAllCoursesActivity"
+            android:parentActivityName=".activities.EinsteinyActivity"></activity>
     </application>
 
 </manifest>
