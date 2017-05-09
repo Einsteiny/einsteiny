@@ -26,13 +26,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.einsteiny.einsteiny.fragments.CoursesListFragment.ARG_COURSES;
+
 /**
  * Created by lsyang on 4/9/17.
  */
 
 public class CoursesVerticalFragment extends Fragment {
 
-    public static final String ARG_COURSES = "courses";
+    //public static final String ARG_COURSES = "courses";
 
     private List<Course> courses;
     private ExploreVerticalCourseAdapter topicAdapter;

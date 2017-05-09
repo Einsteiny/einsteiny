@@ -1,5 +1,6 @@
 package com.einsteiny.einsteiny.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -12,8 +13,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
+import com.einsteiny.einsteiny.activities.SeeAllCoursesActivity;
 import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.utils.CoursesUtils;
@@ -21,9 +24,13 @@ import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
 
@@ -33,6 +40,15 @@ import me.relex.circleindicator.CircleIndicator;
 public class ExploreFragment extends Fragment {
 
     private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
+
+    @BindView(R.id.topic1SeeAll)
+    TextView topic1SeeAll;
+
+    @BindView(R.id.topic2SeeAll)
+    TextView topic2SeeAll;
+
+    @BindView(R.id.topic3SeeAll)
+    TextView topic3SeeAll;
 
     private ViewPager mPager;
     private FragmentPagerAdapter mPagerAdapter;
@@ -68,6 +84,8 @@ public class ExploreFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
+
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -90,8 +108,33 @@ public class ExploreFragment extends Fragment {
         }
 
         if (allCourses != null) {
-            populateTopics(allCourses);
+            List<Course> artCourses = CoursesUtils.getCoursesForCategory(allCourses, "Arts");
+            List<Course> enterCourses = CoursesUtils.getCoursesForCategory(allCourses, "Entrepreneurship");
+            List<Course> compCourses = CoursesUtils.getCoursesForCategory(allCourses, "Computing & Science");
+            getTopic("Arts", artCourses, R.id.topic1);
+            getTopic("Entrepreneurship", enterCourses, R.id.topic2);
+            getTopic("Computing & Science", compCourses, R.id.topic3);
+//        getTopic("US History", CoursesUtils.getCoursesForCategory(allCourses, "US History"), R.id.topic4);
+
+            topic1SeeAll.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(artCourses));
+                startActivity(intent);
+            });
+
+            topic2SeeAll.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(enterCourses));
+                startActivity(intent);
+            });
+
+            topic3SeeAll.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), SeeAllCoursesActivity.class);
+                intent.putExtra(SeeAllCoursesActivity.ALL_COURSES, Parcels.wrap(compCourses));
+                startActivity(intent);
+            });
         }
+        
         // Instantiate a ViewPager and a PagerAdapter.
         handler = new Handler();
         popularCourses = CoursesUtils.getPopularCourses(allCourses);
@@ -100,6 +143,8 @@ public class ExploreFragment extends Fragment {
 
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
+
+
     }
 
     @Override
@@ -115,10 +160,7 @@ public class ExploreFragment extends Fragment {
     }
 
     private void populateTopics(List<Course> allCourses) {
-        getTopic("Arts", CoursesUtils.getCoursesForCategory(allCourses, "Arts"), R.id.topic1);
-        getTopic("Entrepreneurship", CoursesUtils.getCoursesForCategory(allCourses, "Entrepreneurship"), R.id.topic2);
-        getTopic("Computing & Science", CoursesUtils.getCoursesForCategory(allCourses, "Computing & Science"), R.id.topic3);
-//        getTopic("US History", CoursesUtils.getCoursesForCategory(allCourses, "US History"), R.id.topic4);
+
 
     }
 
