@@ -173,6 +173,7 @@ public class ProfileFragment extends Fragment {
 
         // Get the user's image URL from ParseUser (profilePic from Facebook if account linked)
         // insert to image view here
+
         // TODO have the user set fbID
         if (ParseUser.getCurrentUser() != null && ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             // TODO check for FB or profile_pic
@@ -189,6 +190,11 @@ public class ProfileFragment extends Fragment {
                         }
                     });
             request.executeAsync();
+        } else {
+            String name = (String) ParseUser.getCurrentUser().get("name");
+            if (name != null && !name.isEmpty()) {
+                tvProfileName.setText(name);
+            }
         }
     }
 
