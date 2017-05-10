@@ -33,5 +33,7 @@ public class ParseApplication extends Application {
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
+       // ParseInstallation.getCurrentInstallation().saveInBackground();
+
     }
 }

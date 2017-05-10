@@ -181,10 +181,12 @@ public class ProfileFragment extends Fragment {
                     AccessToken.getCurrentAccessToken(),
                     (jsonObject, response) -> {
                         try {
-                            ProfilePictureView profilePictureView;
-                            profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
-                            profilePictureView.setProfileId(response.getJSONObject().get("id").toString());
-                            tvProfileName.setText(response.getJSONObject().get("name").toString());
+                            if (response != null && response.getJSONObject() != null) {
+                                ProfilePictureView profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
+                                profilePictureView.setProfileId(response.getJSONObject().get("id").toString());
+                                tvProfileName.setText(response.getJSONObject().get("name").toString());
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
