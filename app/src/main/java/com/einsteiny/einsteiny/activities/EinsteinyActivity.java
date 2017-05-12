@@ -1,7 +1,6 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
-import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
 import com.einsteiny.einsteiny.utils.BottomNavigationViewHelper;
 import com.parse.ParseUser;
@@ -53,7 +51,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
-    private EinsteinyBroadcastReceiver receiver = EinsteinyBroadcastReceiver.getInstance();
 
     private Fragment fromFragment;
 
@@ -63,14 +60,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
     @BindView(R.id.pbLoading)
     ProgressBar pb;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
-        registerReceiver(receiver, intentFilter);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,7 +227,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             subscription.unsubscribe();
         }
 
-        unregisterReceiver(receiver);
     }
 
     @Override

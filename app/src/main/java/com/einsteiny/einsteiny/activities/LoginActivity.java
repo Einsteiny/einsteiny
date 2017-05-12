@@ -217,6 +217,10 @@ public class LoginActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         handler.postDelayed(runnable, delay);
+
+        if (ParseUser.getCurrentUser() != null) {
+            userLoggedIn();
+        }
     }
 
     @Override
@@ -235,13 +239,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (ParseUser.getCurrentUser() != null) {
-            userLoggedIn();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (ParseUser.getCurrentUser() != null) {
+//            userLoggedIn();
+//        }
+//    }
 
     /**
      * Shows the profile of the given user.

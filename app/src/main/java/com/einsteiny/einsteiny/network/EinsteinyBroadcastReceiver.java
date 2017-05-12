@@ -25,15 +25,6 @@ public class EinsteinyBroadcastReceiver extends BroadcastReceiver {
 
     private String TAG = "EinsteinyBroadcastRec";
 
-    private static EinsteinyBroadcastReceiver receiver = null;
-
-    public static EinsteinyBroadcastReceiver getInstance() {
-        if (receiver == null) {
-            receiver = new EinsteinyBroadcastReceiver();
-        }
-        return receiver;
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         String courseId = intent.getStringExtra("course_id");
