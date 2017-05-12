@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
-import com.einsteiny.einsteiny.activities.CourseSubscribeActivity;
+import com.einsteiny.einsteiny.coursesubscribe.CourseSubscribeActivity;
 import com.einsteiny.einsteiny.models.Course;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +46,7 @@ public class PopularCourseBannerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_popular_course_banner, container, false);
         return rootView;
@@ -62,17 +61,12 @@ public class PopularCourseBannerFragment extends Fragment {
         Picasso.with(getContext()).load(course.getPhotoUrl()).resize(displayWidth, 0).into(ivImage);
         tvTitle.setText(course.getTitle());
 
-        ivImage.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
-                intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
-                Pair<View, String> p1 = Pair.create(ivImage, "courseImage");
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(), p1);
-                getContext().startActivity(intent, options.toBundle());
-            }
+        ivImage.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CourseSubscribeActivity.class);
+            intent.putExtra(CourseSubscribeActivity.EXTRA_COURSE, Parcels.wrap(course));
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), ivImage, "courseImage");
+            getContext().startActivity(intent, options.toBundle());
         });
     }
 }

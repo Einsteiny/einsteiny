@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -91,16 +90,12 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
         this.courses = courses;
     }
 
-    private Context getContext() {
-        return context;
-    }
-
     @Override
     public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View topicView = inflater.inflate(R.layout.explore_item_topic, parent, false);
+        View topicView = inflater.inflate(R.layout.item_topic, parent, false);
         CourseViewHolder viewHolder = new CourseViewHolder(topicView);
         return viewHolder;
     }
@@ -123,20 +118,7 @@ public class ExploreCourseAdapter extends RecyclerView.Adapter<ExploreCourseAdap
 
         String photoUrl = course.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
-            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.no_data_einstein).into(holder.ivImage,
-                    new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //holder.tvDescription.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            // holder.tvDescription.setText(course.getDescription());
-                        }
-                    });
-        } else {
-            //holder.tvDescription.setText(course.getDescription());
+            Picasso.with(context).load(photoUrl).resize(200, 200).centerCrop().placeholder(R.drawable.no_data_einstein).into(holder.ivImage);
         }
 
         holder.liked.setOnClickListener(v -> {

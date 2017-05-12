@@ -1,7 +1,6 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -16,14 +15,15 @@ import com.crashlytics.android.Crashlytics;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.db.CourseDatabase;
 import com.einsteiny.einsteiny.fragments.ExploreFragment;
+import com.einsteiny.einsteiny.fragments.FavouritesFragment;
 import com.einsteiny.einsteiny.fragments.ProfileFragment;
-import com.einsteiny.einsteiny.fragments.UserCourseFragment;
+import com.einsteiny.einsteiny.fragments.UserCoursesFragment;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
-import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.network.EinsteinyServerClient;
+import com.einsteiny.einsteiny.utils.BottomNavigationViewHelper;
 import com.parse.ParseUser;
 import com.plattysoft.leonids.ParticleSystem;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
@@ -35,6 +35,8 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
 import rx.Observer;
@@ -49,25 +51,23 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     private DatabaseDefinition database = FlowManager.getDatabase(CourseDatabase.class);
 
-    private EinsteinyBroadcastReceiver receiver = new EinsteinyBroadcastReceiver();
 
     private Fragment fromFragment;
 
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView mBottomBar;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("com.parse.push.intent.RECEIVE");
-        registerReceiver(receiver, intentFilter);
+    @BindView(R.id.pbLoading)
+    ProgressBar pb;
 
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_einsteiny);
-        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+
+        ButterKnife.bind(this);
         pb.setVisibility(ProgressBar.VISIBLE);
 
         List<Course> courses = null;
@@ -99,7 +99,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         public void onNext(CourseCategory allCourses) {
                             if (allCourses != null) {
                                 saveDB(allCourses.getCourses());
-                                setBottomNavigationBar(allCourses.getCourses());
+                                setBottomNavigationBar();
                                 pb.setVisibility(ProgressBar.INVISIBLE);
 
                             }
@@ -107,7 +107,7 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         }
                     });
         } else {
-            setBottomNavigationBar(courses);
+            setBottomNavigationBar();
             pb.setVisibility(ProgressBar.INVISIBLE);
         }
 
@@ -148,21 +148,22 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
 
     }
 
-    private void setBottomNavigationBar(List<Course> courses) {
+    private void setBottomNavigationBar() {
         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         // define fragments
-        final Fragment explore = ExploreFragment.newInstance(courses);
-        final Fragment userCourse = UserCourseFragment.newInstance(courses);
-        final Fragment profile = ProfileFragment.newInstance(courses);
+        final Fragment explore = ExploreFragment.newInstance();
+        final Fragment userCourse = UserCoursesFragment.newInstance();
+        final Fragment profile = ProfileFragment.newInstance();
+        final Fragment saved = FavouritesFragment.newInstance();
 
         // set passed in tab as default
         fragmentTransaction.replace(R.id.flContainer, explore).commit();
         fromFragment = explore;
 
         // handle navigation selection
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+        BottomNavigationViewHelper.disableShiftMode(mBottomBar);
+        mBottomBar.setOnNavigationItemSelectedListener(
                 item -> {
                     FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     switch (item.getItemId()) {
@@ -174,14 +175,14 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                         case R.id.action_user_course:
                             if (CustomUser.getNewlyFinishedCourse() != null) {
                                 Course course = CustomUser.getNewlyFinishedCourse();
-                                Toast.makeText(this, "Congrats on finishing " + course.getTitle(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Congrats on finishing " + course.getTitle(), Toast.LENGTH_LONG).show();
                                 CustomUser.setNewlyFinishedCourse(null);
                                 ParticleSystem ps = new ParticleSystem(this, 100, R.drawable.ic_yellow_star, 800);
                                 ps.setScaleRange(0.7f, 1.3f);
                                 ps.setSpeedRange(0.1f, 0.25f);
                                 ps.setRotationSpeedRange(90, 180);
                                 ps.setFadeOut(200, new AccelerateInterpolator());
-                                ps.oneShot(bottomNavigationView, 70);
+                                ps.oneShot(mBottomBar, 70);
                             }
 
                             if (fromFragment == explore) {
@@ -193,6 +194,11 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
                             }
                             fragmentTransaction1.replace(R.id.flContainer, userCourse).commit();
                             fromFragment = userCourse;
+                            return true;
+                        case R.id.action_saved:
+                            fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                            fragmentTransaction1.replace(R.id.flContainer, saved).commit();
+                            fromFragment = saved;
                             return true;
                         case R.id.action_profile:
                             fragmentTransaction1.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -221,7 +227,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             subscription.unsubscribe();
         }
 
-        unregisterReceiver(receiver);
     }
 
     @Override
@@ -232,4 +237,6 @@ public class EinsteinyActivity extends AppCompatActivity implements ProfileFragm
             startActivity(i);
         }
     }
+
+
 }

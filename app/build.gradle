@@ -62,28 +62,26 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
 
-    compile 'com.parse.bolts:bolts-android:1.4.0'
+    // Module dependency on ParseUI libraries sources
     compile 'com.parse:parse-android:1.14.1'
     compile 'com.parse:parseinterceptors:0.0.2'
-    // for logging API calls to LogCat
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
-    compile 'com.takisoft.fix:preference-v7:25.3.0.0'
-    // Module dependency on ParseUI libraries sources
     compile 'com.parse:parseui-login-android:0.0.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
-    // Uncomment if using Facebook or Twitter Login (optional Maven dependency)
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
-    // Twitter Login
-    compile 'com.parse:parsetwitterutils-android:1.10.3'
+
+
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'jp.wasabeef:picasso-transformations:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support:cardview-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
+
+
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -92,8 +90,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
     compile files('libs/YouTubeAndroidPlayerApi.jar')
-    compile 'jp.wasabeef:picasso-transformations:2.1.0'
+
 
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
@@ -104,9 +103,7 @@ dependencies {
 
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.plattysoft.leonids:LeonidsLib:1.3.2'
-    compile 'com.github.bumptech.glide:glide:3.6.0'
 
-    compile 'com.android.support:palette-v7:25.2.0'
 
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.nineoldandroids:library:2.4.0'

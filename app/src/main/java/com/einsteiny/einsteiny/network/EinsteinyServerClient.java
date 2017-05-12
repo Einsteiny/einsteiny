@@ -1,11 +1,9 @@
 package com.einsteiny.einsteiny.network;
 
-import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CourseCategory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -13,8 +11,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Created by tonya on 4/13/17.
@@ -90,8 +86,8 @@ public class EinsteinyServerClient {
         return service.getComputingCourses();
     }
 
-    public Observable<CourseCategory> getScienceCourses() {
-        return service.getScienceCourses();
+    public Observable<CourseCategory> getHistoryCourses() {
+        return service.getHistoryCourses();
     }
 
 

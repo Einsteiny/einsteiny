@@ -9,10 +9,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <!-- ${packageName} is substituted for the package name declared above.  -->
+    <!-- ${packageName} is substituted for the package name declared above. -->
     <permission
         android:name="${packageName}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="${packageName}.permission.C2D_MESSAGE" />
 
     <application
@@ -25,7 +26,6 @@
         <meta-data
             android:name="com.parse.push.gcm_sender_id"
             android:value="@string/gcm_sender_id" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="721a48c852b7a51819ecf9a37b94e49314fcb068" />
@@ -42,28 +42,21 @@
         </receiver>
 
         <service android:name="com.parse.PushService" />
+
         <receiver
             android:name=".network.EinsteinyBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.parse.push.intent.RECEIVE" />
-                <action android:name="com.parse.push.intent.DELETE" />
-                <action android:name="com.parse.push.intent.OPEN" />
-            </intent-filter>
-        </receiver>
+            android:exported="false" />
 
         <activity
             android:name=".activities.EinsteinyActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,18 +95,21 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".activities.CourseSubscribeActivity"
+            android:name=".coursesubscribe.CourseSubscribeActivity"
             android:parentActivityName=".activities.EinsteinyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.CourseActivity"
+            android:name=".course.CourseActivity"
             android:parentActivityName=".activities.EinsteinyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.PlayYoutubeActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity
+            android:name=".activities.SeeAllCoursesActivity"
+            android:parentActivityName=".activities.EinsteinyActivity"></activity>
     </application>
 
 </manifest>

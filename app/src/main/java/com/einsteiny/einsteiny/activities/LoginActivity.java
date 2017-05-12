@@ -1,6 +1,9 @@
 package com.einsteiny.einsteiny.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -8,22 +11,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.fragments.LoginIntroFragment;
-import com.parse.ParseException;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
-import com.skyfishjy.library.RippleBackground;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final int LOGIN_REQUEST = 0;
     private static final String LOG_TAG = "Einsteiny";
 
-    @BindView(R.id.login_or_logout_button)
-    Button loginOrLogoutButton;
+    final List<String> permissions = Arrays.asList("public_profile", "email");
 
-    private ParseUser currentUser;
+    @BindView(R.id.btnLogin)
+    Button loginButton;
 
     @BindView(R.id.loginPager)
     ViewPager pager;
@@ -51,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvIntro)
     TextView tvIntro;
 
-    @BindView(R.id.content)
-    RippleBackground rippleBackground;
+    @BindView(R.id.btnLoginFacebook)
+    Button facebookButton;
 
 
     private FragmentPagerAdapter mPagerAdapter;
@@ -98,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        rippleBackground.startRippleAnimation();
-
         tvIntro.setText("Hi! I am Einsteiny :)");
         loginLayout.setBackgroundColor(getResources().getColor(R.color.einsteiny2));
 
@@ -127,41 +135,92 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        getKeyHash();
 
-        loginOrLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentUser != null) {
-                    // User clicked to log out.
-                    ParseUser.logOut();
-                    currentUser = null;
-                    showProfileLoggedOut();
+        facebookButton.setOnClickListener(v -> ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions, (user, err) -> {
+            if (user == null) {
+                Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+            } else {
+                if (user.isNew()) { // New user
+                    saveUserInfoFromFacebook(); // Save email to parse
                 } else {
-                    // User clicked to log in.
-                    ParseLoginBuilder builder = new ParseLoginBuilder(
-                            LoginActivity.this);
-                    Intent parseLoginIntent = builder.setParseLoginEnabled(true)
-                            .setParseLoginButtonText(R.string.com_parse_ui_parse_login_button_label)
-                            .setParseSignupButtonText(R.string.com_parse_ui_parse_signup_button_label)
-                            .setParseLoginHelpText("Forgot password?")
-                            .setParseLoginInvalidCredentialsToastText("Your email and/or password is not correct")
-                            .setParseLoginEmailAsUsername(true)
-                            .setParseSignupSubmitButtonText("Submit registration")
-                            .setFacebookLoginEnabled(true)
-                            .setFacebookLoginButtonText("Facebook")
-                            .setFacebookLoginPermissions(Arrays.asList("email", "public_profile"))
-                            .build();
-                    startActivityForResult(parseLoginIntent, LOGIN_REQUEST);
+                    userLoggedIn();
+                }
+            }
+        }));
+
+
+        loginButton.setOnClickListener(v -> {
+            // User clicked to log in.
+            ParseLoginBuilder builder = new ParseLoginBuilder(
+                    LoginActivity.this);
+            Intent parseLoginIntent = builder.setParseLoginEnabled(true)
+                    .setParseLoginButtonText(R.string.com_parse_ui_parse_login_button_label)
+                    .setParseSignupButtonText(R.string.com_parse_ui_parse_signup_button_label)
+                    .setParseLoginHelpText("Forgot password?")
+                    .setParseLoginInvalidCredentialsToastText("Your email and/or password is not correct. Or check connection")
+                    .setParseLoginEmailAsUsername(true)
+                    .setParseSignupSubmitButtonText("Submit registration")
+                    .setFacebookLoginEnabled(false)
+                    .build();
+            startActivityForResult(parseLoginIntent, LOGIN_REQUEST);
+
+        });
+    }
+
+    private void getKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.einsteiny.einsteiny", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            //something
+        } catch (NoSuchAlgorithmException e) {
+            //something
+        }
+    }
+
+    private void saveUserInfoFromFacebook() {
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    String userName = object.getString("name");
+                    String userEmail = object.getString("email");
+                    saveNewUser(userName, userEmail);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
             }
         });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "name,email");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
+
+    private void saveNewUser(String userName, String userEmail) {
+        ParseUser user = ParseUser.getCurrentUser();
+        user.setUsername(userName);
+        user.setEmail(userEmail);
+        user.saveInBackground(e -> {
+            userLoggedIn();
+        });
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
         handler.postDelayed(runnable, delay);
+
+        if (ParseUser.getCurrentUser() != null) {
+            userLoggedIn();
+        }
     }
 
     @Override
@@ -175,42 +234,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 
-        currentUser = ParseUser.getCurrentUser();
-
-        if (data != null) {
-            Log.d(LOG_TAG, "Here's the data: " + data.getExtras().toString());
-        }
-
-        if (currentUser != null) {
-            if (!ParseFacebookUtils.isLinked(currentUser)) {
-                ParseFacebookUtils.linkWithReadPermissionsInBackground(currentUser, this, Arrays.asList("email", "public_profile"), new SaveCallback() {
-                    @Override
-                    public void done(ParseException ex) {
-                        if (ParseFacebookUtils.isLinked(currentUser)) {
-                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-                        }
-                    }
-                });
-            }
+        if (ParseUser.getCurrentUser() != null) {
             userLoggedIn();
-        } else {
-            Log.d(LOG_TAG, "Not logged in");
-            showProfileLoggedOut();
         }
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            userLoggedIn();
-        } else {
-            showProfileLoggedOut();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (ParseUser.getCurrentUser() != null) {
+//            userLoggedIn();
+//        }
+//    }
 
     /**
      * Shows the profile of the given user.
@@ -219,13 +254,6 @@ public class LoginActivity extends AppCompatActivity {
         // Ok you get access to the app
         Intent i = new Intent(LoginActivity.this, EinsteinyActivity.class);
         startActivity(i);
-    }
-
-    /**
-     * Show a message asking the user to log in, toggle login/logout button text.
-     */
-    private void showProfileLoggedOut() {
-        //loginOrLogoutButton.setText(R.string.login_button_label);
     }
 
 

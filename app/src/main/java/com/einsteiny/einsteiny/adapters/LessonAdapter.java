@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.activities.PlayYoutubeActivity;
+import com.einsteiny.einsteiny.models.Course;
+import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
 import com.squareup.picasso.Picasso;
 
@@ -32,14 +34,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     private int progress;
     private boolean completed;
 
+
     private SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 
-    public LessonAdapter(Context context, List<Lesson> Lessons, long date, int progress, boolean completed) {
+    public LessonAdapter(Context context, Course course) {
         this.context = context;
-        this.lessons = Lessons;
-        this.startTime = date;
-        this.progress = progress;
-        this.completed = completed;
+        this.lessons = course.getLessons();
+
+        this.startTime = CustomUser.getDateForCourse(course.getId());
+        this.progress = CustomUser.getProgressForCourse(course.getId());
+        this.completed = CustomUser.isCompletedCourse(course.getId());
     }
 
 
@@ -78,12 +82,12 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         if (!completed && position >= progress) {
             viewHolder.cardView.setAlpha(0.5f);
             viewHolder.statusInfo.setText("Scheduled");
-            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_scheduled));
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.colorAccent));
             viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_timer));
         } else {
             viewHolder.cardView.setAlpha(1.0f);
             viewHolder.statusInfo.setText("Done");
-            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.lesson_done));
+            viewHolder.statusInfo.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.ivStatusInfo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_done));
         }
 

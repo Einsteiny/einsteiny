@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Einsteiny</string>
     <string name="text_profile">Profile</string>
-    <string name="text_your_classes">Manage Courses</string>
+    <string name="text_your_classes">Your Courses</string>
     <string name="text_explore">Explore</string>
+    <string name="text_favourites">Saved</string>
 
     <!-- Please put your application's app ID and keys here -->
     <string name="parse_app_id">einsteiny-client</string>
@@ -39,13 +40,17 @@
     <string name="gcm_sender_id">id:195129503955</string>
     <string name="connected_with_facebook_true">connected</string>
     <string name="connected_with_facebook_label">Link Facebook Account</string>
-    <string name="facebook_login_label">Log in with Facebook</string>
+    <string name="facebook_login_label">Continue with Facebook</string>
     <string name="connect_with_facebook">Log in with Facebook to connect</string>
     <string name="course_breakdown">Areas of Study </string>
 
     <plurals name="days">
-
         <item quantity="one">1 Day </item>
         <item quantity="other">%d  Days</item>
     </plurals>
+
+    <!--<plurals name="courses">-->
+    <!--<item quantity="one">Course </item>-->
+    <!--<item quantity="other">Courses</item>-->
+    <!--</plurals>-->
 </resources>
