@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                     .setParseLoginButtonText(R.string.com_parse_ui_parse_login_button_label)
                     .setParseSignupButtonText(R.string.com_parse_ui_parse_signup_button_label)
                     .setParseLoginHelpText("Forgot password?")
-                    .setParseLoginInvalidCredentialsToastText("Your email and/or password is not correct")
+                    .setParseLoginInvalidCredentialsToastText("Your email and/or password is not correct. Or check connection")
                     .setParseLoginEmailAsUsername(true)
                     .setParseSignupSubmitButtonText("Submit registration")
                     .setFacebookLoginEnabled(false)

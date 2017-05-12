@@ -11,8 +11,6 @@ import android.view.ViewAnimationUtils;
 import com.einsteiny.einsteiny.R;
 import com.einsteiny.einsteiny.models.Course;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by tonya on 4/30/17.
  */
@@ -22,10 +20,6 @@ public class CourseSubscribePresenter implements CourseSubscribeContract.Present
     private final CourseSubscribeContract.View mCourseView;
     private final Course mCourse;
     private final Context mContext;
-
-
-    private final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-    private final SimpleDateFormat tdf = new SimpleDateFormat("hh:mm");
 
 
     public CourseSubscribePresenter(@NonNull Course course, @NonNull CourseSubscribeContract.View courseView, Context context) {

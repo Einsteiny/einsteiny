@@ -1,5 +1,8 @@
 package com.einsteiny.einsteiny.coursesubscribe;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,18 +25,14 @@ import com.einsteiny.einsteiny.fragments.SelectTimeDialog;
 import com.einsteiny.einsteiny.models.Course;
 import com.einsteiny.einsteiny.models.CustomUser;
 import com.einsteiny.einsteiny.models.Lesson;
+import com.einsteiny.einsteiny.network.EinsteinyBroadcastReceiver;
 import com.einsteiny.einsteiny.utils.TransitionUtils;
-import com.parse.ParseCloud;
-import com.parse.ParseInstallation;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,20 +103,21 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
     }
 
     private void sendParseNotification(String courseId, long time) {
-        JSONObject payload = new JSONObject();
 
-        try {
-            payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
-            payload.put("course", courseId);
-            payload.put("time", time);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent serviceIntent = new Intent(this, EinsteinyBroadcastReceiver.class);
+        serviceIntent.putExtra("course_id", courseId);
+        int requestCourseID = (int) System.currentTimeMillis();
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCourseID,
+                serviceIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        HashMap<String, String> data = new HashMap<>();
-        data.put("customData", payload.toString());
-
-        ParseCloud.callFunctionInBackground("subscribe", data);
+        alarm.set(
+                // This alarm will wake up the device when System.currentTimeMillis()
+                // equals the second argument value
+                alarm.RTC_WAKEUP,
+                time,
+                pendingIntent
+        );
     }
 
     @Override
@@ -134,7 +134,7 @@ public class CourseSubscribeActivity extends AppCompatActivity implements Select
 
         for (Lesson lesson : course.getLessons()) {
             sendParseNotification(course.getId(), cal.getTimeInMillis());
-            cal.add(Calendar.MINUTE, 2);
+            cal.add(Calendar.MINUTE, 3);
         }
 
         startActivity(i);
